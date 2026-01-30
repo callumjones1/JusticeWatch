@@ -1,0 +1,32 @@
+# Justice Watch Network - Configuration
+# Copy to settings.yml and update values
+
+# Database configuration
+database:
+  host: localhost
+  port: 5432
+  name: justice_watch
+  user: postgres
+  password: changeme
+
+# API configuration
+api:
+  host: 0.0.0.0
+  port: 8000
+  debug: false
+  cors_origins:
+    - http://localhost:3000
+    - https://justicewatchnetwork.org
+
+# Scraper configuration
+scrapers:
+  rate_limit_delay: 2.0  # seconds between requests
+  max_retries: 3
+  timeout: 30
+  user_agent: "JusticeWatchNetwork/1.0 (Research Project; contact@justicewatchnetwork.org)"
+
+# Logging
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/app.log
