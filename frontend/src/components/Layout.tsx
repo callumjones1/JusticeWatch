@@ -1,6 +1,6 @@
 import { Outlet, Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import logoImg from '../assets/justice_watch_logo.png';
+import logoImg from '../assets/justice_watch_logo_blue_cropped.png';
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);

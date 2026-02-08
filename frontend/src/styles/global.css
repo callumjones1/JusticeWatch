@@ -419,6 +419,13 @@ ul {
   letter-spacing: -0.01em;
 }
 
+.hero-logo {
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 2rem;
+}
+
 .hero-subtitle {
   font-size: 1.2rem;
   color: var(--color-text-soft);
