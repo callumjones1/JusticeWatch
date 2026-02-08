@@ -5,6 +5,7 @@ export default function Home() {
     <div className="home">
       <section className="hero">
         <div className="hero-content">
+          <span className="hero-badge">Research Initiative</span>
           <h1>Justice Watch Network</h1>
           <p className="hero-subtitle">
             Tracking prosecutions linked to political violence and civil activism
@@ -20,6 +21,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <h2 className="section-title">About the Project</h2>
+          <div className="section-divider"></div>
           <p className="section-text">
             The Justice Watch Network is a comprehensive, open-source platform dedicated to tracking
             and analysing prosecutions linked to political violence and civil activism from 2001 to
@@ -32,10 +34,11 @@ export default function Home() {
       <section className="section section-alt">
         <div className="container">
           <h2 className="section-title">What We Do</h2>
+          <div className="section-divider"></div>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                   <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -48,7 +51,7 @@ export default function Home() {
             </div>
             <div className="feature-card">
               <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="20" x2="18" y2="10"></line>
                   <line x1="12" y1="20" x2="12" y2="4"></line>
                   <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -59,7 +62,7 @@ export default function Home() {
             </div>
             <div className="feature-card">
               <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="2" y1="12" x2="22" y2="12"></line>
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -75,6 +78,7 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <h2 className="section-title">Our Coverage</h2>
+          <div className="section-divider"></div>
           <div className="stats-grid">
             <div className="stat-card">
               <span className="stat-number">2001</span>
