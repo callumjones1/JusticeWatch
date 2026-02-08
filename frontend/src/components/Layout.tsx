@@ -1,5 +1,6 @@
 import { Outlet, Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import logoImg from '../assets/justice_watch_logo.png';
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ export default function Layout() {
       <header className="header">
         <div className="header-container">
           <Link to="/" className="logo">
-            <span className="logo-text">Justice Watch Network</span>
+            <img src={logoImg} alt="Justice Watch Network" className="logo-img" />
           </Link>
 
           <button
