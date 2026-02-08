@@ -1,6 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="#1e3a5f" stroke="#f4a261" stroke-width="3"/>
-  <path d="M50 20 L50 55 M35 40 L65 40" stroke="#f4a261" stroke-width="6" stroke-linecap="round"/>
-  <path d="M30 65 L70 65" stroke="#f4a261" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="50" cy="55" r="8" fill="#f4a261"/>
+  <!-- Shield outline -->
+  <path d="M50 5 L90 20 L90 55 Q90 80 50 95 Q10 80 10 55 L10 20 Z" fill="#0a1628" stroke="#ffffff" stroke-width="3"/>
+  <!-- Inner shield -->
+  <path d="M50 12 L83 24 L83 53 Q83 75 50 88 Q17 75 17 53 L17 24 Z" fill="#0a1628" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Pillar -->
+  <rect x="47" y="38" width="6" height="28" fill="#ffffff" rx="1"/>
+  <!-- Pillar base -->
+  <rect x="40" y="64" width="20" height="4" fill="#ffffff" rx="1"/>
+  <!-- Balance beam -->
+  <line x1="30" y1="40" x2="70" y2="40" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <!-- Left chain -->
+  <line x1="30" y1="40" x2="30" y2="50" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Right chain -->
+  <line x1="70" y1="40" x2="70" y2="50" stroke="#ffffff" stroke-width="1.5"/>
+  <!-- Left pan -->
+  <path d="M22 50 Q26 56 30 50 Q34 56 38 50" fill="#d4a853" stroke="#d4a853" stroke-width="1"/>
+  <!-- Right pan -->
+  <path d="M62 50 Q66 56 70 50 Q74 56 78 50" fill="#d4a853" stroke="#d4a853" stroke-width="1"/>
+  <!-- Top circle -->
+  <circle cx="50" cy="36" r="4" fill="#ffffff"/>
 </svg>
