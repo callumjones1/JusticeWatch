@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import heroLogo from '../assets/justice_watch_logo_blue_cropped.png';
 
 export default function Home() {
   return (
@@ -7,7 +6,7 @@ export default function Home() {
       <section className="hero">
         <div className="hero-content">
           <span className="hero-badge">Research Initiative</span>
-          <img src={heroLogo} alt="Justice Watch" className="hero-logo" />
+          <h1>Justice Watch Network</h1>
           <p className="hero-subtitle">
             Tracking prosecutions linked to political violence and civil activism
             in Australia and New Zealand-Aotearoa
