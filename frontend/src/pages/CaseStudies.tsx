@@ -139,8 +139,39 @@ export default function CaseStudies() {
     const prohibited = filtered.filter(c => c.outcome_category === 'protest_prohibited').length;
     const allowed = filtered.filter(c => c.outcome_category === 'protest_allowed').length;
     const invalidated = filtered.filter(c => c.outcome_category === 'law_invalidated').length;
-    return { total, prohibited, allowed, invalidated };
+    const other = total - prohibited - allowed - invalidated;
+    return { total, prohibited, allowed, invalidated, other };
   }, [filtered]);
+
+  // Pie chart segments (protest_prohibited, protest_allowed, law_invalidated, other)
+  const pieSegments = useMemo(() => {
+    const slices = [
+      { label: 'Protest Prohibited', count: liveStats.prohibited,  color: OUTCOME_COLOURS.protest_prohibited },
+      { label: 'Protest Allowed',    count: liveStats.allowed,     color: OUTCOME_COLOURS.protest_allowed },
+      { label: 'Law Invalidated',    count: liveStats.invalidated, color: OUTCOME_COLOURS.law_invalidated },
+      { label: 'Other',              count: liveStats.other,       color: OUTCOME_COLOURS.other },
+    ].filter(s => s.count > 0);
+
+    const total = liveStats.total;
+    if (total === 0) return [];
+
+    let angle = -Math.PI / 2; // start at 12 o'clock
+    return slices.map(s => {
+      const sweep = (s.count / total) * 2 * Math.PI;
+      const start = angle;
+      angle += sweep;
+      return { ...s, start, end: angle, sweep };
+    });
+  }, [liveStats]);
+
+  function pieArcPath(cx: number, cy: number, r: number, start: number, end: number): string {
+    const x1 = cx + r * Math.cos(start);
+    const y1 = cy + r * Math.sin(start);
+    const x2 = cx + r * Math.cos(end);
+    const y2 = cy + r * Math.sin(end);
+    const large = end - start > Math.PI ? 1 : 0;
+    return `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
+  }
 
   // Chart helpers
   const xScale = (year: number) => {
@@ -174,7 +205,7 @@ export default function CaseStudies() {
       <div className="section">
         <div className="container">
           {/* Summary stats bar */}
-          <div className="db-stats-bar">
+          <div className="db-stats-bar" style={{ alignItems: 'center' }}>
             <div className="db-stat-tile">
               <span className="db-stat-num">{liveStats.total}</span>
               <span className="db-stat-label">Total Cases</span>
@@ -190,6 +221,40 @@ export default function CaseStudies() {
             <div className="db-stat-tile">
               <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.law_invalidated }}>{liveStats.invalidated}</span>
               <span className="db-stat-label">Laws Invalidated</span>
+            </div>
+
+            {/* Pie chart */}
+            <div className="db-stat-tile" style={{ flexShrink: 0, alignItems: 'center', gap: '0.75rem', flexDirection: 'row', padding: '0.75rem 1.25rem' }}>
+              <svg width="72" height="72" viewBox="0 0 72 72" style={{ flexShrink: 0 }}>
+                {liveStats.total === 0
+                  ? <circle cx="36" cy="36" r="32" fill="var(--color-border)" />
+                  : pieSegments.map((s, i) => (
+                    <path
+                      key={i}
+                      d={pieArcPath(36, 36, 32, s.start, s.end)}
+                      fill={s.color}
+                      fillOpacity={0.88}
+                      stroke="white"
+                      strokeWidth="1.5"
+                    >
+                      <title>{s.label}: {s.count}</title>
+                    </path>
+                  ))
+                }
+              </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', fontSize: '0.72rem' }}>
+                {[
+                  { label: 'Prohibited', count: liveStats.prohibited, color: OUTCOME_COLOURS.protest_prohibited },
+                  { label: 'Allowed',    count: liveStats.allowed,    color: OUTCOME_COLOURS.protest_allowed },
+                  { label: 'Invalidated',count: liveStats.invalidated,color: OUTCOME_COLOURS.law_invalidated },
+                  { label: 'Other',      count: liveStats.other,      color: OUTCOME_COLOURS.other },
+                ].map(s => (
+                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--color-text-muted)' }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: s.color, flexShrink: 0, display: 'inline-block' }} />
+                    {s.label}: <strong style={{ color: s.color }}>{s.count}</strong>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
