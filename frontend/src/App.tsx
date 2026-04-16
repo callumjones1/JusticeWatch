@@ -5,6 +5,7 @@ import About from './pages/About';
 import Team from './pages/Team';
 import Projects from './pages/Projects';
 import Database from './pages/Database';
+import Visualisations from './pages/Visualisations';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import './styles/global.css';
@@ -19,6 +20,7 @@ function App() {
           <Route path="team" element={<Team />} />
           <Route path="projects" element={<Projects />} />
           <Route path="database" element={<Database />} />
+          <Route path="visualisations" element={<Visualisations />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
         </Route>
