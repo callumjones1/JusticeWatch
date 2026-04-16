@@ -145,6 +145,7 @@ export default function LegislationTracker() {
   function entriesByJur(cat: Category) {
     const map: Record<string, Entry[]> = {};
     for (const e of cat.entries) {
+      if (!matchesFilters(e)) continue;
       if (!map[e.jurisdiction]) map[e.jurisdiction] = [];
       map[e.jurisdiction].push(e);
     }
@@ -291,14 +292,13 @@ export default function LegislationTracker() {
                         <div className="explorer-jur-heading">{jur}</div>
                         <div className="explorer-entries-grid">
                           {entries.map(entry => {
-                            const matches = matchesFilters(entry);
                             const accent = CAT_ACCENT[exCat.id] ?? 'var(--color-accent)';
                             return (
                               <div
                                 key={entry.id}
-                                className={`explorer-entry-card${!matches && hasFilter ? ' explorer-entry-dimmed' : ''}`}
-                                onClick={() => matches || !hasFilter ? navigate(exCat, entry) : undefined}
-                                style={{ cursor: matches || !hasFilter ? 'pointer' : 'default', borderTop: `3px solid ${accent}` }}
+                                className="explorer-entry-card"
+                                onClick={() => navigate(exCat, entry)}
+                                style={{ cursor: 'pointer', borderTop: `3px solid ${accent}` }}
                               >
                                 <div className="explorer-entry-card-year">
                                   {entry.year}{entry.amended ? ` · amended ${entry.amended}` : ''}
@@ -441,11 +441,10 @@ export default function LegislationTracker() {
                           </div>
                           {isOpen && (
                             <div className="leg-entries">
-                              {cat.entries.map(entry => {
-                                const matches = matchesFilters(entry);
+                              {cat.entries.filter(e => matchesFilters(e)).map(entry => {
                                 const isEntryOpen = openEntries.has(entry.id);
                                 return (
-                                  <div key={entry.id} className={`leg-entry${isEntryOpen ? ' leg-entry-open' : ''}${!matches && hasFilter ? ' leg-entry-dimmed' : ''}`}>
+                                  <div key={entry.id} className={`leg-entry${isEntryOpen ? ' leg-entry-open' : ''}`}>
                                     <div className="leg-entry-header" onClick={() => toggleEntry(entry.id)}>
                                       <div>
                                         <div className="leg-entry-jur">{entry.jurisdiction}</div>
