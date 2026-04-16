@@ -122,9 +122,13 @@ export default function IncidentsTracker() {
     return true;
   }, [filterCats, yearFrom, yearTo]);
 
-  // Get all years that have incidents in the year range (for markers)
-  const yearGroups = useMemo(() => groupByYear(incidents), []);
-  const yearsWithIncidents = ALL_YEARS.filter(y => y >= yearFrom && y <= yearTo);
+  // Filter incidents and group by year for the timeline
+  const filteredIncidents = useMemo(
+    () => incidents.filter(matchesFilters),
+    [matchesFilters]
+  );
+  const yearGroups = useMemo(() => groupByYear(filteredIncidents), [filteredIncidents]);
+  const yearsWithIncidents = ALL_YEARS.filter(y => yearGroups[y]?.length > 0);
 
   return (
     <div>
@@ -192,19 +196,18 @@ export default function IncidentsTracker() {
                   </p>
                 )}
                 {yearsWithIncidents.map(year => {
-                  const yearIncidents = (yearGroups[year] || []);
+                  const yearIncidents = yearGroups[year] || [];
                   return (
                     <div key={year}>
                       <div className="inc-year-marker">
                         <span className="inc-year-label">{year}</span>
                       </div>
                       {yearIncidents.map(inc => {
-                        const matches = matchesFilters(inc);
                         const isOpen = openNodes.has(inc.id);
                         return (
                           <div
                             key={inc.id}
-                            className={`inc-node${isOpen ? ' inc-node-active' : ''}${!matches && hasFilter ? ' inc-node-dimmed' : ''}`}
+                            className={`inc-node${isOpen ? ' inc-node-active' : ''}`}
                           >
                             <div className="inc-node-card">
                               <div className="inc-node-header" onClick={() => toggleNode(inc.id)}>
