@@ -1,9 +1,23 @@
-import { Outlet, Link, NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { Outlet, Link, NavLink, useLocation } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import logoImg from '../assets/justice_watch_logo_blue_cropped-transparent.png';
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dbOpen, setDbOpen] = useState(false);
+  const dbRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const dbActive = location.pathname.startsWith('/databases');
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (dbRef.current && !dbRef.current.contains(e.target as Node)) {
+        setDbOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   return (
     <div className="layout">
@@ -34,12 +48,44 @@ export default function Layout() {
             <NavLink to="/projects" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
               Projects
             </NavLink>
-            <NavLink to="/database" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
-              Database
-            </NavLink>
-            <NavLink to="/visualisations" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
-              Visualisations
-            </NavLink>
+
+            {/* Databases dropdown */}
+            <div className={`nav-dropdown${dbOpen ? ' nav-dropdown-open' : ''}`} ref={dbRef}>
+              <button
+                className={`nav-link nav-dropdown-trigger${dbActive ? ' active' : ''}`}
+                onClick={() => setDbOpen(o => !o)}
+                aria-expanded={dbOpen}
+              >
+                Databases
+                <svg className="nav-dropdown-caret" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <div className="nav-dropdown-menu">
+                <NavLink
+                  to="/databases/legislation"
+                  className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
+                  onClick={() => { setDbOpen(false); setMenuOpen(false); }}
+                >
+                  Legislation Tracker
+                </NavLink>
+                <NavLink
+                  to="/databases/incidents"
+                  className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
+                  onClick={() => { setDbOpen(false); setMenuOpen(false); }}
+                >
+                  Incidents Tracker
+                </NavLink>
+                <NavLink
+                  to="/databases/cases"
+                  className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
+                  onClick={() => { setDbOpen(false); setMenuOpen(false); }}
+                >
+                  Case Studies
+                </NavLink>
+              </div>
+            </div>
+
             <NavLink to="/faq" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
               FAQ
             </NavLink>

@@ -4,8 +4,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Team from './pages/Team';
 import Projects from './pages/Projects';
-import Database from './pages/Database';
-import Visualisations from './pages/Visualisations';
+import LegislationTracker from './pages/LegislationTracker';
+import IncidentsTracker from './pages/IncidentsTracker';
+import CaseStudies from './pages/CaseStudies';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import './styles/global.css';
@@ -19,8 +20,9 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="team" element={<Team />} />
           <Route path="projects" element={<Projects />} />
-          <Route path="database" element={<Database />} />
-          <Route path="visualisations" element={<Visualisations />} />
+          <Route path="databases/legislation" element={<LegislationTracker />} />
+          <Route path="databases/incidents" element={<IncidentsTracker />} />
+          <Route path="databases/cases" element={<CaseStudies />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
         </Route>
