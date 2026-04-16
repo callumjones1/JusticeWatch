@@ -2748,6 +2748,398 @@ ul {
 
 
 /* ═══════════════════════════════
+   LEGISLATION EXPLORER
+   ═══════════════════════════════ */
+
+/* View mode toggle */
+.leg-view-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.leg-view-tab {
+  padding: 0.65rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.leg-view-tab:hover {
+  color: var(--color-primary);
+  background: var(--color-background-warm);
+}
+
+.leg-view-tab-active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Explorer stage transition */
+.explorer-stage {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.explorer-fading {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Breadcrumb */
+.explorer-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.explorer-back-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+}
+
+.explorer-back-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+}
+
+.explorer-breadcrumb-sep {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.explorer-breadcrumb-item {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Level 0: category tiles */
+.explorer-landing {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.explorer-cat-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.explorer-cat-tile:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+
+.explorer-cat-tile-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.explorer-cat-tile-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.explorer-cat-tile-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.explorer-cat-tile-meta {
+  margin-bottom: 0.85rem;
+}
+
+.explorer-cat-tile-count {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.explorer-cat-tile-jurs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.explorer-jur-chip {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: var(--color-background-warm);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.explorer-cat-tile-cta {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: gap var(--transition);
+}
+
+/* Level 1: entries grid */
+.explorer-cat-banner {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.explorer-cat-banner-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin-bottom: 0.3rem;
+}
+
+.explorer-cat-banner-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.explorer-jur-section {
+  margin-bottom: 1.75rem;
+}
+
+.explorer-jur-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.explorer-entries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.85rem;
+}
+
+.explorer-entry-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.explorer-entry-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.explorer-entry-dimmed {
+  opacity: 0.3;
+  cursor: default !important;
+}
+
+.explorer-entry-dimmed:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.explorer-entry-card-year {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+}
+
+.explorer-entry-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.4;
+}
+
+/* Level 2: entry detail */
+.explorer-detail {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.explorer-detail-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.explorer-nav-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+}
+
+.explorer-nav-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+}
+
+.explorer-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.explorer-nav-pos {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.explorer-detail-jur {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+
+.explorer-detail-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+.explorer-detail-title a {
+  color: inherit;
+}
+
+.explorer-detail-title a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.explorer-detail-year {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.explorer-detail-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.explorer-detail-section-label:first-of-type {
+  margin-top: 0;
+}
+
+.explorer-detail-provisions {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.explorer-detail-provisions li {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+
+.explorer-detail-commentary {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .explorer-landing {
+    grid-template-columns: 1fr;
+  }
+  .explorer-entries-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .explorer-detail {
+    padding: 1.25rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .explorer-landing {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════
    ANIMATIONS
    ═══════════════════════════════ */
 @keyframes fadeInUp {
