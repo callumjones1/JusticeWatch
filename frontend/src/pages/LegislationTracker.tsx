@@ -374,7 +374,7 @@ export default function LegislationTracker() {
                         <div className="explorer-detail-section-label">Related cases</div>
                         <div className="leg-related-cases">
                           {exEntry.related_cases.map(c => (
-                            <span key={c} className="leg-case-pill" title="See Case Studies database">{c}</span>
+                            <span key={c} className="leg-case-pill" title="See Cases database">{c}</span>
                           ))}
                         </div>
                       </>
@@ -476,7 +476,7 @@ export default function LegislationTracker() {
                                           <>
                                             <h4>Related cases</h4>
                                             <div className="leg-related-cases">
-                                              {entry.related_cases.map(c => <span key={c} className="leg-case-pill" title="See Case Studies database">{c}</span>)}
+                                              {entry.related_cases.map(c => <span key={c} className="leg-case-pill" title="See Cases database">{c}</span>)}
                                             </div>
                                           </>
                                         )}

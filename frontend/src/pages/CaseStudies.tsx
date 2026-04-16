@@ -197,7 +197,7 @@ export default function CaseStudies() {
     <div>
       <div className="page-header">
         <div className="container">
-          <h1>Case Studies</h1>
+          <h1>Cases</h1>
           <p className="page-subtitle">{data.metadata.description}</p>
         </div>
       </div>

@@ -81,7 +81,7 @@ export default function Layout() {
                   className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
                   onClick={() => { setDbOpen(false); setMenuOpen(false); }}
                 >
-                  Case Studies
+                  Cases
                 </NavLink>
               </div>
             </div>

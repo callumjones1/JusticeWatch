@@ -1,8 +1,8 @@
 {
   "metadata": {
     "title": "Case Studies: Protest and Securitisation in Australia",
-    "description": "Legal cases documenting the prosecution, policing, and constitutional adjudication of protest activity in Australia, 2003\u20132026.",
-    "period": "2003\u20132026",
+    "description": "Legal cases documenting the prosecution, policing, and constitutional adjudication of protest activity in Australia, 2003–2026.",
+    "period": "2003–2026",
     "total_cases": 37,
     "last_updated": "April 2026",
     "disclaimer": "This dataset is intended as a research and reference tool. It does not constitute legal advice. Users should verify current case law through official sources."
@@ -87,8 +87,11 @@
       "main_issue": "Whether to prohibit a notified public assembly under Part 4 of the Summary Offences Act 1988 (NSW).",
       "outcome": "Police prohibition order refused.",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "freedom-of-speech",
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2003/662.html"
@@ -107,9 +110,12 @@
       "main_issue": "Whether the court should prohibit the assembly where the organiser's purpose was found to be largely vindictive.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25",
+        "racism"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2004/31.html"
     },
@@ -129,7 +135,10 @@
       "outcome_category": "appeal_allowed",
       "charges": "Using insulting words (Vagrancy Act s 7(1)(d)); assaulting police; obstructing police",
       "tags": [
-        "implied-freedom"
+        "constitutional",
+        "implied-freedom",
+        "insult-offences",
+        "police-powers"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/2004/39.html"
     },
@@ -147,8 +156,11 @@
       "main_issue": "Whether to prohibit a public assembly in the context of major international security arrangements.",
       "outcome": "Police prohibition order granted; the judgment also noted that a prohibition order does not itself criminalise protest.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "contempt-of-court",
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2007/1015.html"
@@ -167,11 +179,14 @@
       "main_issue": "Urgent challenge to council action affecting the protest occupation.",
       "outcome": "Interlocutory relief proceedings concerning removal / enforcement against the occupation.",
       "outcome_category": "other",
-      "charges": "N/A \u2014 constitutional and human rights challenge (Occupy Melbourne)",
+      "charges": "N/A — constitutional and human rights challenge (Occupy Melbourne)",
       "tags": [
+        "charter",
+        "constitutional",
         "implied-freedom",
-        "public-assembly-s25",
-        "occupy"
+        "occupy",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/FCA/2011/1306.html"
     },
@@ -189,10 +204,12 @@
       "main_issue": "Balancing protest rights against disruption to ordinary urban activities.",
       "outcome": "Police prohibition order refused.",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "palestine"
+        "palestine",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2012/499.html"
     },
@@ -212,7 +229,9 @@
       "outcome_category": "protester_unsuccessful",
       "charges": "Property damage (painting over advertisement with water-soluble paint, cost $47.17)",
       "tags": [
-        "charter"
+        "charter",
+        "freedom-of-expression",
+        "property-damage"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/vic/VSC/2012/407.html"
     },
@@ -230,9 +249,10 @@
       "main_issue": "Whether police retention and use of protest-related footage breached privacy obligations.",
       "outcome": "VCAT found against Victoria Police on health/privacy issues related to the protest footage.",
       "outcome_category": "other",
-      "charges": "N/A \u2014 privacy complaint (Health Records Act / Information Privacy Act)",
+      "charges": "N/A — privacy complaint (Health Records Act / Information Privacy Act)",
       "tags": [
         "environmental-climate",
+        "police-powers",
         "privacy-surveillance"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/vic/VCAT/2012/1472.html"
@@ -251,12 +271,14 @@
       "main_issue": "Whether council actions and laws affecting the protest occupation were valid and consistent with constitutional / statutory constraints.",
       "outcome": "Applicants were unsuccessful on the merits.",
       "outcome_category": "protester_unsuccessful",
-      "charges": "N/A \u2014 constitutional and human rights challenge (Occupy Melbourne)",
+      "charges": "N/A — constitutional and human rights challenge (Occupy Melbourne)",
       "tags": [
-        "implied-freedom",
-        "public-assembly-s25",
         "charter",
-        "occupy"
+        "constitutional",
+        "implied-freedom",
+        "occupy",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/FCA/2013/994.html"
     },
@@ -274,10 +296,12 @@
       "main_issue": "Whether risk of confrontation and public order concerns justified prohibition.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "palestine"
+        "palestine",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2014/1138.html"
     },
@@ -295,12 +319,14 @@
       "main_issue": "Whether the Federal Court should overturn the first-instance result concerning the occupation protest.",
       "outcome": "Appeal dismissed.",
       "outcome_category": "appeal_dismissed",
-      "charges": "N/A \u2014 constitutional and human rights challenge (Occupy Melbourne)",
+      "charges": "N/A — constitutional and human rights challenge (Occupy Melbourne)",
       "tags": [
-        "implied-freedom",
-        "public-assembly-s25",
         "charter",
-        "occupy"
+        "constitutional",
+        "implied-freedom",
+        "occupy",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/FCAFC/2014/130.html"
     },
@@ -318,10 +344,12 @@
       "main_issue": "Whether disruption and public order concerns justified prohibiting the march.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "indigenous"
+        "indigenous",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2015/96.html"
     },
@@ -339,9 +367,12 @@
       "main_issue": "Whether likely conflict and public order risks justified prohibition.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25",
+        "racism"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2015/1887.html"
     },
@@ -359,10 +390,12 @@
       "main_issue": "Whether the proposed procession should be prohibited under s 25 of the Summary Offences Act",
       "outcome": "Order sought by Commissioner granted",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "indigenous"
+        "indigenous",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://austlii.edu.au/au/cases/nsw/NSWSC/2015/96.html"
     },
@@ -380,8 +413,11 @@
       "main_issue": "Whether the planned assembly should be prohibited under Part 4.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "lockout-laws",
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2017/5.html"
@@ -400,8 +436,10 @@
       "main_issue": "Whether to prohibit a notified street protest / procession.",
       "outcome": "Likely police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2017/1589.html"
@@ -422,8 +460,11 @@
       "outcome_category": "law_invalidated",
       "charges": "Failing to comply with police direction to leave forestry area (Workplaces (Protection from Protesters) Act 2014 (Tas))",
       "tags": [
-        "implied-freedom",
-        "environmental-climate"
+        "anti-protest-legislation",
+        "constitutional",
+        "environmental-climate",
+        "forestry",
+        "implied-freedom"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/2017/43.html"
     },
@@ -441,8 +482,10 @@
       "main_issue": "Whether route choice, ambulance access and traffic disruption justified prohibition.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2019/198.html"
@@ -463,8 +506,9 @@
       "outcome_category": "law_upheld",
       "charges": "Communicating re abortions within exclusion zone (Victoria); protesting re terminations within exclusion zone (Tasmania)",
       "tags": [
-        "implied-freedom",
-        "abortion-exclusion-zone"
+        "abortion-exclusion-zone",
+        "constitutional",
+        "implied-freedom"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/2019/11.html"
     },
@@ -482,10 +526,12 @@
       "main_issue": "Whether a proposed public assembly should be prohibited because of disruption to traffic/emergency services and overlap with Mardi Gras Fair Day",
       "outcome": "Prohibition order made; each party bore own costs",
       "outcome_category": "other",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "environmental-climate"
+        "environmental-climate",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://austlii.edu.au/au/cases/nsw/NSWSC/2019/198.html"
     },
@@ -503,11 +549,13 @@
       "main_issue": "Whether the court should authorise the assembly or prohibit it given public health risks.",
       "outcome": "Authorisation refused at first instance; police position prevailed.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
+        "black-lives-matter",
         "covid",
-        "black-lives-matter"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/710.html"
     },
@@ -525,12 +573,14 @@
       "main_issue": "Whether procedural / notice issues required reversal of the first-instance outcome.",
       "outcome": "Appeal allowed on narrow notice/procedural grounds; the Court of Appeal did not re-do the underlying discretionary balancing exercise.",
       "outcome_category": "appeal_allowed",
-      "charges": "N/A \u2014 appeal of prohibition order (Summary Offences Act 1988 s 25)",
+      "charges": "N/A — appeal of prohibition order (Summary Offences Act 1988 s 25)",
       "tags": [
-        "implied-freedom",
-        "public-assembly-s25",
+        "black-lives-matter",
+        "constitutional",
         "covid",
-        "black-lives-matter"
+        "implied-freedom",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWCA/2020/109.html"
     },
@@ -548,10 +598,13 @@
       "main_issue": "Whether COVID-era health risks justified prohibition.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "covid",
+        "police-powers",
+        "public-assembly",
         "public-assembly-s25",
-        "covid"
+        "refugee-rights"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/727.html"
     },
@@ -569,11 +622,13 @@
       "main_issue": "Whether the proposed protest should be prohibited because pandemic risks outweighed the planned assembly.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
+        "black-lives-matter",
         "covid",
-        "black-lives-matter"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/804.html"
     },
@@ -591,12 +646,14 @@
       "main_issue": "Whether the protest could proceed despite pandemic restrictions and public health concerns.",
       "outcome": "Police prohibition order refused.",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
+        "aboriginal-deaths-in-custody",
+        "black-lives-matter",
         "covid",
         "indigenous",
-        "black-lives-matter"
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/867.html"
     },
@@ -614,12 +671,15 @@
       "main_issue": "Whether a large city protest should be prohibited because of health and public order concerns.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
+        "aboriginal-deaths-in-custody",
+        "black-lives-matter",
         "covid",
         "indigenous",
-        "black-lives-matter"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/953.html"
     },
@@ -637,12 +697,15 @@
       "main_issue": "Whether appellate relief was available given the statutory scheme and technical / jurisdictional issues.",
       "outcome": "Appeal dismissed / first-instance prohibition stood.",
       "outcome_category": "appeal_dismissed",
-      "charges": "N/A \u2014 appeal of prohibition order (Summary Offences Act 1988 s 25)",
+      "charges": "N/A — appeal of prohibition order (Summary Offences Act 1988 s 25)",
       "tags": [
-        "public-assembly-s25",
+        "aboriginal-deaths-in-custody",
+        "black-lives-matter",
         "covid",
         "indigenous",
-        "black-lives-matter"
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWCA/2020/160.html"
     },
@@ -660,10 +723,12 @@
       "main_issue": "Whether to prohibit the proposed assembly despite a detailed COVID safety plan.",
       "outcome": "Police summons dismissed; prohibition refused.",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "covid"
+        "covid",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/1424.html"
     },
@@ -681,10 +746,12 @@
       "main_issue": "Whether the protest should be prohibited, including in light of alternative means of advocacy and public health concerns.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "covid"
+        "covid",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2020/1428.html"
     },
@@ -702,10 +769,13 @@
       "main_issue": "Whether the State should obtain injunctive relief to stop the protest.",
       "outcome": "Injunction granted in favour of the State.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 injunction application",
+      "charges": "N/A — injunction application",
       "tags": [
+        "covid",
+        "protest-injunction",
+        "public-assembly",
         "public-assembly-s25",
-        "covid"
+        "refugee-rights"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/qld/QSC/2020/246.html"
     },
@@ -725,7 +795,10 @@
       "outcome_category": "other",
       "charges": "Obstructing railway; trespassing on railway; using dangerous attachment device; contravening police direction",
       "tags": [
-        "environmental-climate"
+        "coal",
+        "dangerous-attachment-device",
+        "environmental-climate",
+        "human-rights"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/qld/QDC/2020/205.html"
     },
@@ -743,10 +816,11 @@
       "main_issue": "Whether s 214A and related anti-protest provisions impermissibly burdened the implied freedom of political communication.",
       "outcome": "Parts of the anti-protest law were held invalid.",
       "outcome_category": "law_invalidated",
-      "charges": "N/A \u2014 constitutional challenge to Crimes Act 1900 (NSW) s 214A",
+      "charges": "N/A — constitutional challenge to Crimes Act 1900 (NSW) s 214A",
       "tags": [
-        "implied-freedom",
-        "environmental-climate"
+        "constitutional",
+        "environmental-climate",
+        "implied-freedom"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2023/1560.html"
     },
@@ -764,10 +838,12 @@
       "main_issue": "Whether the proposed Newcastle protest should be prohibited under Part 4.",
       "outcome": "Police prohibition order granted.",
       "outcome_category": "protest_prohibited",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
-        "public-assembly-s25",
-        "environmental-climate"
+        "environmental-climate",
+        "police-powers",
+        "public-assembly",
+        "public-assembly-s25"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2024/1412.html"
     },
@@ -785,10 +861,12 @@
       "main_issue": "Whether a highly disruptive symbolic bridge protest should be prohibited.",
       "outcome": "Police prohibition order refused.",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 s 25 application for prohibition order (Summary Offences Act 1988)",
+      "charges": "N/A — s 25 application for prohibition order (Summary Offences Act 1988)",
       "tags": [
+        "palestine",
+        "public-assembly",
         "public-assembly-s25",
-        "palestine"
+        "sydney-harbour-bridge"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2025/858.html"
     },
@@ -806,10 +884,12 @@
       "main_issue": "Whether s 200(5) LEPRA impermissibly burdened the implied freedom of political communication.",
       "outcome": "Restriction held invalid.",
       "outcome_category": "law_invalidated",
-      "charges": "N/A \u2014 constitutional challenge to LEPRA s 200(5)",
+      "charges": "N/A — constitutional challenge to LEPRA s 200(5)",
       "tags": [
+        "constitutional",
         "implied-freedom",
-        "palestine"
+        "palestine",
+        "places-of-worship"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/nsw/NSWSC/2025/1209.html"
     },
@@ -827,10 +907,12 @@
       "main_issue": "Whether the proposed public assembly should be prohibited under s 25 of the Summary Offences Act and whether constitutional/free communication issues affected that result",
       "outcome": "Public assembly prohibited; cross-summons dismissed",
       "outcome_category": "protest_allowed",
-      "charges": "N/A \u2014 appeal of prohibition order (Summary Offences Act 1988 s 25)",
+      "charges": "N/A — appeal of prohibition order (Summary Offences Act 1988 s 25)",
       "tags": [
+        "palestine",
+        "public-assembly",
         "public-assembly-s25",
-        "palestine"
+        "sydney-opera-house"
       ],
       "url": "https://austlii.edu.au/au/cases/nsw/NSWCA/2025/224.html"
     },
@@ -848,10 +930,14 @@
       "main_issue": "Whether the police declaration and associated stop-and-search powers were lawful.",
       "outcome": "Declaration held unlawful and invalid.",
       "outcome_category": "law_invalidated",
-      "charges": "N/A \u2014 constitutional challenge to designated area declaration",
+      "charges": "N/A — constitutional challenge to designated area declaration",
       "tags": [
+        "constitutional",
+        "designated-areas",
         "implied-freedom",
         "indigenous",
+        "invasion-day",
+        "police-powers",
         "terrorism-powers"
       ],
       "url": "https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/FCA/2026/15.html"

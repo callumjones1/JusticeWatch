@@ -282,7 +282,7 @@ export default function IncidentsTracker() {
                                       <div className="inc-section-label" style={{ marginTop: '1rem' }}>Related cases</div>
                                       <div className="inc-link-pills">
                                         {inc.related_cases.map((c, i) => (
-                                          <span key={i} className="inc-link-pill" title="See Case Studies database">
+                                          <span key={i} className="inc-link-pill" title="See Cases database">
                                             {c}
                                           </span>
                                         ))}

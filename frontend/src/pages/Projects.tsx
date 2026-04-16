@@ -16,7 +16,7 @@ export default function Projects() {
     },
     {
       id: 'case-studies',
-      title: 'Case Studies',
+      title: 'Cases',
       description: 'In-depth examinations of significant prosecutions that illuminate broader patterns in how the justice system responds to political cases.',
       status: 'In Development',
     },
