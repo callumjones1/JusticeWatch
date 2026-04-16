@@ -34,6 +34,9 @@ export default function Layout() {
             <NavLink to="/projects" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
               Projects
             </NavLink>
+            <NavLink to="/database" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
+              Database
+            </NavLink>
             <NavLink to="/faq" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
               FAQ
             </NavLink>

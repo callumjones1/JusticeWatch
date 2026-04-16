@@ -1231,6 +1231,306 @@ ul {
 }
 
 /* ═══════════════════════════════
+   DATABASE PAGE
+   ═══════════════════════════════ */
+.db-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.db-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.db-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.db-search {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all var(--transition);
+}
+
+.db-search:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.db-search-clear {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  line-height: 1;
+  padding: 0 0.25rem;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.db-search-clear:hover {
+  color: var(--color-text);
+}
+
+.db-count {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.db-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.db-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.db-filter-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  min-width: 80px;
+}
+
+.db-filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.db-pill {
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+}
+
+.db-pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-primary);
+}
+
+.db-pill-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.db-pill-active:hover {
+  color: var(--color-text-light);
+}
+
+.db-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.db-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--color-surface);
+}
+
+.db-th {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  padding: 0.9rem 1.1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.db-th-sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition);
+}
+
+.db-th-sortable:hover {
+  background: var(--color-primary-light);
+}
+
+.sort-icon {
+  margin-left: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.sort-icon-neutral {
+  opacity: 0.35;
+}
+
+.sort-icon-active {
+  color: var(--color-accent);
+  opacity: 1;
+}
+
+.db-row {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition);
+}
+
+.db-row:last-child {
+  border-bottom: none;
+}
+
+.db-row:hover {
+  background: var(--color-background-warm);
+}
+
+.db-td {
+  padding: 0.9rem 1.1rem;
+  vertical-align: top;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.db-td-name {
+  font-weight: 500;
+  min-width: 200px;
+}
+
+.db-td-citation {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  min-width: 160px;
+  font-variant-numeric: tabular-nums;
+}
+
+.db-td-year {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.db-td-muted {
+  color: var(--color-text-muted);
+}
+
+.db-jurisdiction {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.db-jurisdiction-nsw {
+  background: rgba(29, 58, 92, 0.1);
+  color: var(--color-primary-light);
+}
+
+.db-jurisdiction-vic {
+  background: rgba(143, 168, 126, 0.15);
+  color: #3d6b35;
+}
+
+.db-jurisdiction-qld {
+  background: rgba(212, 168, 83, 0.15);
+  color: #7a5c1e;
+}
+
+.db-jurisdiction-federal {
+  background: rgba(100, 100, 200, 0.1);
+  color: #3a3a8a;
+}
+
+.db-jurisdiction-high-court {
+  background: rgba(180, 50, 50, 0.08);
+  color: #7a2020;
+}
+
+.db-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--color-accent-soft);
+  color: #7a5c1e;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-right: 0.3rem;
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+}
+
+.db-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.db-link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: none;
+  gap: 0.45rem;
+}
+
+.db-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.db-note {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ═══════════════════════════════
    ANIMATIONS
    ═══════════════════════════════ */
 @keyframes fadeInUp {

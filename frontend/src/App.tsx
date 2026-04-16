@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Team from './pages/Team';
 import Projects from './pages/Projects';
+import Database from './pages/Database';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import './styles/global.css';
@@ -17,6 +18,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="team" element={<Team />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="database" element={<Database />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
         </Route>
