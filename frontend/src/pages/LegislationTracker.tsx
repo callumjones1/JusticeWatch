@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, type JSX } from 'react';
 import data from '../data/legislation_tracker.json';
 
 type Entry = {
@@ -41,10 +41,29 @@ const CAT_ACCENT: Record<string, string> = {
   'public-order':       '#0d9488',
 };
 
-const CAT_ICON: Record<string, string> = {
-  'anti-protest':       '🚫',
-  'terrorism-security': '🔒',
-  'public-order':       '⚖️',
+const CAT_ICON: Record<string, JSX.Element> = {
+  'anti-protest': (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" width="32" height="32">
+      <circle cx="12" cy="12" r="9" />
+      <line x1="5.636" y1="5.636" x2="18.364" y2="18.364" />
+    </svg>
+  ),
+  'terrorism-security': (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" width="32" height="32">
+      <rect x="8" y="11" width="8" height="7" rx="1" />
+      <path d="M10 11V7a2 2 0 1 1 4 0v4" />
+    </svg>
+  ),
+  'public-order': (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" width="32" height="32">
+      <line x1="12" y1="4" x2="12" y2="20" />
+      <line x1="5" y1="6" x2="12" y2="4" />
+      <line x1="19" y1="6" x2="12" y2="4" />
+      <path d="M5 6l-1.5 5h3L5 6z" />
+      <path d="M19 6l-1.5 5h3L19 6z" />
+      <line x1="3.5" y1="20" x2="20.5" y2="20" />
+    </svg>
+  ),
 };
 
 export default function LegislationTracker() {
