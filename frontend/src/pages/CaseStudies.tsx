@@ -204,54 +204,65 @@ export default function CaseStudies() {
 
       <div className="section">
         <div className="container">
-          {/* Summary stats bar */}
-          <div className="db-stats-bar" style={{ alignItems: 'center' }}>
-            <div className="db-stat-tile">
-              <span className="db-stat-num">{liveStats.total}</span>
-              <span className="db-stat-label">Total Cases</span>
-            </div>
-            <div className="db-stat-tile">
-              <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.protest_prohibited }}>{liveStats.prohibited}</span>
-              <span className="db-stat-label">Protests Prohibited</span>
-            </div>
-            <div className="db-stat-tile">
-              <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.protest_allowed }}>{liveStats.allowed}</span>
-              <span className="db-stat-label">Protests Allowed</span>
-            </div>
-            <div className="db-stat-tile">
-              <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.law_invalidated }}>{liveStats.invalidated}</span>
-              <span className="db-stat-label">Laws Invalidated</span>
+          {/* Summary stats + pie chart */}
+          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'stretch', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+            {/* Stat tiles */}
+            <div className="db-stats-bar" style={{ flex: '1', minWidth: '280px', margin: 0 }}>
+              <div className="db-stat-tile">
+                <span className="db-stat-num">{liveStats.total}</span>
+                <span className="db-stat-label">Total Cases</span>
+              </div>
+              <div className="db-stat-tile">
+                <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.protest_prohibited }}>{liveStats.prohibited}</span>
+                <span className="db-stat-label">Protests Prohibited</span>
+              </div>
+              <div className="db-stat-tile">
+                <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.protest_allowed }}>{liveStats.allowed}</span>
+                <span className="db-stat-label">Protests Allowed</span>
+              </div>
+              <div className="db-stat-tile">
+                <span className="db-stat-num" style={{ color: OUTCOME_COLOURS.law_invalidated }}>{liveStats.invalidated}</span>
+                <span className="db-stat-label">Laws Invalidated</span>
+              </div>
             </div>
 
-            {/* Pie chart */}
-            <div className="db-stat-tile" style={{ flexShrink: 0, alignItems: 'center', gap: '0.75rem', flexDirection: 'row', padding: '0.75rem 1.25rem' }}>
-              <svg width="72" height="72" viewBox="0 0 72 72" style={{ flexShrink: 0 }}>
+            {/* Pie chart panel */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '1.5rem',
+              background: 'var(--color-background-warm)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius)',
+              padding: '1.25rem 1.75rem',
+              flexShrink: 0,
+            }}>
+              <svg width="160" height="160" viewBox="0 0 160 160" style={{ flexShrink: 0 }}>
                 {liveStats.total === 0
-                  ? <circle cx="36" cy="36" r="32" fill="var(--color-border)" />
+                  ? <circle cx="80" cy="80" r="72" fill="var(--color-border)" />
                   : pieSegments.map((s, i) => (
                     <path
                       key={i}
-                      d={pieArcPath(36, 36, 32, s.start, s.end)}
+                      d={pieArcPath(80, 80, 72, s.start, s.end)}
                       fill={s.color}
                       fillOpacity={0.88}
                       stroke="white"
-                      strokeWidth="1.5"
+                      strokeWidth="2"
                     >
                       <title>{s.label}: {s.count}</title>
                     </path>
                   ))
                 }
               </svg>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', fontSize: '0.72rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {[
-                  { label: 'Prohibited', count: liveStats.prohibited, color: OUTCOME_COLOURS.protest_prohibited },
-                  { label: 'Allowed',    count: liveStats.allowed,    color: OUTCOME_COLOURS.protest_allowed },
-                  { label: 'Invalidated',count: liveStats.invalidated,color: OUTCOME_COLOURS.law_invalidated },
-                  { label: 'Other',      count: liveStats.other,      color: OUTCOME_COLOURS.other },
+                  { label: 'Protest Prohibited', count: liveStats.prohibited,  color: OUTCOME_COLOURS.protest_prohibited },
+                  { label: 'Protest Allowed',    count: liveStats.allowed,     color: OUTCOME_COLOURS.protest_allowed },
+                  { label: 'Law Invalidated',    count: liveStats.invalidated, color: OUTCOME_COLOURS.law_invalidated },
+                  { label: 'Other',              count: liveStats.other,       color: OUTCOME_COLOURS.other },
                 ].map(s => (
-                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--color-text-muted)' }}>
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: s.color, flexShrink: 0, display: 'inline-block' }} />
-                    {s.label}: <strong style={{ color: s.color }}>{s.count}</strong>
+                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem' }}>
+                    <span style={{ width: 11, height: 11, borderRadius: '50%', background: s.color, flexShrink: 0, display: 'inline-block' }} />
+                    <span style={{ color: 'var(--color-text-muted)' }}>{s.label}</span>
+                    <strong style={{ color: s.color, marginLeft: 'auto', paddingLeft: '0.75rem' }}>{s.count}</strong>
                   </div>
                 ))}
               </div>
