@@ -30,8 +30,14 @@ class Event(Base):
     display_title: Mapped[str] = mapped_column(Text)
     status: Mapped[str | None] = mapped_column(String(50))
 
-    date_start: Mapped[str | None] = mapped_column(String(10))
-    date_end: Mapped[str | None] = mapped_column(String(10))
+    # Not always a clean 10-char YYYY-MM-DD -- some source dates are full ISO
+    # datetimes ("2007-09-05T13:30:00", 19 chars). SQLite let this through
+    # silently (untyped); Postgres correctly rejected it as a truncation
+    # error, which is how this was caught. Text rather than a wider fixed
+    # bound since these come from free-text LLM date extraction, not a
+    # controlled format.
+    date_start: Mapped[str | None] = mapped_column(Text)
+    date_end: Mapped[str | None] = mapped_column(Text)
     date_precision: Mapped[str | None] = mapped_column(String(30))
     date_reported_text: Mapped[str | None] = mapped_column(Text)
     date_basis: Mapped[str | None] = mapped_column(String(30))
@@ -195,8 +201,8 @@ class EventReportedDate(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     event_id: Mapped[str] = mapped_column(ForeignKey("events.event_id", ondelete="CASCADE"))
-    start_date: Mapped[str | None] = mapped_column(String(10))
-    end_date: Mapped[str | None] = mapped_column(String(10))
+    start_date: Mapped[str | None] = mapped_column(Text)  # see Event.date_start
+    end_date: Mapped[str | None] = mapped_column(Text)
     precision: Mapped[str | None] = mapped_column(String(30))
     reported_text: Mapped[str | None] = mapped_column(Text)
     article_ids_json: Mapped[str | None] = mapped_column(Text)
@@ -227,7 +233,9 @@ class EventLinkedArticle(Base):
     publication: Mapped[str | None] = mapped_column(String(300))
     publication_date: Mapped[str | None] = mapped_column(String(10))
     publication_time: Mapped[str | None] = mapped_column(String(20))
-    section: Mapped[str | None] = mapped_column(String(200))
+    # Text not a bounded width -- some source records have raw Factiva RTF
+    # hyperlink artifacts leaked into this field (up to 700+ chars).
+    section: Mapped[str | None] = mapped_column(Text)
     page: Mapped[str | None] = mapped_column(String(50))
     edition: Mapped[str | None] = mapped_column(String(100))
     word_count: Mapped[int | None] = mapped_column(Integer)
