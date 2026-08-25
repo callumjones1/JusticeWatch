@@ -1,0 +1,19 @@
+name: Keep Render service awake
+
+# Render's free tier sleeps a web service after ~15 minutes idle, and the
+# next visitor eats a 30-60s cold start. This pings the health endpoint
+# every 10 minutes (comfortably inside that window) so it never sleeps.
+# Zero-cost workaround -- see backend/api/main.py's /api/health route.
+# Remove this if/when the service moves to a paid always-on plan.
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: curl -fsS --max-time 60 https://justicewatchnetwork.org/api/health

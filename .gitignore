@@ -43,3 +43,13 @@ env/
 # Testing
 coverage/
 .nyc_output/
+
+# Large raw/derived data -- regeneratable from the raw JSON via
+# `python -m etl.load_events`, not fit for git (hundreds of MB). Production
+# reads from DATABASE_URL (Neon), not these local files.
+backend/data/raw/*.json
+backend/data/db/
+
+# Built frontend, baked into the Docker image at deploy time -- see
+# vite.config.ts (outDir) and Dockerfile.
+backend/static/

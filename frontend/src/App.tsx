@@ -7,6 +7,7 @@ import Projects from './pages/Projects';
 import LegislationTracker from './pages/LegislationTracker';
 import IncidentsTracker from './pages/IncidentsTracker';
 import CaseStudies from './pages/CaseStudies';
+import ProtestEvents from './pages/ProtestEvents';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import './styles/global.css';
@@ -23,6 +24,7 @@ function App() {
           <Route path="databases/legislation" element={<LegislationTracker />} />
           <Route path="databases/incidents" element={<IncidentsTracker />} />
           <Route path="databases/cases" element={<CaseStudies />} />
+          <Route path="databases/events" element={<ProtestEvents />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
         </Route>

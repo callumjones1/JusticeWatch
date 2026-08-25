@@ -1,0 +1,16 @@
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/**/*.pyc
+backend/.env
+backend/static/
+# Raw source data and the local SQLite DB are never baked into the image --
+# production reads from DATABASE_URL (Neon). Regenerate locally with
+# `python -m etl.load_events` pointed at that connection string instead.
+backend/data/raw/*.json
+backend/data/db/
+frontend/node_modules/
+frontend/dist/
+.git/
+*.md

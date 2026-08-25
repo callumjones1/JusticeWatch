@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: justicewatch
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false # set manually in the Render dashboard -- the Neon connection string
+      - key: CORS_ORIGINS
+        value: https://justicewatchnetwork.org,https://www.justicewatchnetwork.org
