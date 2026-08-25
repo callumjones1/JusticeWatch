@@ -8,11 +8,13 @@ Docs at http://localhost:8000/docs once running.
 
 from __future__ import annotations
 
+import base64
 import os
+import secrets
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -21,6 +23,12 @@ from etl.db import get_engine
 from etl.models import Base
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+
+# Site-wide HTTP Basic Auth gate -- set SITE_USERNAME + SITE_PASSWORD in
+# Render's dashboard to turn it on (soft-launch / pre-announcement gate,
+# not real access control). Unset locally, so local dev is never gated.
+SITE_USERNAME = os.getenv("SITE_USERNAME")
+SITE_PASSWORD = os.getenv("SITE_PASSWORD")
 
 
 @asynccontextmanager
@@ -42,6 +50,26 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def basic_auth_gate(request: Request, call_next):
+    if not SITE_USERNAME or not SITE_PASSWORD:
+        return await call_next(request)  # gate disabled unless both are set
+    if request.url.path == "/api/health":
+        return await call_next(request)  # keep-alive pings / platform health checks stay unauthenticated
+
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Basic "):
+        try:
+            decoded = base64.b64decode(auth_header[len("Basic "):]).decode("utf-8")
+            username, _, password = decoded.partition(":")
+        except (ValueError, UnicodeDecodeError):
+            username, password = "", ""
+        if secrets.compare_digest(username, SITE_USERNAME) and secrets.compare_digest(password, SITE_PASSWORD):
+            return await call_next(request)
+
+    return Response(status_code=401, headers={"WWW-Authenticate": 'Basic realm="Justice Watch Network"'})
+
 
 app.include_router(events_router)
 
