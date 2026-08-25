@@ -16,7 +16,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping health endpoint
-        # TODO: switch to https://justicewatchnetwork.org/api/health once
-        # the custom domain's DNS is live (currently only .onrender.com
-        # resolves to the service).
-        run: curl -fsS --max-time 60 https://justicewatch.onrender.com/api/health
+        run: curl -fsS --max-time 60 https://justicewatchnetwork.org/api/health
