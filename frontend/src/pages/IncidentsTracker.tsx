@@ -8,8 +8,11 @@ type Source = {
   summary: string;
 };
 
+type IncidentType = 'protest' | 'political_violence';
+
 type Incident = {
   id: string;
+  incident_type: IncidentType;
   title: string;
   short_title: string;
   date_start: string;
@@ -24,19 +27,16 @@ type Incident = {
   sources: Source[];
 };
 
-type Theme = {
-  id: string;
-  title: string;
-  summary: string;
-};
-
 const incidents = data.incidents as Incident[];
-const themes = (data as { themes?: Theme[] }).themes ?? [];
+
+const SPLIT_TABS: { key: IncidentType; label: string }[] = [
+  { key: 'protest', label: 'Protest Events' },
+  { key: 'political_violence', label: 'Political Violence' },
+];
 
 const ALL_YEARS = [...new Set(incidents.map(i => i.year))].sort();
 const MIN_YEAR = ALL_YEARS[0];
 const MAX_YEAR = ALL_YEARS[ALL_YEARS.length - 1];
-const ALL_CATS = [...new Set(incidents.flatMap(i => i.categories))].sort();
 
 function srcBadgeClass(type: string): string {
   const t = type.toLowerCase();
@@ -71,12 +71,19 @@ function groupByYear(list: Incident[]) {
 }
 
 export default function IncidentsTracker() {
+  const [split, setSplit] = useState<IncidentType>('protest');
   const [openNodes, setOpenNodes] = useState<Set<string>>(new Set());
   const [filterCats, setFilterCats] = useState<Set<string>>(new Set());
   const [yearFrom, setYearFrom] = useState(MIN_YEAR);
   const [yearTo, setYearTo] = useState(MAX_YEAR);
-  const [activeTheme, setActiveTheme] = useState<string | null>(null);
-  const [showThemes, setShowThemes] = useState(true);
+
+  const splitIncidents = useMemo(() => incidents.filter(i => i.incident_type === split), [split]);
+  const ALL_CATS = useMemo(() => [...new Set(splitIncidents.flatMap(i => i.categories))].sort(), [splitIncidents]);
+
+  function selectSplit(next: IncidentType) {
+    setSplit(next);
+    setFilterCats(new Set());
+  }
 
   function toggleNode(id: string) {
     setOpenNodes(prev => {
@@ -94,24 +101,10 @@ export default function IncidentsTracker() {
     });
   }
 
-  function activateTheme(theme: Theme) {
-    if (activeTheme === theme.id) {
-      setActiveTheme(null);
-      setFilterCats(new Set());
-    } else {
-      setActiveTheme(theme.id);
-      // Map theme to relevant categories
-      const keywords = theme.id.split('-');
-      const matchingCats = ALL_CATS.filter(c => keywords.some(k => c.includes(k)));
-      setFilterCats(new Set(matchingCats.length ? matchingCats : [theme.id]));
-    }
-  }
-
   function clearFilters() {
     setFilterCats(new Set());
     setYearFrom(MIN_YEAR);
     setYearTo(MAX_YEAR);
-    setActiveTheme(null);
   }
 
   const hasFilter = filterCats.size > 0 || yearFrom !== MIN_YEAR || yearTo !== MAX_YEAR;
@@ -124,8 +117,8 @@ export default function IncidentsTracker() {
 
   // Filter incidents and group by year for the timeline
   const filteredIncidents = useMemo(
-    () => incidents.filter(matchesFilters),
-    [matchesFilters]
+    () => splitIncidents.filter(matchesFilters),
+    [splitIncidents, matchesFilters]
   );
   const yearGroups = useMemo(() => groupByYear(filteredIncidents), [filteredIncidents]);
   const yearsWithIncidents = ALL_YEARS.filter(y => yearGroups[y]?.length > 0);
@@ -144,6 +137,19 @@ export default function IncidentsTracker() {
           <p className="db-note" style={{ textAlign: 'left', marginBottom: '1.25rem', marginTop: 0 }}>
             {data.metadata.description}
           </p>
+
+          {/* Protest / political violence split */}
+          <div className="inc-view-toggle">
+            {SPLIT_TABS.map(tab => (
+              <button
+                key={tab.key}
+                className={`inc-view-tab${split === tab.key ? ' inc-view-tab-active' : ''}`}
+                onClick={() => selectSplit(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
           {/* Filter bar */}
           <div className="inc-filter-bar">
@@ -187,8 +193,7 @@ export default function IncidentsTracker() {
             </div>
           </div>
 
-          <div className="inc-layout">
-            <div className="inc-main">
+          <div className="inc-main">
               <div className="inc-timeline">
                 {yearsWithIncidents.length === 0 && (
                   <p style={{ color: 'var(--color-text-muted)', fontStyle: 'italic', padding: '2rem 0' }}>
@@ -299,30 +304,6 @@ export default function IncidentsTracker() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Themes panel */}
-            <div className="inc-themes-panel">
-              <button className="inc-themes-toggle" onClick={() => setShowThemes(v => !v)}>
-                {showThemes ? '▾' : '▸'} Themes
-              </button>
-              {showThemes && (
-                <div className="inc-themes-box">
-                  <h3>Cross-cutting themes</h3>
-                  {themes.map(theme => (
-                    <div
-                      key={theme.id}
-                      className="inc-theme-item"
-                      onClick={() => activateTheme(theme)}
-                      style={{ borderLeft: activeTheme === theme.id ? '3px solid var(--color-accent)' : '3px solid transparent', paddingLeft: '0.5rem' }}
-                    >
-                      <div className="inc-theme-title">{theme.title}</div>
-                      <div className="inc-theme-summary">{theme.summary}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
 
           <p className="db-note">{data.metadata.disclaimer}</p>

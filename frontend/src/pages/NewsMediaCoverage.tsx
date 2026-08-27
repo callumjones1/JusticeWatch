@@ -54,7 +54,7 @@ function formatLabel(value: string | null): string {
   return value.replace(/_/g, ' ');
 }
 
-export default function ProtestEvents() {
+export default function NewsMediaCoverage() {
   const [facets, setFacets] = useState<Facets | null>(null);
   const [facetsError, setFacetsError] = useState<string | null>(null);
 
@@ -201,7 +201,7 @@ export default function ProtestEvents() {
     <div>
       <div className="page-header">
         <div className="container">
-          <h1>Protest Events</h1>
+          <h1>News Media Coverage</h1>
           <p className="page-subtitle">
             {(facets?.year_min ?? '…')}–{(facets?.year_max ?? '…')} · built from news coverage, event-clustered by an
             automated research pipeline
@@ -211,16 +211,6 @@ export default function ProtestEvents() {
 
       <div className="section">
         <div className="container">
-          <p className="db-note" style={{ textAlign: 'left', marginTop: 0, marginBottom: '1.25rem' }}>
-            Each event below consolidates one or more news articles about what is judged to be the same real-world
-            protest. Two caveats from the dataset's own documentation: event clustering is <strong>conservative and a
-            research aid</strong> — borderline duplicate events may remain unmerged; and roughly <strong>half of all
-            events have no confirmed protest date</strong> and fall back to the source article's publication date
-            instead (shown as a "publication date fallback" precision). Treat single-article events especially as
-            leads for further research rather than confirmed fact. This is distinct from the hand-curated{' '}
-            <a href="#/databases/incidents">Incidents Tracker</a>.
-          </p>
-
           {facetsError && (
             <div className="db-empty" style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)' }}>
               {facetsError}

@@ -10,6 +10,7 @@
   "incidents": [
     {
       "id": "s11-wef-blockade-2000",
+      "incident_type": "protest",
       "title": "S11 World Economic Forum Blockade, Melbourne",
       "short_title": "S11 WEF Blockade",
       "date_start": "2000-09-11",
@@ -17,7 +18,11 @@
       "date_display": "11–13 September 2000",
       "year": 2000,
       "location": "Melbourne, Victoria",
-      "categories": ["anti-globalisation", "police-conduct", "mass-protest"],
+      "categories": [
+        "anti-globalisation",
+        "police-conduct",
+        "mass-protest"
+      ],
       "summary": "An estimated 20,000 protesters blockaded the World Economic Forum's Asia-Pacific Economic Summit at Melbourne's Crown Casino complex. The blockade successfully disrupted the event, with approximately one-third of delegates unable to enter on the first day. Police deployed significant force including baton strikes, mounted police charges, and capsicum spray. Many officers removed name badges, preventing later identification. Thirty protesters were hospitalised on 12 September. The event was the largest police deployment in Victoria's history until the 2024 Land Forces protests and established a template for the policing of large-scale protest in Australia in the 21st century.",
       "legislative_links": [],
       "related_cases": [],
@@ -44,6 +49,7 @@
     },
     {
       "id": "cronulla-riots-2005",
+      "incident_type": "political_violence",
       "title": "Cronulla Riots, Sydney",
       "short_title": "Cronulla Riots",
       "date_start": "2005-12-11",
@@ -51,9 +57,15 @@
       "date_display": "11–12 December 2005",
       "year": 2005,
       "location": "Sydney, NSW",
-      "categories": ["racial-violence", "police-conduct", "legislative-response"],
+      "categories": [
+        "racial-violence",
+        "police-conduct",
+        "legislative-response"
+      ],
       "summary": "Racially motivated mob violence erupted at Cronulla Beach, Sydney, with approximately 5,000 people attacking persons of Middle Eastern appearance. Retaliatory attacks followed in surrounding suburbs over subsequent nights. The NSW Government responded by enacting emergency police powers via the Law Enforcement Legislation Amendment (Public Safety) Act 2005, granting police powers to lock down areas, search vehicles, and confiscate mobile phones. The Middle Eastern Organised Crime Squad (MEOCS) was established. Prime Minister John Howard described the events as 'primarily a law and order issue', rejecting suggestions of underlying racism.",
-      "legislative_links": ["Law Enforcement Legislation Amendment (Public Safety) Act 2005"],
+      "legislative_links": [
+        "Law Enforcement Legislation Amendment (Public Safety) Act 2005"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -78,6 +90,7 @@
     },
     {
       "id": "lindt-cafe-siege-2014",
+      "incident_type": "political_violence",
       "title": "Lindt Café Siege, Sydney",
       "short_title": "Lindt Café Siege",
       "date_start": "2014-12-15",
@@ -85,9 +98,16 @@
       "date_display": "15–16 December 2014",
       "year": 2014,
       "location": "Martin Place, Sydney, NSW",
-      "categories": ["terrorism", "hostage", "legislative-response", "counter-terrorism"],
+      "categories": [
+        "terrorism",
+        "hostage",
+        "legislative-response",
+        "counter-terrorism"
+      ],
       "summary": "Man Haron Monis took 18 people hostage in the Lindt Café in Martin Place, Sydney. The 16-hour siege ended when police stormed the building; Monis and two hostages were killed. A Joint Commonwealth–NSW Review (22 February 2015) found government agencies had not been complacent but recommended modest procedural changes. ASIO had reviewed Monis but found no information indicating intent to commit a terrorist act. The siege catalysed significant counter-terrorism reforms, including the Defence Amendment (Call Out of the Australian Defence Force) Act 2018, and reinforced the political momentum for expanded security powers. It remains a pivotal event in the securitisation narrative, frequently cited to justify subsequent counter-terrorism legislation.",
-      "legislative_links": ["Defence Amendment (Call Out of the Australian Defence Force) Act 2018"],
+      "legislative_links": [
+        "Defence Amendment (Call Out of the Australian Defence Force) Act 2018"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -112,6 +132,7 @@
     },
     {
       "id": "lapoinya-brown-v-tasmania-2016-2017",
+      "incident_type": "protest",
       "title": "Lapoinya Forest Protest and Brown v Tasmania",
       "short_title": "Lapoinya / Brown v Tasmania",
       "date_start": "2016-01-01",
@@ -119,10 +140,19 @@
       "date_display": "January 2016 – October 2017",
       "year": 2016,
       "location": "Lapoinya, Tasmania",
-      "categories": ["environmental", "forestry", "constitutional-challenge", "implied-freedom"],
+      "categories": [
+        "environmental",
+        "forestry",
+        "constitutional-challenge",
+        "implied-freedom"
+      ],
       "summary": "Former Greens leader Bob Brown and Jessica Hoyt were arrested in January 2016 while protesting logging operations in the Lapoinya Forest, Tasmania, under the Workplaces (Protection from Protesters) Act 2014. Charges were later dropped, but Brown and Hoyt challenged the Act's validity in the High Court. In Brown v Tasmania [2017] HCA 43, the High Court (6:1 majority) struck down key provisions as an impermissible burden on the implied freedom of political communication. This was the first time the High Court invalidated anti-protest legislation on implied freedom grounds, establishing a critical precedent.",
-      "legislative_links": ["tas-workplaces-2014"],
-      "related_cases": ["Brown v Tasmania [2017] HCA 43"],
+      "legislative_links": [
+        "tas-workplaces-2014"
+      ],
+      "related_cases": [
+        "Brown v Tasmania [2017] HCA 43"
+      ],
       "sources": [
         {
           "type": "Court / Legal",
@@ -152,6 +182,7 @@
     },
     {
       "id": "christchurch-australian-response-2019",
+      "incident_type": "political_violence",
       "title": "Christchurch Mosque Shootings — Australian Response",
       "short_title": "Christchurch — Australian Response",
       "date_start": "2019-03-15",
@@ -159,9 +190,16 @@
       "date_display": "15 March 2019 and aftermath",
       "year": 2019,
       "location": "Christchurch, New Zealand (Australian legislative response)",
-      "categories": ["terrorism", "far-right", "legislative-response", "online-content"],
+      "categories": [
+        "terrorism",
+        "far-right",
+        "legislative-response",
+        "online-content"
+      ],
       "summary": "The terrorist attack on two mosques in Christchurch, New Zealand, killing 51 people, was perpetrated by an Australian national. Australia's immediate legislative response was the Criminal Code Amendment (Sharing of Abhorrent Violent Material) Act 2019, rushed through Parliament in five days. The Act makes it an offence for social media companies to fail to expeditiously remove violent material, with penalties including fines of up to 10% of annual turnover and imprisonment for executives. Critics noted the legislation addressed content dissemination but not the underlying hate speech that motivated the attack. The event significantly influenced subsequent ASIO threat assessments regarding right-wing extremism.",
-      "legislative_links": ["Criminal Code Amendment (Sharing of Abhorrent Violent Material) Act 2019"],
+      "legislative_links": [
+        "Criminal Code Amendment (Sharing of Abhorrent Violent Material) Act 2019"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -186,6 +224,7 @@
     },
     {
       "id": "extinction-rebellion-brisbane-2019",
+      "incident_type": "protest",
       "title": "Extinction Rebellion Protests, Brisbane",
       "short_title": "XR Brisbane",
       "date_start": "2019-08-01",
@@ -193,9 +232,16 @@
       "date_display": "August–October 2019",
       "year": 2019,
       "location": "Brisbane, Queensland",
-      "categories": ["environmental", "climate", "legislative-response", "police-conduct"],
+      "categories": [
+        "environmental",
+        "climate",
+        "legislative-response",
+        "police-conduct"
+      ],
       "summary": "Extinction Rebellion (XR) conducted large-scale civil disobedience in Brisbane CBD, blocking intersections, locking onto infrastructure, and disrupting traffic. In August 2019, 56 people were charged. In October, 29 more were arrested, including a protester who suspended himself from the Story Bridge. Queensland Premier Annastacia Palaszczuk fast-tracked the Summary Offences and Other Legislation Amendment Act 2019, criminalising 'dangerous attachment devices' with penalties of up to 2 years imprisonment. Police were accused of heavy-handed tactics including aggressive bail conditions. UN human rights experts described the new laws as 'inherently disproportionate'.",
-      "legislative_links": ["qld-summary-offences-2019"],
+      "legislative_links": [
+        "qld-summary-offences-2019"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -226,6 +272,7 @@
     },
     {
       "id": "imarc-protest-2019",
+      "incident_type": "protest",
       "title": "IMARC Protest and Police Use of Capsicum Spray, Melbourne",
       "short_title": "IMARC Protest",
       "date_start": "2019-10-29",
@@ -233,10 +280,17 @@
       "date_display": "29–31 October 2019",
       "year": 2019,
       "location": "Melbourne Convention and Exhibition Centre, Victoria",
-      "categories": ["environmental", "police-conduct", "class-action", "use-of-force"],
+      "categories": [
+        "environmental",
+        "police-conduct",
+        "class-action",
+        "use-of-force"
+      ],
       "summary": "Protesters blockaded the International Mining and Resources Conference (IMARC) at the Melbourne Convention and Exhibition Centre. Victoria Police deployed OC (capsicum) foam against protesters, leading to injuries. A class action (Brown v State of Victoria) was launched in September 2022 by Phi Finney McDonald and Inner Melbourne Community Legal on behalf of affected protesters. In Brown v State of Victoria (No 3) [2025] VSC 765, the Supreme Court found the deployments of OC foam constituted battery against the lead plaintiff. The case established an important precedent on police use of force at protests.",
       "legislative_links": [],
-      "related_cases": ["Brown v State of Victoria (No 3) [2025] VSC 765"],
+      "related_cases": [
+        "Brown v State of Victoria (No 3) [2025] VSC 765"
+      ],
       "sources": [
         {
           "type": "Court / Legal",
@@ -266,6 +320,7 @@
     },
     {
       "id": "covid-antilockdown-melbourne-2021",
+      "incident_type": "protest",
       "title": "COVID-19 Anti-Lockdown and Anti-Mandate Protests, Melbourne",
       "short_title": "COVID Anti-Lockdown Protests",
       "date_start": "2021-09-20",
@@ -273,7 +328,12 @@
       "date_display": "20–25 September 2021",
       "year": 2021,
       "location": "Melbourne, Victoria",
-      "categories": ["covid", "anti-mandate", "far-right", "police-conduct"],
+      "categories": [
+        "covid",
+        "anti-mandate",
+        "far-right",
+        "police-conduct"
+      ],
       "summary": "Following the Victorian Government's announcement of mandatory vaccination for construction workers, hundreds protested outside the CFMEU headquarters on 20 September 2021, with violence including damage to the union building. Over subsequent days, thousands marched in broader anti-lockdown protests. Victoria Police deployed approximately 500 officers, using tear gas, rubber bullets, and pepper spray. Over 300 arrests were made across the week. The protests were infiltrated by far-right and anti-vaccination groups. The CFMEU condemned the presence of 'neo-Nazis' at the demonstrations. The construction industry was shut down across metropolitan Melbourne for two weeks.",
       "legislative_links": [],
       "related_cases": [],
@@ -300,6 +360,7 @@
     },
     {
       "id": "blockade-australia-2022",
+      "incident_type": "protest",
       "title": "Blockade Australia Actions, Sydney",
       "short_title": "Blockade Australia",
       "date_start": "2022-06-01",
@@ -307,9 +368,17 @@
       "date_display": "June–July 2022",
       "year": 2022,
       "location": "Sydney, NSW",
-      "categories": ["climate", "infrastructure", "police-conduct", "legislative-response", "bail-conditions"],
+      "categories": [
+        "climate",
+        "infrastructure",
+        "police-conduct",
+        "legislative-response",
+        "bail-conditions"
+      ],
       "summary": "Climate activist group Blockade Australia conducted a week of disruptive protests across Sydney, including blockading the Sydney Harbour Tunnel and obstructing major roads. Over 250 police were deployed. Prior to the main actions, approximately 100 NSW Police conducted a pre-emptive raid on a Blockade Australia camp in the Blue Mountains, deploying helicopters, the Public Order and Riot Squad, Raptor Squad, and plainclothes officers. Eight people were charged including with conspiracy. Extreme bail conditions were imposed, including non-association orders covering 15 named climate activists and a ban from the state for at least one defendant. Human Rights Watch reported that protesters' rights had been violated. The protests directly prompted the Roads and Crimes Legislation Amendment Act 2022.",
-      "legislative_links": ["nsw-roads-crimes-2022"],
+      "legislative_links": [
+        "nsw-roads-crimes-2022"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -340,6 +409,7 @@
     },
     {
       "id": "violet-coco-harbour-bridge-2022-2023",
+      "incident_type": "protest",
       "title": "Violet Coco Harbour Bridge Protest and Sentencing",
       "short_title": "Violet Coco / Harbour Bridge",
       "date_start": "2022-04-13",
@@ -347,9 +417,16 @@
       "date_display": "April 2022 – March 2023",
       "year": 2022,
       "location": "Sydney Harbour Bridge, NSW",
-      "categories": ["climate", "sentencing", "police-conduct", "proportionality"],
+      "categories": [
+        "climate",
+        "sentencing",
+        "police-conduct",
+        "proportionality"
+      ],
       "summary": "On 13 April 2022, Deanna 'Violet' Coco blocked one lane of the Sydney Harbour Bridge for approximately 28 minutes and lit a flare as part of a climate protest for Fireproof Australia. She was sentenced by Magistrate Allison Hawkins to 15 months imprisonment in December 2022. NSW Premier Dominic Perrottet publicly endorsed the sentence. On appeal in March 2023, District Court Judge Mark Williams found that NSW Police had presented false evidence that an ambulance had been blocked, and Coco's sentence was reduced to a 12-month conditional release order. The case became a focal point for debate on the proportionality of penalties for climate protest.",
-      "legislative_links": ["nsw-roads-crimes-2022"],
+      "legislative_links": [
+        "nsw-roads-crimes-2022"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -380,6 +457,7 @@
     },
     {
       "id": "knitting-nannas-challenge-2022-2023",
+      "incident_type": "protest",
       "title": "Knitting Nannas Constitutional Challenge to NSW Anti-Protest Laws",
       "short_title": "Knitting Nannas / Kvelde",
       "date_start": "2022-10-01",
@@ -387,10 +465,19 @@
       "date_display": "October 2022 – December 2023",
       "year": 2022,
       "location": "NSW Supreme Court",
-      "categories": ["constitutional-challenge", "implied-freedom", "climate", "civil-society"],
+      "categories": [
+        "constitutional-challenge",
+        "implied-freedom",
+        "climate",
+        "civil-society"
+      ],
       "summary": "Dominique Jacobs and Helen Kvelde, members of the Knitting Nannas climate advocacy group from the flood- and fire-impacted NSW mid-north coast, launched a constitutional challenge to s 214A of the Crimes Act 1900 (NSW), introduced by the Roads and Crimes Legislation Amendment Act 2022. Represented by the Environmental Defenders Office, they argued the provision impermissibly burdened the implied freedom of political communication. In Kvelde v State of New South Wales [2023] NSWSC 1560, Justice Michael Walton found parts of s 214A unconstitutional (subsections relating to partial closure and redirection of major facilities).",
-      "legislative_links": ["nsw-roads-crimes-2022"],
-      "related_cases": ["Kvelde v State of New South Wales [2023] NSWSC 1560"],
+      "legislative_links": [
+        "nsw-roads-crimes-2022"
+      ],
+      "related_cases": [
+        "Kvelde v State of New South Wales [2023] NSWSC 1560"
+      ],
       "sources": [
         {
           "type": "Civil Society / Legal",
@@ -420,6 +507,7 @@
     },
     {
       "id": "sa-antiprotest-law-2023",
+      "incident_type": "protest",
       "title": "South Australia's Anti-Protest Law Reform",
       "short_title": "SA Anti-Protest Law",
       "date_start": "2023-05-18",
@@ -427,9 +515,16 @@
       "date_display": "18–31 May 2023",
       "year": 2023,
       "location": "South Australia",
-      "categories": ["legislative-response", "escalating-penalties", "civil-society", "bipartisan"],
+      "categories": [
+        "legislative-response",
+        "escalating-penalties",
+        "civil-society",
+        "bipartisan"
+      ],
       "summary": "The South Australian Government introduced and passed the Summary Offences (Obstruction of Public Places) Amendment Act 2023, increasing the maximum penalty for obstructing a public place from $750 to $50,000 or 3 months imprisonment. The bill passed its lower house in 22 minutes with Opposition support and was passed by the upper house at 6:15 AM on 31 May. Over 30 civil society organisations condemned the legislation. The bill was amended in the upper house to require 'intentional' rather than 'reckless' obstruction. The legislation carries the harshest financial penalties for protest obstruction in Australia.",
-      "legislative_links": ["sa-summary-offences-2023"],
+      "legislative_links": [
+        "sa-summary-offences-2023"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -466,6 +561,7 @@
     },
     {
       "id": "pro-palestine-protests-2023-2024",
+      "incident_type": "protest",
       "title": "Pro-Palestine Protest Crackdown, Sydney",
       "short_title": "Pro-Palestine Protests",
       "date_start": "2023-10-07",
@@ -473,10 +569,19 @@
       "date_display": "October 2023 – October 2024",
       "year": 2023,
       "location": "Sydney, NSW",
-      "categories": ["palestine", "police-conduct", "civil-liberties", "court-challenge"],
+      "categories": [
+        "palestine",
+        "police-conduct",
+        "civil-liberties",
+        "court-challenge"
+      ],
       "summary": "Following the 7 October 2023 Hamas attack on Israel and Israel's subsequent military operations in Gaza, large pro-Palestine rallies were held across Australia. In October 2023, NSW Premier Chris Minns declared that Palestinian supporters would not 'commandeer our streets' and NSW Police sought to prevent marches from proceeding. Amnesty International warned that existing anti-protest laws could result in $22,000 fines and 2 years imprisonment. In March 2024, police clashed with activists protesting a ZIM container ship at Port Botany. In October 2024, police sought to ban October 6–7 anniversary rallies. The Supreme Court rejected police attempts to ban a Harbour Bridge march.",
-      "legislative_links": ["nsw-roads-crimes-2022"],
-      "related_cases": ["Commissioner of Police v Joshua Lees"],
+      "legislative_links": [
+        "nsw-roads-crimes-2022"
+      ],
+      "related_cases": [
+        "Commissioner of Police v Joshua Lees"
+      ],
       "sources": [
         {
           "type": "Civil Society",
@@ -506,6 +611,7 @@
     },
     {
       "id": "land-forces-protests-2024",
+      "incident_type": "protest",
       "title": "Land Forces Exposition Protests, Melbourne",
       "short_title": "Land Forces Protests",
       "date_start": "2024-09-09",
@@ -513,9 +619,17 @@
       "date_display": "9–13 September 2024",
       "year": 2024,
       "location": "Melbourne Convention and Exhibition Centre, Victoria",
-      "categories": ["anti-war", "terrorism-powers", "police-conduct", "use-of-force"],
+      "categories": [
+        "anti-war",
+        "terrorism-powers",
+        "police-conduct",
+        "use-of-force"
+      ],
       "summary": "Between 4,000 and 5,000 protesters gathered outside the Melbourne Convention and Exhibition Centre to oppose the Land Forces International Land Defence Exposition. Victoria Police deployed special powers under s 21B of the Terrorism (Community Protection) Act 2003 and designated area powers under the Control of Weapons Act 1990. Police used stun grenades, pepper spray, and rubber bullets; 82 people were arrested and over 150 injured. Legal observers from MALS documented multiple incidents of excessive force. VALS condemned the use of terrorism powers against non-violent protest as 'a disturbing encroachment on the freedom to peaceful protest'. It was the largest police deployment in Victoria since the S11 protests in 2000.",
-      "legislative_links": ["vic-terrorism-community-protection-2003", "vic-control-of-weapons-1990"],
+      "legislative_links": [
+        "vic-terrorism-community-protection-2003",
+        "vic-control-of-weapons-1990"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -546,6 +660,7 @@
     },
     {
       "id": "antisemitic-attacks-2024",
+      "incident_type": "political_violence",
       "title": "Antisemitic Attacks: Lewis' Continental Kitchen and Adass Israel Synagogue",
       "short_title": "IRGC-Linked Antisemitic Attacks",
       "date_start": "2024-10-20",
@@ -553,9 +668,17 @@
       "date_display": "20 October – 6 December 2024",
       "year": 2024,
       "location": "Bondi, Sydney NSW and Ripponlea, Melbourne VIC",
-      "categories": ["terrorism", "state-sponsored", "antisemitism", "IRGC", "legislative-response"],
+      "categories": [
+        "terrorism",
+        "state-sponsored",
+        "antisemitism",
+        "IRGC",
+        "legislative-response"
+      ],
       "summary": "On 20 October 2024, Lewis' Continental Kitchen, a kosher restaurant in Bondi, Sydney, was firebombed, causing over $1 million in damage. On 6 December 2024, the Adass Israel Synagogue in Ripponlea, Melbourne, was targeted in an arson attack, injuring one person. On 26 August 2025, ASIO Director-General Mike Burgess announced that both attacks were directed by Iran's Islamic Revolutionary Guard Corps (IRGC) through 'a complex web of proxies'. Prime Minister Albanese expelled the Iranian Ambassador and suspended embassy operations. The IRGC was listed as a 'state sponsor of terrorism' under the Criminal Code Amendment (State Sponsors of Terrorism) Act 2025. These incidents are cited as catalyst for the Bondi-related PARD restrictions on protest.",
-      "legislative_links": ["cth-state-sponsors-terrorism-2025"],
+      "legislative_links": [
+        "cth-state-sponsors-terrorism-2025"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -586,6 +709,7 @@
     },
     {
       "id": "bondi-shooting-2025",
+      "incident_type": "political_violence",
       "title": "Bondi Beach Shooting and Legislative Response",
       "short_title": "Bondi Beach Shooting",
       "date_start": "2025-12-14",
@@ -593,9 +717,17 @@
       "date_display": "14 December 2025 and aftermath",
       "year": 2025,
       "location": "Bondi Beach, Sydney, NSW",
-      "categories": ["terrorism", "antisemitism", "legislative-response", "PARDs", "hate-speech"],
+      "categories": [
+        "terrorism",
+        "antisemitism",
+        "legislative-response",
+        "PARDs",
+        "hate-speech"
+      ],
       "summary": "On 14 December 2025, a gunman attacked an annual Chanukah community celebration at Archer Park, Bondi Beach, killing 15 people and injuring many more. The attack was declared a terrorist incident. Within ten days, the NSW Parliament passed the Terrorism and Other Legislation Amendment Act 2025, which introduced Public Assembly Restriction Declaration (PARD) powers, hate speech provisions (including proscribing 'globalise the intifada'), tighter gun controls, and expanded Nazi symbol display offences. Within hours of the Act's passage, Police Commissioner Lanyon declared PARDs across most of greater Sydney. The NSW Government also announced a Royal Commission on Antisemitism and Social Cohesion and a $111 million community support package.",
-      "legislative_links": ["nsw-terrorism-police-powers-2002"],
+      "legislative_links": [
+        "nsw-terrorism-police-powers-2002"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -632,6 +764,7 @@
     },
     {
       "id": "asio-threat-assessments-2024-2025",
+      "incident_type": "political_violence",
       "title": "ASIO Annual Threat Assessments: The Securitisation of Protest Narrative",
       "short_title": "ASIO Threat Assessments",
       "date_start": "2024-01-01",
@@ -639,9 +772,17 @@
       "date_display": "2024–2025",
       "year": 2024,
       "location": "National (Commonwealth)",
-      "categories": ["intelligence", "ASIO", "securitisation", "threat-assessment"],
+      "categories": [
+        "intelligence",
+        "ASIO",
+        "securitisation",
+        "threat-assessment"
+      ],
       "summary": "ASIO's 2024 and 2025 Annual Threat Assessments have explicitly linked protest activity to the terrorism threat environment. The 2025 assessment stated that the Middle East conflict 'is prompting protest, exacerbating division, undermining social cohesion and elevating intolerance, which in turn is making acts of politically motivated violence more likely'. ASIO noted the 'normalisation of violent protest' and the breakdown of traditional distinctions between extremist motivations. The national terrorism threat level was raised in 2024 and is not expected to be lowered. These assessments provide the intelligence-community framing that underpins legislative responses such as PARDs and expanded terrorism powers.",
-      "legislative_links": ["nsw-terrorism-police-powers-2002", "cth-criminal-code-1995"],
+      "legislative_links": [
+        "nsw-terrorism-police-powers-2002",
+        "cth-criminal-code-1995"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -672,6 +813,7 @@
     },
     {
       "id": "herzog-visit-pard-2026",
+      "incident_type": "protest",
       "title": "Israeli President Herzog's Visit and PARD Enforcement, Sydney",
       "short_title": "Herzog Visit / PARD Enforcement",
       "date_start": "2026-02-09",
@@ -679,9 +821,17 @@
       "date_display": "9–10 February 2026",
       "year": 2026,
       "location": "Sydney, NSW",
-      "categories": ["palestine", "PARDs", "police-conduct", "use-of-force", "international-scrutiny"],
+      "categories": [
+        "palestine",
+        "PARDs",
+        "police-conduct",
+        "use-of-force",
+        "international-scrutiny"
+      ],
       "summary": "Israeli President Isaac Herzog visited Sydney to commemorate victims of the Bondi Beach shooting. Pro-Palestine groups organised protests against the visit. The PARD was in force across eastern Sydney suburbs. On 9 February, thousands protested at Sydney Town Hall; police used pepper spray and deployed significant force. Human Rights Watch documented police punching protesters on the ground, dispersing people kneeling in prayer, and charging at protesters with pepper spray. 27 people were arrested. Journalists covering the event reported they had not observed any protesters committing violence. The Palestine Action Group called for Premier Minns and Police Commissioner Lanyon to resign.",
-      "legislative_links": ["nsw-terrorism-police-powers-2002"],
+      "legislative_links": [
+        "nsw-terrorism-police-powers-2002"
+      ],
       "related_cases": [],
       "sources": [
         {
@@ -712,6 +862,7 @@
     },
     {
       "id": "pard-constitutional-challenge-2026",
+      "incident_type": "protest",
       "title": "Constitutional Challenge to PARD Regime, NSW Supreme Court",
       "short_title": "PARD Constitutional Challenge",
       "date_start": "2026-02-01",
@@ -719,10 +870,20 @@
       "date_display": "February 2026 – ongoing",
       "year": 2026,
       "location": "NSW Supreme Court",
-      "categories": ["constitutional-challenge", "implied-freedom", "PARDs", "palestine", "ongoing"],
+      "categories": [
+        "constitutional-challenge",
+        "implied-freedom",
+        "PARDs",
+        "palestine",
+        "ongoing"
+      ],
       "summary": "A coalition including the Palestine Action Group Sydney, Jews Against the Occupation 48, and the Blak Caucus filed a constitutional challenge to the PARD provisions inserted by the Terrorism and Other Legislation Amendment Act 2025. The challenge was heard in the NSW Supreme Court on 26 February 2026. The plaintiffs argue the PARD regime impermissibly burdens the implied freedom of political communication by allowing executive-level restriction of public assemblies without court authorisation and by overriding court-authorised assemblies. The case is expected to have significant implications for the relationship between terrorism legislation and protest rights.",
-      "legislative_links": ["nsw-terrorism-police-powers-2002"],
-      "related_cases": ["Lees v State of New South Wales [2025] NSWSC 1209"],
+      "legislative_links": [
+        "nsw-terrorism-police-powers-2002"
+      ],
+      "related_cases": [
+        "Lees v State of New South Wales [2025] NSWSC 1209"
+      ],
       "sources": [
         {
           "type": "Civil Society / Legal",

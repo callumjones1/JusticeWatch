@@ -23,14 +23,7 @@ type Category = {
   entries: Entry[];
 };
 
-type Theme = {
-  id: string;
-  title: string;
-  summary: string;
-};
-
 const categories = data.categories as Category[];
-const themes = data.themes as Theme[];
 
 const ALL_JURISDICTIONS = ['All', ...Array.from(new Set(categories.flatMap(c => c.entries.map(e => e.jurisdiction)))).sort()];
 const ALL_TAGS = Array.from(new Set(categories.flatMap(c => c.entries.flatMap(e => e.tags)))).sort();
@@ -68,7 +61,7 @@ const CAT_ICON: Record<string, JSX.Element> = {
 
 export default function LegislationTracker() {
   // View mode
-  const [mode, setMode] = useState<'explorer' | 'list'>('explorer');
+  const [mode, setMode] = useState<'explorer' | 'list'>('list');
 
   // Explorer state
   const [exCat, setExCat] = useState<Category | null>(null);
@@ -82,8 +75,6 @@ export default function LegislationTracker() {
   // Shared filter state
   const [filterJur, setFilterJur] = useState('All');
   const [filterTags, setFilterTags] = useState<Set<string>>(new Set());
-  const [activeTheme, setActiveTheme] = useState<string | null>(null);
-  const [showThemes, setShowThemes] = useState(true);
 
   // Explorer navigation with fade transition
   function navigate(cat: Category | null, entry: Entry | null) {
@@ -119,18 +110,6 @@ export default function LegislationTracker() {
   function clearFilters() {
     setFilterJur('All');
     setFilterTags(new Set());
-    setActiveTheme(null);
-  }
-  function activateTheme(theme: Theme) {
-    if (activeTheme === theme.id) {
-      setActiveTheme(null);
-      setFilterTags(new Set());
-    } else {
-      setActiveTheme(theme.id);
-      const kw = theme.id.split('-');
-      const matched = ALL_TAGS.filter(t => kw.some(k => t.includes(k)));
-      setFilterTags(new Set(matched.length ? matched : [theme.id]));
-    }
   }
 
   const matchesFilters = useMemo(() => (entry: Entry) => {
@@ -170,31 +149,6 @@ export default function LegislationTracker() {
         </div>
       )}
       {hasFilter && <button className="leg-pill" onClick={clearFilters} style={{ marginLeft: 'auto' }}>Clear ×</button>}
-    </div>
-  );
-
-  // ─── Themes panel (shared) ──────────────────────────
-  const themesPanel = (
-    <div className="leg-themes-panel">
-      <button className="leg-themes-toggle" onClick={() => setShowThemes(v => !v)}>
-        {showThemes ? '▾' : '▸'} Themes
-      </button>
-      {showThemes && (
-        <div className="leg-themes-box">
-          <h3>Cross-cutting themes</h3>
-          {themes.map(theme => (
-            <div
-              key={theme.id}
-              className="leg-theme-item"
-              onClick={() => activateTheme(theme)}
-              style={{ borderLeft: activeTheme === theme.id ? '3px solid var(--color-accent)' : '3px solid transparent', paddingLeft: '0.5rem' }}
-            >
-              <div className="leg-theme-title">{theme.title}</div>
-              <div className="leg-theme-summary">{theme.summary}</div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 
@@ -382,36 +336,6 @@ export default function LegislationTracker() {
                   </div>
                 )}
               </div>
-
-              {/* Themes panel below in explorer mode */}
-              {!exEntry && (
-                <div style={{ marginTop: '2rem' }}>
-                  <div className="leg-themes-box" style={{ position: 'static' }}>
-                    <h3>Cross-cutting themes</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '0.75rem', marginTop: '0' }}>
-                      {themes.map(theme => (
-                        <div
-                          key={theme.id}
-                          className="leg-theme-item"
-                          onClick={() => activateTheme(theme)}
-                          style={{
-                            borderLeft: activeTheme === theme.id ? '3px solid var(--color-accent)' : '3px solid transparent',
-                            paddingLeft: '0.5rem',
-                            borderBottom: 'none',
-                            paddingBottom: '0',
-                            background: activeTheme === theme.id ? 'var(--color-accent-soft)' : 'transparent',
-                            borderRadius: 'var(--radius-sm)',
-                            padding: '0.75rem',
-                          }}
-                        >
-                          <div className="leg-theme-title">{theme.title}</div>
-                          <div className="leg-theme-summary">{theme.summary}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
             </>
           )}
 
@@ -419,9 +343,7 @@ export default function LegislationTracker() {
           {mode === 'list' && (
             <>
               {filterBar}
-              <div className="leg-layout">
-                <div className="leg-main">
-                  <div className="leg-categories">
+              <div className="leg-categories">
                     {categories.map(cat => {
                       const isOpen = openCats.has(cat.id);
                       const visibleCount = cat.entries.filter(e => matchesFilters(e)).length;
@@ -490,9 +412,6 @@ export default function LegislationTracker() {
                         </div>
                       );
                     })}
-                  </div>
-                </div>
-                {themesPanel}
               </div>
             </>
           )}

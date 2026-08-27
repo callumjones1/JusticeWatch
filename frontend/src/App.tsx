@@ -7,7 +7,8 @@ import Projects from './pages/Projects';
 import LegislationTracker from './pages/LegislationTracker';
 import IncidentsTracker from './pages/IncidentsTracker';
 import CaseStudies from './pages/CaseStudies';
-import ProtestEvents from './pages/ProtestEvents';
+import NewsMediaCoverage from './pages/NewsMediaCoverage';
+import Analytics from './pages/Analytics';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import './styles/global.css';
@@ -24,7 +25,8 @@ function App() {
           <Route path="databases/legislation" element={<LegislationTracker />} />
           <Route path="databases/incidents" element={<IncidentsTracker />} />
           <Route path="databases/cases" element={<CaseStudies />} />
-          <Route path="databases/events" element={<ProtestEvents />} />
+          <Route path="databases/media" element={<NewsMediaCoverage />} />
+          <Route path="analytics" element={<Analytics />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
         </Route>

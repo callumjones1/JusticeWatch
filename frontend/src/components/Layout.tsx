@@ -84,14 +84,18 @@ export default function Layout() {
                   Cases
                 </NavLink>
                 <NavLink
-                  to="/databases/events"
+                  to="/databases/media"
                   className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
                   onClick={() => { setDbOpen(false); setMenuOpen(false); }}
                 >
-                  Protest Events
+                  News Media Coverage
                 </NavLink>
               </div>
             </div>
+
+            <NavLink to="/analytics" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
+              Analytics
+            </NavLink>
 
             <NavLink to="/faq" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} onClick={() => setMenuOpen(false)}>
               FAQ
