@@ -29,9 +29,10 @@ const ALL_JURISDICTIONS = ['All', ...Array.from(new Set(categories.flatMap(c => 
 const ALL_TAGS = Array.from(new Set(categories.flatMap(c => c.entries.flatMap(e => e.tags)))).sort();
 
 const CAT_ACCENT: Record<string, string> = {
-  'anti-protest':       '#dc2626',
-  'terrorism-security': '#1d3a5c',
-  'public-order':       '#0d9488',
+  'anti-protest':                 '#dc2626',
+  'terrorism-security':           '#1d3a5c',
+  'political-violence-extremism': '#7c3aed',
+  'public-order':                 '#0d9488',
 };
 
 const CAT_ICON: Record<string, JSX.Element> = {
@@ -55,6 +56,13 @@ const CAT_ICON: Record<string, JSX.Element> = {
       <path d="M5 6l-1.5 5h3L5 6z" />
       <path d="M19 6l-1.5 5h3L19 6z" />
       <line x1="3.5" y1="20" x2="20.5" y2="20" />
+    </svg>
+  ),
+  'political-violence-extremism': (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" width="32" height="32">
+      <path d="M12 3l9 16H3z" />
+      <line x1="12" y1="10" x2="12" y2="14" />
+      <circle cx="12" cy="17.2" r="0.6" fill="currentColor" stroke="none" />
     </svg>
   ),
 };

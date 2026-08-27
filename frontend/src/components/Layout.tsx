@@ -116,7 +116,8 @@ export default function Layout() {
           <div className="footer-grid">
             <div className="footer-section">
               <h3>Justice Watch Network</h3>
-              <p>Tracking prosecutions linked to political violence and civil activism in Australia and New Zealand-Aotearoa.</p>
+              <p>Tracking prosecutions arising from political violence and civil protest in Australia, and the public political discourse surrounding them.</p>
+              <p>A Deakin University research initiative, supported by the Faculty of Arts and Education Research Project Development Scheme. Spotted an error? <Link to="/contact">Get in touch</Link>.</p>
             </div>
             <div className="footer-section">
               <h4>Quick Links</h4>

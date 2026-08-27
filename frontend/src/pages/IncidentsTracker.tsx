@@ -134,8 +134,11 @@ export default function IncidentsTracker() {
 
       <div className="section">
         <div className="container">
-          <p className="db-note" style={{ textAlign: 'left', marginBottom: '1.25rem', marginTop: 0 }}>
+          <p className="db-note" style={{ textAlign: 'left', marginBottom: '0.75rem', marginTop: 0 }}>
             {data.metadata.description}
+          </p>
+          <p className="db-note" style={{ textAlign: 'left', marginBottom: '1.25rem', marginTop: 0 }}>
+            {data.metadata.disclaimer}
           </p>
 
           {/* Protest / political violence split */}
@@ -305,8 +308,6 @@ export default function IncidentsTracker() {
                 })}
               </div>
           </div>
-
-          <p className="db-note">{data.metadata.disclaimer}</p>
         </div>
       </div>
     </div>

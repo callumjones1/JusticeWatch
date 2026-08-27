@@ -11,15 +11,15 @@ export default function FAQ() {
   const faqs: FAQItem[] = [
     {
       question: 'What is the Justice Watch Network?',
-      answer: 'The Justice Watch Network is a research initiative dedicated to tracking and analysing criminal prosecutions linked to political violence and civil activism in Australia and New Zealand-Aotearoa. We maintain a comprehensive database and produce research to promote transparency and understanding of how justice systems respond to politically-motivated cases.',
+      answer: 'The Justice Watch Network is a research initiative dedicated to tracking and analysing prosecutions linked to political violence and civil protest in Australia. We maintain a comprehensive database and produce research to promote transparency and understanding of how the justice system responds to politically motivated cases.',
     },
     {
       question: 'What types of cases do you track?',
-      answer: 'We track criminal prosecutions that have a nexus to political violence, terrorism, extremism, and civil activism. This includes terrorism-related charges, prosecutions arising from protest activities, cases involving extremist ideologies, and other incidents where political motivations were a factor in criminal proceedings.',
+      answer: 'We track prosecutions that have a nexus to political violence, terrorism, extremism, and civil protest. This includes terrorism-related charges, prosecutions arising from protest activities, cases involving extremist ideologies, and other incidents where political motivations were a factor in criminal proceedings.',
     },
     {
       question: 'What time period does your database cover?',
-      answer: 'Our database covers cases from 2001 to the present. We chose this timeframe to capture the significant shifts in counter-terrorism policy and prosecution strategies that followed September 11, 2001, while documenting the evolving landscape of political activism and state responses in the region.',
+      answer: 'Our database covers cases from 2000 to the present. We chose this timeframe to capture the significant shifts in counter-terrorism policy and prosecution strategies that followed September 11, 2001, while documenting the evolving landscape of civil protest and state responses in the region.',
     },
     {
       question: 'How do you collect your data?',

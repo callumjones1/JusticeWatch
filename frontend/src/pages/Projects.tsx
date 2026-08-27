@@ -5,19 +5,19 @@ export default function Projects() {
     {
       id: 'prosecution-database',
       title: 'Prosecution Database',
-      description: 'Our comprehensive database tracking criminal prosecutions related to political violence and activism across Australia and New Zealand.',
+      description: 'Our register of prosecutions arising from political violence and civil protest across every Australian jurisdiction, with standardised case summaries, charge-level outcomes, linked legislation and full source provenance.',
       status: 'Active',
     },
     {
       id: 'annual-reports',
       title: 'Annual Reports',
-      description: 'Yearly analysis of trends in prosecutions, sentencing patterns, and legal developments in politically-motivated cases.',
-      status: 'Ongoing',
+      description: "A yearly securitisation snapshot: new legislation, prosecution counts, notable outcomes and the dominant media frames of the year, drawn from the platform's aggregate data.",
+      status: 'In Development',
     },
     {
       id: 'case-studies',
-      title: 'Cases',
-      description: 'In-depth examinations of significant prosecutions that illuminate broader patterns in how the justice system responds to political cases.',
+      title: 'Key Incidents',
+      description: 'In-depth dossiers on significant incidents and case clusters—landmark prosecutions, novel uses of legislation, and moments where the boundary between protest and political violence was legally contested—setting the legal, news media and public commentary record side by side.',
       status: 'In Development',
     },
   ];
@@ -35,9 +35,10 @@ export default function Projects() {
         <div className="container">
           <div className="projects-intro">
             <p>
-              The Justice Watch Network undertakes a range of research projects aimed at
-              documenting, analysing, and understanding prosecutions related to political
-              violence and civil activism. Below you'll find our current and planned initiatives.
+              The Justice Watch Network undertakes a range of research projects documenting and
+              analysing prosecutions arising from political violence and civil protest, and the
+              public political discourse surrounding them. Below you'll find our current and
+              planned initiatives.
             </p>
           </div>
 
@@ -65,16 +66,22 @@ export default function Projects() {
           <div className="content-block">
             <h2>Data Access</h2>
             <p>
-              We are committed to open access. Our datasets are available for download
-              for research, journalism, and educational purposes. Please review our
-              data use guidelines before downloading.
+              We are committed to open access. Every record on this site is published with its
+              sources and can be cited directly, and filtered result sets will be exportable as
+              CSV and JSON for research, journalism and educational purposes. Bulk dataset
+              downloads are in preparation and will be released together with the data use
+              guidelines and the codebook that governs how records are coded. In the meantime,
+              researchers and partner organisations can contact us to discuss access.
             </p>
             <div className="cta-buttons">
               <button className="btn btn-primary" disabled>
-                Download Dataset (Coming Soon)
+                Bulk download—in preparation
               </button>
               <Link to="/faq" className="btn btn-secondary">
                 Data Use Guidelines
+              </Link>
+              <Link to="/contact" className="btn btn-secondary">
+                Contact us about access
               </Link>
             </div>
           </div>

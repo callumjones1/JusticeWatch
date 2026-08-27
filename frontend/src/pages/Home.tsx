@@ -5,11 +5,11 @@ export default function Home() {
     <div className="home">
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-badge">Research Initiative</span>
+          <span className="hero-badge">Digital Research Infrastructure</span>
           <h1>Justice Watch Network</h1>
           <p className="hero-subtitle">
-            Tracking prosecutions linked to political violence and civil activism
-            in Australia and New Zealand-Aotearoa
+            Tracking prosecutions arising from political violence and civil protest in Australia,
+            and the public political discourse surrounding them, 2000–present
           </p>
           <div className="hero-buttons">
             <Link to="/projects" className="btn btn-primary">Explore Projects</Link>
@@ -23,10 +23,15 @@ export default function Home() {
           <h2 className="section-title">About the Project</h2>
           <div className="section-divider"></div>
           <p className="section-text">
-            The Justice Watch Network is a comprehensive, open-source platform dedicated to tracking
-            and analysing prosecutions linked to political violence and civil activism from 2001 to
-            the present. Our database provides researchers, journalists, and the public with
-            accessible information about how the justice system responds to politically-motivated cases.
+            The Justice Watch Network is an open-source digital research infrastructure documenting
+            prosecutions arising from civil protest and political violence in Australia—and the
+            contested terrain between them—from 2000 to the present. Alongside the case record we
+            archive news media reporting and public commentary on these cases and on the political
+            discourse surrounding them. All source material is publicly available: court judgments,
+            legislative documents, government statements and published news reporting. The platform
+            gives researchers, legal practitioners, policymakers, journalists and community
+            organisations an accessible, citable evidence base on how the justice system responds
+            to political expression.
           </p>
         </div>
       </section>
@@ -47,7 +52,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3>Document Cases</h3>
-              <p>We systematically document prosecutions related to political violence and activism across Australia and New Zealand.</p>
+              <p>We systematically document prosecutions arising from civil protest and political violence across every Australian jurisdiction—federal, state and territory—with full source provenance on every record.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
@@ -58,7 +63,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3>Analyse Trends</h3>
-              <p>Our research team analyses patterns in prosecution decisions, sentencing outcomes, and legal strategies.</p>
+              <p>Our research team analyses patterns in charging practice, sentencing outcomes and judicial interpretation—and how news media framing of these cases diverges from their legal categorisation.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
@@ -69,7 +74,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3>Open Access</h3>
-              <p>All our data and research is freely available to support transparency and public understanding.</p>
+              <p>Our records, sources and coding methods are openly published, so communities, practitioners and researchers can use and cite the same evidence base.</p>
             </div>
           </div>
         </div>
@@ -81,16 +86,16 @@ export default function Home() {
           <div className="section-divider"></div>
           <div className="stats-grid">
             <div className="stat-card">
-              <span className="stat-number">2001</span>
+              <span className="stat-number">2000</span>
               <span className="stat-label">Coverage Begins</span>
             </div>
             <div className="stat-card">
-              <span className="stat-number">2</span>
-              <span className="stat-label">Countries</span>
+              <span className="stat-number">9</span>
+              <span className="stat-label">Jurisdictions</span>
             </div>
             <div className="stat-card">
               <span className="stat-number">Open</span>
-              <span className="stat-label">Data Access</span>
+              <span className="stat-label">Source Material</span>
             </div>
           </div>
         </div>
@@ -99,7 +104,7 @@ export default function Home() {
       <section className="section section-cta">
         <div className="container">
           <h2>Get Involved</h2>
-          <p>Interested in our research or want to contribute? We welcome collaboration from researchers, journalists, and civil society organisations.</p>
+          <p>The Justice Watch Network is testing the platform with legal advocacy and civil liberties organisations, community legal centres, journalists and researchers. If your organisation would like to take part in user testing, use our data, or tell us about a case or incident we have missed, we would like to hear from you.</p>
           <Link to="/contact" className="btn btn-primary">Contact Us</Link>
         </div>
       </section>

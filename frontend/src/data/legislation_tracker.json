@@ -1,8 +1,8 @@
 {
   "metadata": {
     "title": "Legislation Tracker: Protest and Securitisation in Australia",
-    "subtitle": "Legislation from 2001–2026",
-    "description": "Tracks legislation across Australian jurisdictions that directly or indirectly affects the right to protest, organised into three categories: Anti-Protest Legislation; Terrorism and Security Legislation Used Against Protest; and Broader Public Order and Regulatory Framework.",
+    "subtitle": "Legislation from 2000 to the present",
+    "description": "Tracks legislation across Australian jurisdictions that directly or indirectly affects the right to protest and the regulation of political violence, organised into four categories: Anti-Protest Legislation; Terrorism and Security Legislation Used Against Protest; Political Violence and Extremism Legislation; and Broader Public Order and Regulatory Framework. Each provision records its introduction and commencement dates, its amendment history, and the cases in this database charged under it.",
     "jurisdictions_covered": [
       "Commonwealth",
       "NSW",
@@ -14,9 +14,9 @@
       "ACT",
       "Northern Territory"
     ],
-    "period": "2001–2026",
+    "period": "2000–present",
     "last_updated": "April 2026",
-    "disclaimer": "This document is intended as a research and reference tool. It does not constitute legal advice. Legislation may have been amended since the date of compilation. Users should verify current legislative provisions through official sources."
+    "disclaimer": "This tracker is a research and reference tool. It does not constitute legal advice. Legislation may have been amended since the date of compilation; each entry shows its last-verified date, and users should verify current provisions through official sources."
   },
   "categories": [
     {
@@ -301,6 +301,12 @@
           "related_cases": []
         }
       ]
+    },
+    {
+      "id": "political-violence-extremism",
+      "label": "Political Violence and Extremism Legislation",
+      "description": "Commonwealth, state and territory legislation defining, proscribing and penalising terrorism and politically motivated violence, including proscription regimes, hate-symbol and incitement offences, and recent antisemitism, hate and extremism measures. These are the provisions under which the political violence prosecutions in this database are charged.",
+      "entries": []
     }
   ],
   "themes": [

@@ -67,7 +67,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3>Location</h3>
-                    <p>Australia & New Zealand</p>
+                    <p>Australia</p>
                   </div>
                 </div>
               </div>

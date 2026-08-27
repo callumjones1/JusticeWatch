@@ -13,6 +13,10 @@ import {
 const PAGE_SIZE = 25;
 const SEARCH_DEBOUNCE_MS = 350;
 
+// Clamps out known bad-date outliers (1853–2028) in the underlying event data; see justicewatch_todo.
+const SLIDER_MIN_YEAR = 2000;
+const SLIDER_MAX_YEAR = 2026;
+
 const COLUMNS: { key: SortBy; label: string }[] = [
   { key: 'date', label: 'Date' },
   { key: 'title', label: 'Event' },
@@ -54,6 +58,12 @@ function formatLabel(value: string | null): string {
   return value.replace(/_/g, ' ');
 }
 
+function statusLabel(value: string | null): string {
+  if (value === 'planned') return 'Reported as planned';
+  if (value === 'occurred') return 'Reported as occurred';
+  return formatLabel(value);
+}
+
 export default function NewsMediaCoverage() {
   const [facets, setFacets] = useState<Facets | null>(null);
   const [facetsError, setFacetsError] = useState<string | null>(null);
@@ -84,8 +94,8 @@ export default function NewsMediaCoverage() {
     getFacets(controller.signal)
       .then(f => {
         setFacets(f);
-        setYearFrom(f.year_min ?? 1850);
-        setYearTo(f.year_max ?? new Date().getFullYear());
+        setYearFrom(Math.max(SLIDER_MIN_YEAR, f.year_min ?? SLIDER_MIN_YEAR));
+        setYearTo(Math.min(SLIDER_MAX_YEAR, f.year_max ?? SLIDER_MAX_YEAR));
       })
       .catch(err => {
         if (err.name !== 'AbortError') setFacetsError('Could not load filter options — is the backend running on port 8000?');
@@ -151,10 +161,13 @@ export default function NewsMediaCoverage() {
     setPage(1);
   }
 
+  const yearMin = Math.max(SLIDER_MIN_YEAR, facets?.year_min ?? SLIDER_MIN_YEAR);
+  const yearMax = Math.min(SLIDER_MAX_YEAR, facets?.year_max ?? SLIDER_MAX_YEAR);
+
   const hasFilter =
     filterState !== '' || filterCategory !== '' || filterStatus !== '' || debouncedQ !== '' ||
     Object.values(filterFlags).some(Boolean) ||
-    (facets && yearFrom !== facets.year_min) || (facets && yearTo !== facets.year_max);
+    (facets && yearFrom !== yearMin) || (facets && yearTo !== yearMax);
 
   function clearFilters() {
     setFilterState('');
@@ -164,8 +177,8 @@ export default function NewsMediaCoverage() {
     setSearchInput('');
     setDebouncedQ('');
     if (facets) {
-      setYearFrom(facets.year_min);
-      setYearTo(facets.year_max);
+      setYearFrom(Math.max(SLIDER_MIN_YEAR, facets.year_min ?? SLIDER_MIN_YEAR));
+      setYearTo(Math.min(SLIDER_MAX_YEAR, facets.year_max ?? SLIDER_MAX_YEAR));
     }
     setPage(1);
   }
@@ -186,9 +199,6 @@ export default function NewsMediaCoverage() {
     }
   }
 
-  const yearMin = facets?.year_min ?? 1850;
-  const yearMax = facets?.year_max ?? new Date().getFullYear();
-
   const pageSummary = useMemo(() => {
     if (!data) return '';
     if (data.total === 0) return 'No events match the current filters';
@@ -201,16 +211,21 @@ export default function NewsMediaCoverage() {
     <div>
       <div className="page-header">
         <div className="container">
-          <h1>News Media Coverage</h1>
+          <h1>News Coverage of Events</h1>
           <p className="page-subtitle">
-            {(facets?.year_min ?? '…')}–{(facets?.year_max ?? '…')} · built from news coverage, event-clustered by an
-            automated research pipeline
+            Protest and political violence events in Australia, as reported in the news, 2000–present
+            · built from a systematic news media corpus, event-clustered by an AI-assisted pipeline
+            with human verification
           </p>
         </div>
       </div>
 
       <div className="section">
         <div className="container">
+          <p className="db-note" style={{ textAlign: 'left', marginBottom: '1.25rem', marginTop: 0 }}>
+            This tracker is a research and reference tool. It records how events were reported in the news media, not findings of fact, and coverage volume reflects media attention rather than the significance or legality of an event. Records flagged uncertain by the classification pipeline are under manual review. It does not constitute legal advice.
+          </p>
+
           {facetsError && (
             <div className="db-empty" style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)' }}>
               {facetsError}
@@ -274,7 +289,7 @@ export default function NewsMediaCoverage() {
                   <select className="events-filter-select" value={filterStatus} disabled={!facets}
                     onChange={e => setFilterStatusAndResetPage(e.target.value)}>
                     <option value="">All</option>
-                    {facets?.statuses.map(s => <option key={s} value={s}>{formatLabel(s)}</option>)}
+                    {facets?.statuses.map(s => <option key={s} value={s}>{statusLabel(s)}</option>)}
                   </select>
                 </div>
 
@@ -346,7 +361,7 @@ export default function NewsMediaCoverage() {
                             <td className="db-td db-td-muted" style={{ fontSize: '0.85rem' }}>
                               {formatLocation(ev.primary_city, ev.primary_state)}
                             </td>
-                            <td className="db-td"><span className="events-status-pill">{formatLabel(ev.status)}</span></td>
+                            <td className="db-td"><span className="events-status-pill">{statusLabel(ev.status)}</span></td>
                             <td className="db-td">
                               <span className={`events-source-badge${ev.article_count <= 1 ? ' events-source-badge-single' : ''}`}>
                                 {ev.article_count} {ev.article_count === 1 ? 'article' : 'articles'}

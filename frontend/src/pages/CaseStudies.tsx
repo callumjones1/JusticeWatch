@@ -197,13 +197,17 @@ export default function CaseStudies() {
     <div>
       <div className="page-header">
         <div className="container">
-          <h1>Cases</h1>
+          <h1>Case Tracker</h1>
           <p className="page-subtitle">{data.metadata.description}</p>
         </div>
       </div>
 
       <div className="section">
         <div className="container">
+          <p className="db-note" style={{ textAlign: 'left', marginBottom: '1.25rem', marginTop: 0 }}>
+            This tracker is a research and reference tool and does not constitute legal advice. Charges are allegations until proven; acquittals, withdrawals and appeals are recorded alongside convictions. Each record shows its sources and last-verified date.
+          </p>
+
           {/* Summary stats + pie chart */}
           <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'stretch', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
             {/* Stat tiles */}

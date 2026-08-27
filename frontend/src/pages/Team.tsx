@@ -1,27 +1,21 @@
 export default function Team() {
   const teamMembers = [
     {
-      name: 'Team Member Name',
-      role: 'Principal Investigator',
-      bio: 'Brief biography about this team member, their background, expertise, and role in the project.',
+      name: 'Dr Imogen Richards',
+      role: 'Convenor',
+      bio: "Senior Lecturer in Criminology in the School of Humanities and Social Sciences at Deakin University, and convenor of the Justice Watch Network. Her research spans securitisation, political violence, social movements and media politics, and she is completing a Juris Doctor. She holds editorial responsibility for the platform's records.",
       image: null,
     },
     {
-      name: 'Team Member Name',
-      role: 'Research Director',
-      bio: 'Brief biography about this team member, their background, expertise, and role in the project.',
+      name: 'Dr Callum Jones',
+      role: 'Technical Lead',
+      bio: 'Security studies and policy analysis. Technical lead for the full-stack development of the platform, along with the design of the accompanying analytics.',
       image: null,
     },
     {
-      name: 'Team Member Name',
-      role: 'Data Analyst',
-      bio: 'Brief biography about this team member, their background, expertise, and role in the project.',
-      image: null,
-    },
-    {
-      name: 'Team Member Name',
-      role: 'Research Assistant',
-      bio: 'Brief biography about this team member, their background, expertise, and role in the project.',
+      name: 'Cam Smith',
+      role: 'Media and Public Information Analyst',
+      bio: 'Media monitoring, public information analysis and communications. Developed and operates the news media and case identification pipelines that populate the platform.',
       image: null,
     },
   ];
@@ -39,10 +33,10 @@ export default function Team() {
         <div className="container">
           <div className="team-intro">
             <p>
-              The Justice Watch Network brings together researchers, legal experts, and data
-              specialists committed to documenting and analysing prosecutions related to
-              political violence and activism. Our interdisciplinary team combines expertise
-              in law, criminology, political science, and data analysis.
+              The Justice Watch Network is convened at Deakin University by a small
+              interdisciplinary core team, spanning criminology and socio-legal analysis, security
+              studies and policy analysis, database and language-model development, and media
+              monitoring and public information analysis.
             </p>
           </div>
 
@@ -71,23 +65,22 @@ export default function Team() {
           <div className="content-block">
             <h2>Advisory Board</h2>
             <p>
-              Our work is guided by an advisory board of distinguished academics and
-              practitioners who provide strategic direction and ensure the quality and
-              relevance of our research.
+              An advisory board, including legal expertise, is being established as the network
+              matures. Until it is in place, editorial responsibility rests with the convenor and
+              disputed records are decided by the core team.
             </p>
-            <ul className="advisor-list">
-              <li><strong>Advisor Name</strong> - Institution/Organisation</li>
-              <li><strong>Advisor Name</strong> - Institution/Organisation</li>
-              <li><strong>Advisor Name</strong> - Institution/Organisation</li>
-            </ul>
           </div>
 
           <div className="content-block">
             <h2>Collaborating Institutions</h2>
             <p>
-              We work closely with universities, research centres, and civil society
-              organisations across Australia and New Zealand. These partnerships enhance
-              our research capabilities and extend the reach of our work.
+              The Justice Watch Network is based in the School of Humanities and Social Sciences
+              at Deakin University, with seed funding from the Faculty of Arts and Education. We
+              are developing structured testing and partnership relationships with civil society
+              and legal advocacy organisations, community legal centres, journalists and
+              researchers, whose feedback shapes the platform's design and priorities. The team
+              also maintains active international research collaborations across Europe and North
+              America.
             </p>
           </div>
         </div>
