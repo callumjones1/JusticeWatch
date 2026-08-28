@@ -131,6 +131,9 @@ export default function CaseStudies() {
     [splitCases]
   );
 
+  const [tagsExpanded, setTagsExpanded] = useState(false);
+  const TAGS_COLLAPSED_COUNT = 14;
+
   function selectSplit(next: CaseRegister) {
     setSplit(next);
     setFilterJur('All');
@@ -138,6 +141,7 @@ export default function CaseStudies() {
     setFilterTags(new Set());
     setOpenRow(null);
     setChartDetail(null);
+    setTagsExpanded(false);
   }
 
   function toggleTag(tag: string) {
@@ -387,7 +391,7 @@ export default function CaseStudies() {
             <div className="cases-filter-group" style={{ flexBasis: '100%' }}>
               <span className="cases-filter-label">{split === 'protest' ? 'Cause / register category' : 'Ideology / case type'}</span>
               <div className="cases-tags-pills">
-                {ALL_TAGS.map(t => (
+                {(tagsExpanded ? ALL_TAGS : ALL_TAGS.slice(0, TAGS_COLLAPSED_COUNT)).map(t => (
                   <button
                     key={t}
                     className={`cases-tag-pill${filterTags.has(t) ? ' cases-tag-pill-active' : ''}`}
@@ -396,6 +400,11 @@ export default function CaseStudies() {
                     {t}
                   </button>
                 ))}
+                {ALL_TAGS.length > TAGS_COLLAPSED_COUNT && (
+                  <button className="cases-tag-pill" onClick={() => setTagsExpanded(v => !v)}>
+                    {tagsExpanded ? 'Show less' : `+${ALL_TAGS.length - TAGS_COLLAPSED_COUNT} more`}
+                  </button>
+                )}
                 {hasFilter && (
                   <button className="cases-tag-pill" onClick={clearFilters} style={{ marginLeft: '0.5rem' }}>
                     Clear all ×
