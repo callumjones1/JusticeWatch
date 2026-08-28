@@ -23,7 +23,18 @@ type Category = {
   entries: Entry[];
 };
 
+type KeyCase = {
+  id: string;
+  case_name: string;
+  court_year: string;
+  citation: string;
+  provision_considered: string;
+  outcome: string;
+  url: string;
+};
+
 const categories = data.categories as Category[];
+const keyCases = (data.key_cases ?? []) as KeyCase[];
 
 const ALL_JURISDICTIONS = ['All', ...Array.from(new Set(categories.flatMap(c => c.entries.map(e => e.jurisdiction)))).sort()];
 const ALL_TAGS = Array.from(new Set(categories.flatMap(c => c.entries.flatMap(e => e.tags)))).sort();
@@ -305,9 +316,9 @@ export default function LegislationTracker() {
 
                     <div className="explorer-detail-jur">{exEntry.jurisdiction}</div>
                     <h2 className="explorer-detail-title">
-                      <a href={exEntry.url} target="_blank" rel="noopener noreferrer">
-                        {exEntry.full_title} ↗
-                      </a>
+                      {exEntry.url
+                        ? <a href={exEntry.url} target="_blank" rel="noopener noreferrer">{exEntry.full_title} ↗</a>
+                        : exEntry.full_title}
                     </h2>
                     <div className="explorer-detail-year">
                       {exEntry.year}{exEntry.amended ? `, amended ${exEntry.amended}` : ''}
@@ -391,7 +402,9 @@ export default function LegislationTracker() {
                                     {isEntryOpen && (
                                       <div className="leg-entry-body">
                                         <h4>Full title</h4>
-                                        <p><a href={entry.url} target="_blank" rel="noopener noreferrer">{entry.full_title} ↗</a></p>
+                                        <p>{entry.url
+                                          ? <a href={entry.url} target="_blank" rel="noopener noreferrer">{entry.full_title} ↗</a>
+                                          : entry.full_title}</p>
                                         <h4>Key provisions</h4>
                                         <ul>{entry.key_provisions.map((p, i) => <li key={i}>{p}</li>)}</ul>
                                         <h4>Commentary</h4>
@@ -422,6 +435,39 @@ export default function LegislationTracker() {
                     })}
               </div>
             </>
+          )}
+
+          {keyCases.length > 0 && (
+            <div className="content-block" style={{ marginTop: '3rem' }}>
+              <h2>Key Cases</h2>
+              <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.25rem' }}>
+                The decisions that determine the constitutional limits of the legislation tracked above.
+              </p>
+              <div className="leg-cat-card leg-cat-open">
+                <div className="leg-entries">
+                  {keyCases.map(kc => (
+                    <div key={kc.id} className="leg-entry leg-entry-open">
+                      <div className="leg-entry-header" style={{ cursor: 'default' }}>
+                        <div>
+                          <div className="leg-entry-jur">{kc.court_year} · {kc.citation}</div>
+                          <div className="leg-entry-title">
+                            {kc.url
+                              ? <a href={kc.url} target="_blank" rel="noopener noreferrer">{kc.case_name} ↗</a>
+                              : kc.case_name}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="leg-entry-body">
+                        <h4>Provision considered</h4>
+                        <p>{kc.provision_considered}</p>
+                        <h4>Outcome</h4>
+                        <p>{kc.outcome}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
 
           <p className="db-note" style={{ marginTop: '2rem' }}>{data.metadata.disclaimer}</p>

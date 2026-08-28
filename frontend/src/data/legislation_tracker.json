@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Legislation Tracker: Protest and Securitisation in Australia",
-    "subtitle": "Legislation from 2000 to the present",
-    "description": "Tracks legislation across Australian jurisdictions that directly or indirectly affects the right to protest and the regulation of political violence, organised into four categories: Anti-Protest Legislation; Terrorism and Security Legislation Used Against Protest; Political Violence and Extremism Legislation; and Broader Public Order and Regulatory Framework. Each provision records its introduction and commencement dates, its amendment history, and the cases in this database charged under it.",
+    "title": "Legislation Tracker: Protest, Political Violence and Securitisation in Australia",
+    "subtitle": "Legislation from 2000 to the present — Version 2.1",
+    "description": "Tracks legislation across Australian jurisdictions that regulates political expression — both the right to protest and the state's response to political violence — organised into four categories: Anti-Protest Legislation; Terrorism and Security Legislation Used Against Protest; Political Violence, Hate and Extremism Legislation; and Broader Public Order and Regulatory Framework. Each provision records its introduction and commencement dates, its amendment history, and the cases in this database charged under it.",
     "jurisdictions_covered": [
       "Commonwealth",
       "NSW",
@@ -15,8 +15,8 @@
       "Northern Territory"
     ],
     "period": "2000–present",
-    "last_updated": "April 2026",
-    "disclaimer": "This tracker is a research and reference tool. It does not constitute legal advice. Legislation may have been amended since the date of compilation; each entry shows its last-verified date, and users should verify current provisions through official sources."
+    "last_updated": "August 2026 (Version 2.1, verification pass 28 August 2026)",
+    "disclaimer": "This tracker is a research and reference tool. It does not constitute legal advice. Legislation may have been amended since the date of compilation; each entry shows the year it covers, and users should verify current provisions through official sources. Penalties are stated as at the date of compilation and several have been amended since first enactment. Where a fact could not be confirmed against a primary source, the entry says so explicitly rather than supplying an unverified figure."
   },
   "categories": [
     {
@@ -25,21 +25,95 @@
       "description": "Laws that directly target or criminalise protest activity, including offences specific to environmental protest, blockades, and obstruction of business or infrastructure.",
       "entries": [
         {
+          "id": "vic-summary-offences-sentencing-2014",
+          "jurisdiction": "Victoria",
+          "short_title": "Summary Offences and Sentencing Amendment Act 2014 (No. 15/2014) — repealed 2015",
+          "full_title": "Summary Offences and Sentencing Amendment Act 2014 (Vic) (No. 15/2014) — repealed in full by the Summary Offences Amendment (Move-on Laws) Act 2015 (Vic) (No. 6/2015)",
+          "year": 2014,
+          "url": "https://www.legislation.vic.gov.au/as-made/acts/summary-offences-and-sentencing-amendment-act-2014",
+          "status": "Repealed 2015",
+          "key_provisions": [
+            "Amended s 6 of the Summary Offences Act 1966 (Vic) to add five further grounds on which police could issue move-on directions, removing the previous carve-out that protected political protest.",
+            "Inserted an exclusion order regime at ss 6D–6H of the Summary Offences Act 1966, allowing courts to bar a person from a specified area for up to 12 months.",
+            "Repealed in full by the Summary Offences Amendment (Move-on Laws) Act 2015 (Vic): introduced 10 February 2015, passed the Legislative Assembly 26 February 2015 and the Legislative Council 19 March 2015, Royal Assent 25 March 2015."
+          ],
+          "commentary": "Introduced by the Napthine Coalition government and repealed by the incoming Andrews Labor government within four months of the change of government — the only complete repeal of an Australian anti-protest law in the period this tracker covers. The then Attorney-General described the powers as designed to 'silence dissent and outlaw peaceful protests', citing attempted use against nurses and against farmers protesting coal seam gas. Analytically significant as the counterfactual: it demonstrates that anti-protest legislation is reversible, and that the political conditions for repeal have existed at least once. Note the citation carefully: the Bill was the Summary Offences and Sentencing Amendment Bill 2013 (Vic), but the Act as enacted is dated 2014.",
+          "tags": [
+            "move-on",
+            "exclusion-order",
+            "repealed",
+            "Vic"
+          ],
+          "related_cases": []
+        },
+        {
           "id": "tas-workplaces-2014",
           "jurisdiction": "Tasmania",
-          "short_title": "Workplaces (Protection from Protesters) Act 2014",
-          "full_title": "Workplaces (Protection from Protesters) Act 2014 (Tas)",
+          "short_title": "Workplaces (Protection from Protesters) Act 2014 — repealed 2022",
+          "full_title": "Workplaces (Protection from Protesters) Act 2014 (Tas) — repealed in full by the Police Offences Amendment (Workplace Protection) Act 2022 (Tas)",
           "year": 2014,
           "url": "https://www.legislation.tas.gov.au/view/html/inforce/2014-12-24/act-2014-025",
+          "status": "Repealed 2022",
           "key_provisions": [
             "Section 6: offence to enter or do an act on business premises or a 'business access area' that prevents, hinders, or obstructs business activity.",
             "Section 8: offence to re-enter the same area within 4 days of receiving a direction to leave.",
             "Section 11: police power to issue directions to leave to persons believed to have contravened s 6.",
-            "Maximum penalties of up to 4 years imprisonment and significant fines — among the harshest for protest in Australia at time of enactment."
+            "Maximum penalties of up to 4 years imprisonment and significant fines — among the harshest for protest in Australia at the time of enactment.",
+            "Repealed in full by the Police Offences Amendment (Workplace Protection) Act 2022 (Tas) — see that entry."
           ],
-          "commentary": "Enacted primarily in response to environmental protests against forestry operations in Tasmania. Key provisions (ss 6(1)–(4), 8(1), 11(1)–(2), (6)–(8), 13 and Pt 4) in their operation in respect of forestry land were struck down by the High Court in Brown v Tasmania [2017] HCA 43 (6:1 majority) as an impermissible burden on the implied freedom of political communication. Significant precedent: first High Court case to invalidate anti-protest legislation on implied freedom grounds.",
-          "tags": ["environmental", "forestry", "implied-freedom", "struck-down"],
-          "related_cases": ["Brown v Tasmania [2017] HCA 43"]
+          "commentary": "Enacted primarily in response to environmental protests against forestry operations in Tasmania. Key provisions (ss 6(1)–(4), 8(1), 11(1)–(2), (6)–(8), 13 and Pt 4) in their operation in respect of forestry land were struck down by the High Court in Brown v Tasmania [2017] HCA 43 (18 October 2017) as an impermissible burden on the implied freedom of political communication — the first High Court case to invalidate anti-protest legislation on implied freedom grounds, and the reference point for every subsequent challenge. The split was 5:2: Kiefel CJ, Bell and Keane JJ jointly, with Gageler J and Nettle J, in the majority; Gordon and Edelman JJ dissenting.",
+          "tags": [
+            "business-access",
+            "repealed",
+            "implied-freedom",
+            "Tas"
+          ],
+          "related_cases": [
+            "Brown v Tasmania [2017] HCA 43"
+          ]
+        },
+        {
+          "id": "wa-criminal-code-amendment-2015",
+          "jurisdiction": "Western Australia",
+          "short_title": "Criminal Code Amendment (Prevention of Lawful Activity) Bill 2015 — lapsed, not enacted",
+          "full_title": "Criminal Code Amendment (Prevention of Lawful Activity) Bill 2015 (WA) — lapsed, not enacted",
+          "year": 2015,
+          "url": "https://www.parliament.wa.gov.au/parliament/bills.nsf/BillProgressPopup?openForm=&ParentUNID=1E00CF48C52EF57848257DF6000AA4DF",
+          "status": "Lapsed — not enacted",
+          "key_provisions": [
+            "Proposed broad new offences of 'physically preventing a lawful activity'.",
+            "Targeted protest actions that obstruct or prevent lawful business or resource extraction activities, and the lock-on devices used to carry them out.",
+            "Introduced by the Barnett government but lapsed and was never enacted."
+          ],
+          "commentary": "UN human rights experts urged the WA Parliament not to adopt the Bill, stating it would 'clearly violate international law'. Reflected a pattern of resource-extraction-dependent states seeking to criminalise environmental protest. Although it did not pass, it signalled a political appetite in Western Australia that resurfaced a decade later in the two 2026 Bills in this category. WA's existing Criminal Code offences and move-on powers under the Criminal Investigation Act 2006 (WA) remain the primary tools used against protest (see the Broader Public Order category).",
+          "tags": [
+            "lock-on",
+            "lapsed",
+            "WA"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "nsw-interference-2016",
+          "jurisdiction": "NSW",
+          "short_title": "Inclosed Lands, Crimes and Law Enforcement Legislation Amendment (Interference) Act 2016 (No 7)",
+          "full_title": "Inclosed Lands, Crimes and Law Enforcement Legislation Amendment (Interference) Act 2016 (NSW) (No 7)",
+          "year": 2016,
+          "url": "https://legislation.nsw.gov.au/view/pdf/asmade/act-2016-7",
+          "key_provisions": [
+            "Assent 22 March 2016; commencement by proclamation. Amended three Acts: the Inclosed Lands Protection Act 1901, the Crimes Act 1900 and the Law Enforcement (Powers and Responsibilities) Act 2002.",
+            "Inserted s 4B of the Inclosed Lands Protection Act 1901 (NSW): aggravated unlawful entry on inclosed lands where a business or undertaking is conducted and the person interferes with that business or creates a serious safety risk. As enacted, 50 penalty units; subsequently tiered up to 3 years imprisonment or 200 penalty units by the Right to Farm Act 2019 (NSW).",
+            "Expanded the definition of 'mine' in s 201 of the Crimes Act 1900 (interfering with a mine, maximum 7 years imprisonment) to include coal seam gas and petroleum extraction and exploration sites.",
+            "Inserted a warrantless search-and-seizure power for lock-on devices, and narrowed the protest carve-out in LEPRA s 200 so that move-on directions may be given despite an authorised assembly where there is a serious safety risk."
+          ],
+          "commentary": "The direct legislative response to the Bentley blockade and the wider anti-coal-seam-gas campaign in northern NSW. The s 201 amendment is the single most consequential change: it converted a nineteenth-century mine-sabotage offence carrying 7 years into a provision applicable to contemporary gas-field blockades. The narrowing of the s 200 protest carve-out is the origin of the 'serious safety risk' exception that has since been used to authorise move-on directions at otherwise protected assemblies. A statutory review was required under LEPRA Sch 5 cl 18 and NSW DCJ ran public consultation from 2020; whether a final report was tabled could not be confirmed.",
+          "tags": [
+            "lock-on",
+            "mining",
+            "move-on",
+            "NSW"
+          ],
+          "related_cases": []
         },
         {
           "id": "qld-summary-offences-2019",
@@ -49,13 +123,36 @@
           "year": 2019,
           "url": "https://www.legislation.qld.gov.au/view/whole/html/asmade/act-2019-035",
           "key_provisions": [
-            "Creates offences for use of 'dangerous attachment devices' (e.g. sleeping dragons, dragon's dens, monopoles, tripods) to interfere with transport infrastructure or business operations.",
+            "Creates offences for use of 'dangerous attachment devices' (sleeping dragons, dragon's dens, monopoles, tripods) to interfere with transport infrastructure or business operations.",
             "Maximum penalty: 50 penalty units or 2 years imprisonment for disrupting transport infrastructure; 20 penalty units or 1 year for obstructing business.",
-            "Police power to search persons suspected of possessing dangerous attachment devices.",
-            "Specifically targets devices used by environmental/climate protesters to lock on to infrastructure."
+            "Police power to search persons suspected of possessing dangerous attachment devices, specifically targeting devices used by environmental and climate protesters to lock on to infrastructure."
           ],
-          "commentary": "Introduced by the centre-left Queensland Labor government in response to Extinction Rebellion protests and anti-coal mine blockades in Brisbane CBD (2019). UN human rights experts described the laws as 'inherently disproportionate' and called on the Queensland government to repeal them. The Human Rights Law Centre noted the laws passed despite 'glaring human rights concerns' and incompatibility with the right to peaceful assembly. Marked a notable shift: a Labor government introducing harsh anti-protest laws previously associated with conservative administrations.",
-          "tags": ["environmental", "climate", "extinction-rebellion", "labor-government", "UN-criticism"],
+          "commentary": "Introduced by the Queensland Labor government in response to Extinction Rebellion protests and anti-coal-mine blockades in the Brisbane CBD (2019). UN human rights experts described the laws as 'inherently disproportionate' and called for their repeal; the Human Rights Law Centre noted they passed despite 'glaring human rights concerns'. Marked a notable shift: a Labor government introducing harsh anti-protest laws previously associated with conservative administrations. Operates as an overlay on the Peaceful Assembly Act 1992 (Qld), which remains the most protest-protective assembly framework in Australia (see the Broader Public Order category) — the two together illustrate how a rights-based assembly statute can be neutralised by conduct offences enacted around it.",
+          "tags": [
+            "attachment-device",
+            "lock-on",
+            "Qld"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-agricultural-protection-2019",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Criminal Code Amendment (Agricultural Protection) Act 2019 (No. 67, 2019)",
+          "full_title": "Criminal Code Amendment (Agricultural Protection) Act 2019 (Cth) (No. 67, 2019)",
+          "year": 2019,
+          "url": "https://www.legislation.gov.au/Details/C2019A00067",
+          "key_provisions": [
+            "Section 474.46 of the Criminal Code: using a carriage service to incite trespass on agricultural land, reckless as to whether the conduct could cause detriment to a primary production business. Maximum 12 months imprisonment.",
+            "Section 474.47: the same conduct where the incitement is to unlawfully damage or destroy property, or commit theft, on agricultural land. Maximum 5 years imprisonment.",
+            "Both offences extend to private messages sent to a single individual, and to tree plantations. Defences for journalists and whistleblowers carry a reversed evidential burden."
+          ],
+          "commentary": "The Commonwealth's principal contribution to the anti-protest wave, and its only statute in this category — enacted in response to the publication of the Aussie Farms map and the animal rights actions that followed. Widely characterised as an 'ag-gag' law: the Law Council of Australia warned it could 'criminalise conduct that would be otherwise regarded as benign' and create a 'chilling effect on legitimate dialogue'. The Senate Standing Committee for the Scrutiny of Bills queried the reversed evidential burden on the journalist and whistleblower defences, noting 'incite' and 'public interest' are undefined. Analytically important because it criminalises speech about protest rather than protest conduct itself — a structurally different mechanism from the state offences in this category.",
+          "tags": [
+            "ag-gag",
+            "carriage-service",
+            "Cth"
+          ],
           "related_cases": []
         },
         {
@@ -66,13 +163,18 @@
           "year": 2022,
           "url": "https://legislation.nsw.gov.au/view/whole/html/inforce/current/act-2022-026",
           "key_provisions": [
-            "Section 144G Roads Act 1993: expanded offence of disrupting major bridges, tunnels or roads. Maximum penalty: 2 years imprisonment and/or $22,000 fine.",
-            "Section 214A Crimes Act 1900: new offence of disrupting 'major facilities' (ports, ferry terminals, airports, oil terminals, train stations). Same penalties.",
-            "Offences cover blocking, disrupting, or interfering with operations at these facilities."
+            "Section 144G Roads Act 1993: expanded offence of disrupting major bridges, tunnels or roads. Maximum penalty 2 years imprisonment and/or $22,000 fine.",
+            "Section 214A Crimes Act 1900: offence of damaging or disrupting a 'major facility' (ports, ferry terminals, airports, oil terminals, train stations). Same penalties."
           ],
-          "commentary": "Introduced in response to climate activist blockades of Sydney Harbour Bridge, port facilities, and other infrastructure (2022). In Kvelde v State of New South Wales [2023] NSWSC 1560, the NSW Supreme Court found parts of s 214A unconstitutional: subsections (1)(c) (causing closure or part closure) and (1)(d) (causing redirection) were held to impermissibly burden the implied freedom of political communication. The Court found that 'part closure' of a facility amounted to 'a mere inconvenience' and did not justify criminalisation. A statutory review was subsequently conducted by Transport for NSW. Challenge brought by the Environmental Defenders Office on behalf of members of the Knitting Nannas climate advocacy group.",
-          "tags": ["climate", "infrastructure", "implied-freedom", "partially-struck-down"],
-          "related_cases": ["Kvelde v State of New South Wales [2023] NSWSC 1560"]
+          "commentary": "Introduced in response to climate activist blockades of the Sydney Harbour Bridge, port facilities and other infrastructure in 2022. In Kvelde v State of New South Wales [2023] NSWSC 1560, the NSW Supreme Court held s 214A(1)(c) (causing closure or part closure of a facility) and s 214A(1)(d) (causing redirection) invalid as impermissible burdens on the implied freedom of political communication; s 214A(1)(a) and (b), and cl 48A(1) of the Roads Regulation 2018 (NSW), were upheld. The Court found 'part closure' of a facility amounted to 'a mere inconvenience' that did not justify criminalisation, and separately criticised Part 4 of the Summary Offences Act 1988 for failing to accommodate spontaneous or urgent protest. The challenge was brought by Helen Kvelde and Dominique Jacobs of the Knitting Nannas, represented by the Environmental Defenders Office. A statutory review of Crimes Act Pt 4AF has since been published by NSW DCJ.",
+          "tags": [
+            "major-facility",
+            "implied-freedom",
+            "NSW"
+          ],
+          "related_cases": [
+            "Kvelde v State of New South Wales [2023] NSWSC 1560"
+          ]
         },
         {
           "id": "vic-sustainable-forests-2022",
@@ -83,65 +185,156 @@
           "url": "https://www.legislation.vic.gov.au/as-made/acts/sustainable-forests-timber-amendment-timber-harvesting-safety-zones-act-2022",
           "key_provisions": [
             "Amends the Sustainable Forests (Timber) Act 2004 to increase penalties for entering or remaining in a timber harvesting zone.",
-            "Maximum penalties increased to 12 months imprisonment and fines exceeding $21,000 for hindering, obstructing, or interfering with timber harvesting operations.",
-            "Broadens offences to include obstructing authorised persons and machinery in 'timber harvesting safety zones'.",
-            "Grants police powers to search protesters for prohibited items.",
-            "Came into effect 20 May 2023."
+            "Maximum penalties increased to 12 months imprisonment and fines exceeding $21,000 for hindering, obstructing or interfering with timber harvesting operations.",
+            "Broadens offences to include obstructing authorised persons and machinery in 'timber harvesting safety zones'; grants police powers to search protesters for prohibited items. Came into effect 20 May 2023."
           ],
-          "commentary": "Introduced by the Daniel Andrews Labor government despite opposition from 67 human rights, environment, climate action and legal organisations who published an open letter calling for the law's withdrawal. Critics drew parallels with Tasmania's Workplaces (Protection from Protesters) Act 2014, parts of which had already been struck down by the High Court. Like Queensland's 2019 laws, notable as anti-protest legislation introduced by a Labor government — reflecting bipartisan support for the securitisation of environmental protest. The Victorian Forest Alliance and Goongerah Environment Centre were prominent opponents.",
-          "tags": ["environmental", "forestry", "labor-government", "bipartisan"],
+          "commentary": "Introduced by the Andrews Labor government despite opposition from 67 human rights, environment, climate action and legal organisations who published an open letter calling for the law's withdrawal. Critics drew parallels with Tasmania's Workplaces (Protection from Protesters) Act 2014, parts of which had already been struck down by the High Court. Like Queensland's 2019 laws, notable as anti-protest legislation introduced by a Labor government — reflecting bipartisan support for the securitisation of environmental protest. The Victorian Forest Alliance and Goongerah Environment Centre were prominent opponents.",
+          "tags": [
+            "timber",
+            "forestry",
+            "Vic"
+          ],
           "related_cases": []
+        },
+        {
+          "id": "tas-police-offences-workplace-2022",
+          "jurisdiction": "Tasmania",
+          "short_title": "Police Offences Amendment (Workplace Protection) Act 2022 (Act No. 22 of 2022)",
+          "full_title": "Police Offences Amendment (Workplace Protection) Act 2022 (Tas) (Act No. 22 of 2022) — repeals the Workplaces (Protection from Protesters) Act 2014",
+          "year": 2022,
+          "url": "https://www.legislation.tas.gov.au/view/whole/html/inforce/2022-09-20/act-2022-022",
+          "key_provisions": [
+            "Assent 20 September 2022; commenced on assent. Repeals the Workplaces (Protection from Protesters) Act 2014 (Tas) and folds equivalent, generalised penalties into the trespass offence at s 14B of the Police Offences Act 1935 (Tas), rather than a standalone protest statute.",
+            "Section 14B(1A): deems a person attached to land, a building or a vessel to be 'remaining' there while attached — the lock-on capture provision.",
+            "Section 14B(2AA)–(2AC): trespass substantially impeding lawful work, with tiered penalties up to 50 penalty units or 12–18 months (75 penalty units or 24 months for a repeat offender; 250 penalty units for a body corporate). Exemptions at ss 14B(2ABA) and (2AD) for conduct in an industrial dispute or campaign where no serious safety risk arose.",
+            "Section 13: public annoyance, including unreasonable obstruction of a street, raised from 3 to 10 penalty units."
+          ],
+          "commentary": "The most analytically important entry in this category: it shows the legislative response to an adverse constitutional ruling. Tasmania did not abandon the policy after Brown v Tasmania — it re-enacted it in a form designed to survive an implied freedom challenge, by removing the protest-specific targeting that was fatal in Brown and embedding the same penalties in a general trespass offence. This 'general-offence' drafting strategy is now visible across jurisdictions. The Human Rights Law Centre described the passage as 'a blow for democracy'; the Environmental Defenders Office and the Australia Institute made submissions on the draft Bill, and the Tasmanian Greens moved Legislative Council amendments, which reduced the penalties from the figures in the government's own Fact Sheet for the Bill as introduced. No completed constitutional challenge to the 2022 Act, and no reported prosecutions under s 14B(2AA)–(2AC), could be identified as at the date of compilation.",
+          "tags": [
+            "trespass",
+            "lock-on",
+            "general-offence-drafting",
+            "Tas"
+          ],
+          "related_cases": [
+            "Brown v Tasmania [2017] HCA 43"
+          ]
         },
         {
           "id": "sa-summary-offences-2023",
           "jurisdiction": "South Australia",
-          "short_title": "Summary Offences (Obstruction of Public Places) Amendment Act 2023",
-          "full_title": "Summary Offences (Obstruction of Public Places) Amendment Act 2023 (SA)",
+          "short_title": "Summary Offences (Obstruction of Public Places) Amendment Act 2023 (Act No. 16 of 2023)",
+          "full_title": "Summary Offences (Obstruction of Public Places) Amendment Act 2023 (SA) (Act No. 16 of 2023)",
           "year": 2023,
           "url": "https://www.legislation.sa.gov.au/lz?path=%2Fv%2Fa%2F2023%2Fsummary+offences+%28obstruction+of+public+places%29+amendment+act+2023_16",
           "key_provisions": [
-            "Amends s 58 of the Summary Offences Act 1953 (SA). Increases maximum penalty for obstructing a public place from $750 to $50,000 or 3 months imprisonment.",
-            "Broadens offence to include 'indirect' obstruction of a public place.",
-            "Police and emergency services may recover 'reasonable costs' from defendants for dealing with the obstruction, on top of any fine or imprisonment.",
-            "Passed the lower house in 22 minutes with Opposition support (18 May 2023). Amended in upper house to require 'intentional' (not merely 'reckless') obstruction."
+            "Amends s 58 of the Summary Offences Act 1953 (SA). Increases the maximum penalty for obstructing a public place from $750 to $50,000 or 3 months imprisonment — an approximately 66-fold increase in the maximum fine.",
+            "Changes the fault element from 'wilfully' to 'intentionally'. The Bill's 'reckless' limb did not survive into the Act as passed.",
+            "Extends liability to conduct causing obstruction directly or indirectly, including where police or emergency services restrict access while responding to the person's conduct. Courts may order the defendant to pay the reasonable costs of that response.",
+            "Passed the House of Assembly on 18 May 2023 — introduced and through the lower house in a single day — and the Legislative Council after an all-night debate on 31 May 2023."
           ],
-          "commentary": "Carries the harshest financial penalties for protest obstruction in Australia ($50,000 maximum fine — a 6,567% increase from the previous $750). Amnesty International described the bill as 'a threat to our right to protest'. Over 30 civil society groups condemned it. The rushed passage (22 minutes in the lower house) drew criticism from the Human Rights Law Centre and Australian Lawyers for Human Rights. The cost-recovery provision is novel and was criticised as a further deterrent to protest activity. Greens MLC Robert Simms was a prominent parliamentary opponent.",
-          "tags": ["escalating-penalties", "cost-recovery", "bipartisan"],
-          "related_cases": []
-        },
-        {
-          "id": "wa-criminal-code-amendment-2015",
-          "jurisdiction": "Western Australia",
-          "short_title": "Criminal Code Amendment (Prevention of Lawful Activity) Bill 2015",
-          "full_title": "Criminal Code Amendment (Prevention of Lawful Activity) Bill 2015 (WA)",
-          "year": 2015,
-          "url": "https://www.parliament.wa.gov.au/parliament/bills.nsf/BillProgressPopup?openForm=&ParentUNID=1E00CF48C52EF57848257DF6000AA4DF",
-          "status": "Lapsed — not enacted",
-          "key_provisions": [
-            "Proposed broad new offences of 'physically preventing a lawful activity'.",
-            "Targeted protest actions that obstruct or prevent lawful business or resource extraction activities.",
-            "Note: the bill was introduced but lapsed and was not enacted."
+          "commentary": "Carries the harshest financial penalties for protest obstruction in Australia. Should be read together with the Public Assemblies Act 1972 (SA) (Broader Public Order category): an assembly held without notice is not itself unlawful, but it forfeits the statutory immunity from obstruction liability. The 2023 amendment therefore did not create a new prohibition so much as raise the cost of losing that immunity by two orders of magnitude. Amnesty International described the Bill as 'a threat to our right to protest'; over 30 civil society groups condemned it, including the Human Rights Law Centre, the Environmental Defenders Office, the Australia Institute, the Law Society of South Australia and YACSA. Notably opposed by SA Unions and the wider union movement, which identified exposure for picketing despite the trigger being an Extinction Rebellion action. The cost-recovery provision is novel in Australian protest law. Assent and commencement dates could not be confirmed from secondary sources and should be checked against the 'as made' print before publication.",
+          "tags": [
+            "obstruction",
+            "cost-recovery",
+            "SA"
           ],
-          "commentary": "UN human rights experts urged the WA Parliament not to adopt the bill, stating it 'clearly violate[d] international law'. The bill reflected a pattern of state governments (particularly in resource-extraction-dependent states) seeking to criminalise environmental protest. Although it did not pass, it signalled the political appetite for anti-protest legislation in Western Australia. WA's existing Criminal Code and move-on powers under the Criminal Investigation Act 2006 remain the primary tools used against protest.",
-          "tags": ["environmental", "lapsed", "UN-criticism", "resource-extraction"],
           "related_cases": []
         },
         {
           "id": "nsw-places-of-worship-2025",
           "jurisdiction": "NSW",
-          "short_title": "Crimes Amendment (Places of Worship) Act 2025",
-          "full_title": "Crimes Amendment (Places of Worship) Act 2025 (NSW)",
+          "short_title": "Crimes Amendment (Places of Worship) Act 2025 (No 10)",
+          "full_title": "Crimes Amendment (Places of Worship) Act 2025 (NSW) (No 10)",
           "year": 2025,
           "url": "https://www.parliament.nsw.gov.au/bills/Pages/bill-details.aspx?pk=18698",
           "key_provisions": [
-            "Inserted s 200(5) into the Law Enforcement (Powers and Responsibilities) Act 2002 (NSW).",
-            "Empowered police to direct unauthorised demonstrations, protests, processions, or assemblies taking place 'in or near a place of worship' to cease or move on.",
-            "Maximum penalty: 2 years imprisonment or $22,000 fine.",
-            "Passed 21 February 2025."
+            "Passed 21 February 2025 as part of a three-Act package with the NSW February 2025 hate speech package (see Political Violence, Hate and Extremism category); assent 2 March 2025.",
+            "Created offences of blocking or impeding access to a place of worship, and harassing, intimidating or threatening persons entering or leaving. Maximum $22,000 or 2 years imprisonment, or both.",
+            "Inserted s 200(5) into the Law Enforcement (Powers and Responsibilities) Act 2002 (NSW), empowering police to direct unauthorised demonstrations, protests, processions or assemblies near a place of worship to cease or move on."
           ],
-          "commentary": "Introduced following protests near synagogues in Sydney and Melbourne, including outside the Great Synagogue in July 2024. In Lees v State of New South Wales [2025] NSWSC 1209, the NSW Supreme Court held that s 200(5) was unconstitutional as it impermissibly burdened the implied freedom of political communication. The Court found the provision was broader than necessary: a narrower rule limited to protests affecting those entering or leaving a place of worship would have achieved the same purpose with less burden on political communication. Plaintiff was an organiser with the Palestine Action Group. The NSWCCL and ALHR had both opposed the bill.",
-          "tags": ["places-of-worship", "palestine", "antisemitism", "implied-freedom", "struck-down"],
-          "related_cases": ["Lees v State of New South Wales [2025] NSWSC 1209"]
+          "commentary": "Introduced following protests near synagogues in Sydney and Melbourne, including outside the Great Synagogue in July 2024. In Lees v State of New South Wales [2025] NSWSC 1209 (16 October 2025) the NSW Supreme Court held s 200(5) invalid as an impermissible burden on the implied freedom of political communication: applying structured proportionality, the Court accepted that protecting worshippers from intimidation was a legitimate purpose but found the provision failed at the necessity stage, since an 'obvious and compelling alternative' existed in a rule limited to protests affecting persons accessing or leaving the place of worship. The Court emphasised that disruption is inherent in protest and that political expression carrying discomfort merits robust protection. Plaintiff Josh Lees, an organiser with the Palestine Action Group, was the same plaintiff who later appeared in Jarrett v State of New South Wales (Terrorism and Security category). The sequencing is the most striking pattern in the NSW material: s 200(5) was struck down in October 2025, and a materially similar move-on regime was enacted two months later in the December 2025 Public Assembly Restriction Declaration package — and struck down again in April 2026.",
+          "tags": [
+            "places-of-worship",
+            "move-on",
+            "implied-freedom",
+            "NSW"
+          ],
+          "related_cases": [
+            "Lees v State of New South Wales [2025] NSWSC 1209"
+          ]
+        },
+        {
+          "id": "vic-justice-legislation-police-2025",
+          "jurisdiction": "Victoria",
+          "short_title": "Justice Legislation Amendment (Police and Other Matters) Act 2025 (Act No. 55/2025)",
+          "full_title": "Justice Legislation Amendment (Police and Other Matters) Act 2025 (Vic) (Act No. 55/2025)",
+          "year": 2025,
+          "url": "https://www.legislation.vic.gov.au/as-made/acts/justice-legislation-amendment-police-and-other-matters-act-2025",
+          "key_provisions": [
+            "Passed Parliament 4 December 2025; commencement proclamation published 9 December 2025. Inserts a new Division 1C of Part I of the Summary Offences Act 1966 (Vic).",
+            "Places of worship (from December 2025): offence to disturb religious worship, assault attendees, or intimidate, menace, harass or hinder a person attending. Fine or up to 3 months imprisonment.",
+            "Attachment devices (from 4 March 2026): offence to attach oneself using a device or substance — rope, chains, glue — where this risks injuring others or creates a serious public safety risk. Fine and/or up to 1 year imprisonment.",
+            "Terrorist organisation symbols (from 4 March 2026): public display of symbols of Commonwealth-listed terrorist organisations. Fine and/or up to 1 year imprisonment, with good-faith academic, artistic, educational, scientific, cultural, religious and journalistic defences.",
+            "Face coverings: the blanket ban announced in December 2024 was NOT enacted. What passed is a police power to direct removal of a face covering where police suspect the person has committed or intends to commit an offence during or after a protest; refusal without reasonable excuse attracts a fine of over $1,000.",
+            "Exact section numbers within the new Division 1C and the penalties expressed in penalty units have not been confirmed against the authorised print of Act 55/2025 and should be checked before the figures above are treated as final."
+          ],
+          "commentary": "Announced by the Allan government in December 2024, consulted through 2025, and substantially revised before passage — the face-covering ban and a standalone protest permit model were both dropped. A related private member's Bill, the Safer Protest with a Registration System and a Ban on Face Coverings Bill 2025 (Vic), was defeated at the second reading on 29 October 2025 — evidence that the permit model was put to Parliament and rejected. The Human Rights Law Centre described the package as 'draconian' with a 'chilling effect'; Amnesty International Australia noted that attachment devices are used by climate activists rather than the hate groups invoked to justify the law, and warned of disproportionate impact on disabled people, healthcare workers, and religious and diaspora communities. Melbourne Activist Legal Support called it 'dangerous, divisive, unjust'.",
+          "tags": [
+            "attachment-device",
+            "face-covering",
+            "hate-symbol",
+            "places-of-worship",
+            "Vic"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "wa-public-order-amendment-2026",
+          "jurisdiction": "Western Australia",
+          "short_title": "Public Order Legislation Amendment Bill 2026 — before Parliament",
+          "full_title": "Public Order Legislation Amendment Bill 2026 (WA) — before Parliament",
+          "year": 2026,
+          "url": "https://www.parliament.wa.gov.au/parliament/bills.nsf/BillProgressPopup?openForm=&ParentUNID=DFB6A3CFA9EF40D248258DA10019D6D7",
+          "status": "Bill — before Parliament",
+          "key_provisions": [
+            "Introduced 17 February 2026 by the Cook government; referred to a WA parliamentary inquiry. Not enacted as at the date of compilation.",
+            "Would empower police to refuse a protest permit under the Public Order in Streets Act 1984 (WA) where the protest is likely to promote hate based on religion, race, disability, gender, sexuality or ethnicity.",
+            "Would extend the existing Nazi symbol ban to symbols and flags of all Commonwealth-proscribed organisations, applying to juveniles for the first time.",
+            "Would create an offence of wearing a face covering in public to intimidate or cause apprehension, and an offence of knowingly giving false or misleading information in a protest permit application."
+          ],
+          "commentary": "Announced under the framing 'race hate protests targeted, peaceful rallies protected' — the clearest instance in this tracker of anti-protest measures being justified by reference to countering the far right, while reaching, in practice, conduct characteristic of the pro-Palestine and climate movements. The Human Rights Law Centre has called for the Bill to be withdrawn as 'vulnerable to constitutional challenge for impermissibly burdening the implied freedom of political communication'. Status should be re-checked before publication — the Bill was before a parliamentary inquiry as at April 2026, and penalties have not been verified.",
+          "tags": [
+            "bill",
+            "permit",
+            "hate-symbol",
+            "face-covering",
+            "WA"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "wa-land-forces-special-powers-2026",
+          "jurisdiction": "Western Australia",
+          "short_title": "Land Forces Event (Special Powers) Bill 2026 — before Parliament",
+          "full_title": "Land Forces Event (Special Powers) Bill 2026 (WA) — before Parliament",
+          "year": 2026,
+          "url": "",
+          "status": "Bill — before Parliament",
+          "key_provisions": [
+            "Introduced 18 June 2026; still under debate in the Legislative Council as at 20 August 2026. Not enacted as at the date of compilation.",
+            "Would create a special-powers regime for roughly ten days around the Land Forces defence exposition in Perth, 6–8 October 2026.",
+            "Powers would include short-notice road closures; warrantless stop-and-search of any person in the declared area; seizure of listed items (ropes, handcuffs, adhesives, flares, glass bottles, reptiles and insects); and exclusion of named individuals, including people involved in the 2024 Melbourne Land Forces protests.",
+            "Enforcement would include facial recognition technology, with limited appeal rights. Accompanied by $11.5 million in additional police security funding."
+          ],
+          "commentary": "The direct successor to Victoria's use of Terrorism (Community Protection) Act powers at the 2024 Land Forces Exposition in Melbourne (see the Terrorism and Security category) — the same event, the same protest movement, and an escalation from court-authorised special powers to a bespoke statute. The event-specific special-powers form is worth tracking in its own right: time-limited, geographically bounded, and directed at an identified protest movement in advance. The Human Rights Law Centre has called for withdrawal on implied-freedom grounds. Status should be re-checked before publication — the Bill may have passed since 20 August 2026, and penalties have not been verified.",
+          "tags": [
+            "bill",
+            "special-powers",
+            "facial-recognition",
+            "WA"
+          ],
+          "related_cases": []
         }
       ]
     },
@@ -151,64 +344,189 @@
       "description": "Counter-terrorism and national security legislation that has been used against, or has significant implications for, protest activity in Australia.",
       "entries": [
         {
+          "id": "cth-anti-terrorism-act-2-2005",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Anti-Terrorism Act (No. 2) 2005 (No. 144, 2005)",
+          "full_title": "Anti-Terrorism Act (No. 2) 2005 (Cth) (No. 144, 2005)",
+          "year": 2005,
+          "url": "https://www.legislation.gov.au/Details/C2005A00144",
+          "key_provisions": [
+            "Assent 14 December 2005 — the foundational statute of the post-9/11 preventive regime.",
+            "Schedule 4 inserted Division 104 (control orders) and Division 105 (preventative detention orders) into the Criminal Code. Control orders: issued by a federal court on application by a senior AFP officer with the Attorney-General's consent, interim orders made ex parte; maximum 12 months for adults, 3 months for 14–17 year olds, successive orders possible. Contravening a control order (s 104.27): 5 years.",
+            "Preventative detention orders: initial order 24 hours by a senior AFP member, continued a further 24 hours by a federal judicial officer — a 48-hour federal maximum. Disclosing the existence of a PDO: up to 5 years.",
+            "Schedule 7 replaced the sedition provisions with s 80.2 of the Criminal Code: five offences carrying 7 years each, covering urging the overthrow of government by force, urging interference with elections, urging inter-group violence, and urging assistance to an enemy. Section 80.3 provides a good-faith defence.",
+            "SUNSET: Divisions 104 and 105, and the associated Crimes Act police powers, were due to sunset 7 December 2026. The Counter-Terrorism Legislation Amendment Bill 2026 (Cth), introduced 12 August 2026, proposes extending them to 7 December 2029."
+          ],
+          "commentary": "The origin point of the modern securitisation framework, and the correct starting entry for any legislation-lifecycle analysis running from 2001. Thomas v Mowbray [2007] HCA 33 upheld the control order regime 5:2 — the first constitutional test of the post-9/11 architecture. The good-faith defence at s 80.3 expressly protects showing the government is mistaken, urging lawful reform, and good-faith commentary on a matter of public interest; it is the closest Commonwealth analogue to the protest exemption at s 100.1(3) in the Criminal Code Act 1995 entry and should be read alongside it. The INSLM reviewed Divisions 104 and 105 in Report No. 3 (September 2017). The recurring sunset-and-extension cycle is itself a tracked variable: these are 'emergency' powers now extended for more than two decades.",
+          "tags": [
+            "control-order",
+            "preventative-detention",
+            "sedition",
+            "sunset-clause",
+            "Cth"
+          ],
+          "related_cases": [
+            "Thomas v Mowbray [2007] HCA 33; (2007) 233 CLR 307"
+          ]
+        },
+        {
           "id": "cth-criminal-code-1995",
           "jurisdiction": "Commonwealth",
-          "short_title": "Criminal Code Act 1995 (Cth) — Parts 5.1 and 5.3",
-          "full_title": "Criminal Code Act 1995 (Cth) — Part 5.1 (Treason, sedition) and Part 5.3 (Terrorism)",
+          "short_title": "Criminal Code Act 1995 — Parts 5.1 and 5.3",
+          "full_title": "Criminal Code Act 1995 (Cth) — Part 5.1 (Treason and urging violence) and Part 5.3 (Terrorism)",
           "year": 1995,
           "url": "https://www.legislation.gov.au/C2004A04868/latest",
           "key_provisions": [
-            "Division 80: offences of urging violence against the Constitution or government; advocating terrorism (s 80.2C, inserted by Anti-Terrorism Act (No. 2) 2005).",
-            "Division 100–103: definition of 'terrorist act' (s 100.1) — action done with intention of advancing a political, religious or ideological cause and coercing/intimidating government or public.",
-            "Offences for doing a terrorist act (Div 101), terrorist organisations (Div 102), financing terrorism (Div 103).",
-            "Division 102: offences for directing, being a member of, recruiting for, training with, or providing support to a listed terrorist organisation. Penalties range from 3–25 years imprisonment.",
-            "The advocacy offence in s 80.2C does not require that the person intends anyone to act on their words.",
-            "Exemption for 'advocacy, protest, dissent or industrial action' not intended to cause serious harm (s 100.1(3))."
+            "Division 80: offences of urging violence against the Constitution or government, and advocating terrorism (s 80.2C).",
+            "Division 100: the definition of 'terrorist act' (s 100.1) — action done with the intention of advancing a political, religious or ideological cause and coercing or intimidating a government or the public. Section 100.1(3) exempts 'advocacy, protest, dissent or industrial action' not intended to cause serious harm.",
+            "Divisions 101–103: offences for doing a terrorist act and preparatory conduct (Div 101, including s 101.6), terrorist organisations (Div 102, see the Political Violence, Hate and Extremism category), and financing terrorism (Div 103).",
+            "Section 80.2C (advocating terrorism) does not require that the person intends anyone to act on their words. CONFIRMED: s 80.2C was inserted by the Counter-Terrorism Legislation Amendment (Foreign Fighters) Act 2014 (Cth), not the Anti-Terrorism Act (No. 2) 2005 (Cth). The 2005 Act recast sedition as s 80.2; the National Security Legislation Amendment Act 2010 (Cth) then replaced those provisions with the urging violence offences at ss 80.2, 80.2A and 80.2B and dropped the sedition label. Section 80.2C's maximum was later raised to 7 years, with 'providing instruction' and 'praising' limbs added, by the Counter-Terrorism Legislation Amendment (Prohibited Hate Symbols and Other Measures) Act 2023 (Cth)."
           ],
-          "commentary": "The broad definition of 'terrorist act' in s 100.1 — requiring only an intention to advance a 'political, religious or ideological cause' and to coerce or intimidate — has raised concerns about potential application to disruptive protest. The advocacy offence in s 80.2C significantly lowered the threshold for criminalising speech, capturing advocacy 'remote from any material harm'. Media, journalist, and civil liberties groups have warned of chilling effects on reporting and public discourse. The ALRC reviewed sedition laws in 2006 (Report 104) and recommended narrowing the offences.",
-          "tags": ["terrorism", "sedition", "advocacy", "chilling-effect", "commonwealth"],
+          "commentary": "The broad definition of 'terrorist act' in s 100.1 — requiring only an intention to advance a 'political, religious or ideological cause' and to coerce or intimidate — has raised long-standing concerns about potential application to disruptive protest. The advocacy offence in s 80.2C significantly lowered the threshold for criminalising speech, capturing advocacy remote from any material harm; media, journalist and civil liberties groups have warned of chilling effects. The s 100.1(3) exemption for 'advocacy, protest, dissent or industrial action' is the single most important provision in Australian law for the protest/political violence boundary and warrants its own analysis on the site, though its scope has been critiqued as uncertain. The ALRC reviewed the sedition provisions in 2006 (Report 104, 'Fighting Words') and recommended narrowing them; they were replaced by the urging violence offences in 2010, not merely renamed. s 101.6 (doing an act in preparation for, or planning, a terrorist act) is the single most-used provision in the associated case dataset.",
+          "tags": [
+            "terrorist-act",
+            "advocacy",
+            "protest-exemption",
+            "Cth"
+          ],
           "related_cases": []
         },
         {
           "id": "nsw-terrorism-police-powers-2002",
           "jurisdiction": "NSW",
-          "short_title": "Terrorism (Police Powers) Act 2002 (NSW)",
-          "full_title": "Terrorism (Police Powers) Act 2002 (NSW), as amended by Terrorism and Other Legislation Amendment Act 2025 (NSW)",
+          "short_title": "Terrorism (Police Powers) Act 2002, as amended 2025 — PARD scheme held invalid",
+          "full_title": "Terrorism (Police Powers) Act 2002 (NSW), as amended by the Terrorism and Other Legislation Amendment Act 2025 (NSW) (No 86) — Public Assembly Restriction Declaration scheme held invalid",
           "year": 2002,
           "amended": 2025,
           "url": "https://legislation.nsw.gov.au/view/whole/html/inforce/current/act-2002-115",
           "key_provisions": [
-            "Part 2, Division 3A: Public Assembly Restriction Declarations (PARDs).",
-            "Following a terrorism declaration, the Police Commissioner or Deputy Commissioner (with the Minister's concurrence) may declare areas where public assemblies are restricted for 14-day periods, extendable up to 3 months.",
-            "Effect: no public assemblies in the designated area may be authorised (including by a court). Previously authorised assemblies are revoked.",
-            "Police gain powers to move people on where their behaviour causes harassment, intimidation, or obstructs traffic.",
-            "Exemption for assemblies forming part of industrial action, disputes, or campaigns.",
-            "2025 amendments passed following the Bondi Junction attack (December 2025)."
+            "The 2025 amending Act passed 24 December 2025, ten days after the Bondi Beach terrorist attack of 14 December 2025. It amended the Terrorism (Police Powers) Act 2002, LEPRA, the Crimes Act 1900 and the Summary Offences Act 1988.",
+            "Inserted Part 2 Division 3A: Public Assembly Restriction Declarations (PARDs). The Commissioner of Police could declare areas within which public assemblies are restricted, for 14-day periods extendable to 3 months.",
+            "Effect: no public assembly in the declared area could be authorised, including by a court, and previously authorised assemblies were revoked — suspending the Form 1 authorisation system under Summary Offences Act 1988 Part 4, the mechanism that ordinarily confers immunity from obstruction offences on NSW protesters.",
+            "Also expanded move-on powers and introduced a power to compel removal of face coverings at protests, with an exemption for assemblies forming part of industrial action. PARDs were declared 24 December 2025, 7 January 2026, 20 January 2026 (and an amended declaration the same day), and 3 February 2026 (variation)."
           ],
-          "commentary": "Unlike Victoria's equivalent, NSW PARDs do not require court approval — a significant difference noted by legal commentators. Within hours of the 2025 Act passing, Police Commissioner Mal Lanyon declared restrictions across most of greater Sydney. Multiple PARDs and extensions issued in January–February 2026 covering Sydney CBD and eastern suburbs (including Bondi). A constitutional challenge to the PARD provisions is being brought in the NSW Supreme Court by a coalition including Palestine Action Group Sydney, Jews Against the Occupation 48, and the Blak Caucus. Index on Censorship and Civicus Monitor have reported on the laws as a significant restriction on protest rights.",
-          "tags": ["PARDs", "terrorism", "palestine", "public-assembly", "constitutional-challenge"],
-          "related_cases": []
+          "commentary": "MAJOR UPDATE: the constitutional challenge to this scheme has been decided, and the scheme has been held invalid. In Jarrett v State of New South Wales [2026] NSWCA 62 (16 April 2026), the NSW Court of Appeal (Bell CJ, Ward P and Free JA) held the PARD scheme and related provisions invalid for impermissibly burdening the implied freedom of political communication, applying the test as restated by the High Court in Ravbar (2025). The Court found the scheme 'a blunt tool' incapable of tailoring restrictions to particular assemblies, and held that 'social cohesion' is NOT a constitutionally legitimate end in itself — the most doctrinally significant holding in this tracker. Standing was retained notwithstanding that the declaration had lapsed, because the plaintiffs (Elizabeth Jarrett and Paul Silva of the Blak Caucus, and Josh Lees of the Palestine Action Group) faced future risk as protest organisers; costs were awarded against the State. Unlike Victoria's equivalent scheme, NSW PARDs did not require court approval — the difference the Court of Appeal found decisive. Whether NSW has sought special leave to appeal to the High Court, or introduced replacement legislation, is unconfirmed and is the single most consequential open item for this tracker. CORRECTION: the 2025 amendments followed the Bondi Beach attack of 14 December 2025, not the Westfield Bondi Junction attack (which occurred in April 2024) — the two events should not be conflated.",
+          "tags": [
+            "PARD",
+            "special-powers",
+            "implied-freedom",
+            "move-on",
+            "NSW"
+          ],
+          "related_cases": [
+            "Jarrett v State of New South Wales [2026] NSWCA 62"
+          ]
         },
         {
           "id": "vic-terrorism-community-protection-2003",
           "jurisdiction": "Victoria",
-          "short_title": "Terrorism (Community Protection) Act 2003 (Vic)",
-          "full_title": "Terrorism (Community Protection) Act 2003 (Vic), as amended by Terrorism (Community Protection) and Control of Weapons Amendment Act 2024 (Vic)",
+          "short_title": "Terrorism (Community Protection) Act 2003, as amended 2024",
+          "full_title": "Terrorism (Community Protection) Act 2003 (Vic), as amended by the Terrorism (Community Protection) and Control of Weapons Amendment Act 2024 (Vic)",
           "year": 2003,
           "amended": 2024,
           "url": "https://www.legislation.vic.gov.au/in-force/acts/terrorism-community-protection-act-2003/041",
           "key_provisions": [
-            "Part 3A, s 21B: Chief Commissioner of Police (with written Premier's approval) may apply to the Supreme Court of Victoria for an order authorising special police powers where an event 'might be the subject of a terrorist act'.",
-            "Special powers include: requesting identity disclosure (s 21O); stopping and searching persons without warrant (s 21P); stopping and searching vehicles (s 21Q); moving vehicles (s 21R).",
-            "Section 21B(2)–(7) set out procedural requirements including the requirement of written Premier's approval.",
-            "2024 amendments expanded the scope of these powers."
+            "Part 3A, s 21B: the Chief Commissioner of Police, with the Premier's written approval, may apply to the Supreme Court of Victoria for an order authorising special police powers where an event 'might be the subject of a terrorist act'.",
+            "Special powers include requesting identity disclosure (s 21O), stopping and searching persons without warrant (s 21P), stopping and searching vehicles (s 21Q), and moving vehicles (s 21R). The 2024 amendments expanded the scope of these powers."
           ],
-          "commentary": "Unlike NSW, Victoria's scheme requires Supreme Court authorisation — a safeguard, though critics argue the threshold is low. Used against protesters at the Land Forces International Land Defence Exposition (September 2024): the Supreme Court authorised special powers from 6–15 September 2024 in the Melbourne Convention and Exhibition Centre area. VALS condemned the use of these powers against non-violent anti-war demonstrators, stating they 'represent a disturbing encroachment on the freedom to peaceful protest and free speech'. Also used alongside 'designated area' powers under s 10D(1) of the Control of Weapons Act 1990. In Brown v State of Victoria (No 3) [2025] VSC 765, the Supreme Court found deployments of OC foam against protesters at the 2019 IMARC protest constituted battery. A further application under s 21B was made for the Pillars of Light Festival 2025 Chanukah celebration: [2025] VSC 832.",
-          "tags": ["terrorism", "special-powers", "land-forces", "VALS", "court-authorisation"],
+          "commentary": "Unlike NSW, Victoria's scheme requires Supreme Court authorisation — a difference now constitutionally material, since the absence of court approval was central to the invalidation of the NSW PARD regime in Jarrett. Used against protesters at the Land Forces International Land Defence Exposition in September 2024: the Supreme Court authorised special powers from 6 to 15 September 2024. The Victorian Aboriginal Legal Service condemned the use of these powers against non-violent anti-war demonstrators as enabling 'indiscriminate stops and searches'. Used alongside 'designated area' powers under the Control of Weapons Act 1990 (Vic) s 10D(1) (see the Broader Public Order category). In Brown v State of Victoria (No 3) [2025] VSC 765 (Harris J, 12 December 2025) the Supreme Court found two OC foam deployments against protesters at the 2019 IMARC protest were batteries without lawful justification, awarding $54,000 in damages including $10,000 aggravated. A further s 21B application was made for the 2025 Pillars of Light Festival Chanukah celebration — an instance of the powers being used to protect an event rather than police a protest. The Victorian Inspectorate publishes integrity oversight reports on the use of these powers, a rare source of administrative data on how often counter-terrorism powers are actually deployed.",
+          "tags": [
+            "special-powers",
+            "designated-area",
+            "Vic"
+          ],
           "related_cases": [
-            "Brown v State of Victoria (No 3) [2025] VSC 765",
-            "[2025] VSC 832"
+            "Brown v State of Victoria (No 3) [2025] VSC 765"
           ]
+        },
+        {
+          "id": "cth-foreign-fighters-2014",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Counter-Terrorism Legislation Amendment (Foreign Fighters) Act 2014 (No. 116, 2014)",
+          "full_title": "Counter-Terrorism Legislation Amendment (Foreign Fighters) Act 2014 (Cth) (No. 116, 2014)",
+          "year": 2014,
+          "url": "https://www.legislation.gov.au/Details/C2014A00116",
+          "key_provisions": [
+            "Assent 3 November 2014. Amended 22 Acts. Section 119.2 of the Criminal Code: entering or remaining in a 'declared area'. Maximum 10 years imprisonment.",
+            "Exceptions at s 119.2(3): humanitarian aid, court appearance, official government duties (including lawful armed-forces service), UN/ICRC duties, bona fide journalism, genuine family visits, and prescribed purposes.",
+            "Section 119.3 empowers the Minister for Foreign Affairs to declare areas. Also inserted s 80.2C, the advocating terrorism offence (see the Criminal Code Act 1995 entry).",
+            "SUNSET: s 119.2 ceases to have effect at the end of 7 September 2027. The original 2024 sunset was extended three years by the Counter-Terrorism Legislation Amendment (Declared Areas) Act 2024 (Cth) (No. 77, 2024)."
+          ],
+          "commentary": "The declared areas offence reverses the ordinary burden of proof in substance: presence in a declared area is the offence, and the accused must bring themselves within an exception. Directly relevant to the media framing stream — the offence and the 'foreign fighter' framing shaped a decade of reporting on neo-jihadist prosecutions, and provides a comparator for how far-right political violence has been legislatively addressed. The Law Council of Australia argued in May 2024 that 'the continuation of this extraordinary offence should not be assumed and should be re-evaluated' after a decade of experience. The pre-2023 maximum penalty for s 80.2C could not be confirmed and should be checked against the 2014 Act text if a penalty history is to be charted.",
+          "tags": [
+            "declared-area",
+            "foreign-fighter",
+            "sunset-clause",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-high-risk-terrorist-offenders-2016-2021",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Criminal Code Amendment (High Risk Terrorist Offenders) Act 2016 (No. 95, 2016) and the 2021 extended supervision order Act",
+          "full_title": "Criminal Code Amendment (High Risk Terrorist Offenders) Act 2016 (Cth) (No. 95, 2016) and Counter-Terrorism Legislation Amendment (High Risk Terrorist Offenders) Act 2021 (Cth) (No. 131, 2021)",
+          "year": 2016,
+          "amended": 2021,
+          "url": "https://www.legislation.gov.au/Details/C2016A00095",
+          "key_provisions": [
+            "2016 Act (assent 7 December 2016) inserted Division 105A of the Criminal Code (continuing detention orders); the 2021 Act (assent and commencement 8 December 2021) added extended supervision orders.",
+            "Application by the AFP Minister to a State/Territory Supreme Court, within 12 months of sentence ending, for an offender convicted of a serious Part 5.3 offence carrying 7 years or more.",
+            "Continuing detention order (s 105A.7): court must be satisfied to a high degree of probability of unacceptable risk and that no less restrictive measure would be effective. Maximum 3 years, renewable, offender remains in prison.",
+            "Extended supervision order (s 105A.7A): satisfied on the balance of probabilities of unacceptable risk. Maximum 3 years, renewable. Breach offences at ss 105A.18A and 105A.18B (maximum penalties unconfirmed).",
+            "SUNSET: Division 105A was due to sunset 7 December 2026; the Counter-Terrorism Legislation Amendment Bill 2026 proposes extension to 7 December 2029."
+          ],
+          "commentary": "Post-sentence detention on the basis of predicted future conduct is the furthest reach of the preventive turn in Australian counter-terrorism law. Minister for Home Affairs v Benbrika [2021] HCA 4 upheld the constitutional validity of the continuing detention order scheme, the majority finding an 'evident non-punitive, protective purpose'. The INSLM review (March 2023) was highly critical: risk assessment 'is the heart of the Div 105A regime' but may be scientifically unreliable, questioning whether the VERA-2R instrument predicts better than chance, recommending abolition of continuing detention orders, and noting that neither the United Kingdom nor New Zealand has a comparable scheme. Note the citation: the 2021 Act is a Counter-Terrorism Legislation Amendment Act, not a Criminal Code Amendment Act.",
+          "tags": [
+            "continuing-detention",
+            "extended-supervision",
+            "sunset-clause",
+            "Cth"
+          ],
+          "related_cases": [
+            "Minister for Home Affairs v Benbrika [2021] HCA 4"
+          ]
+        },
+        {
+          "id": "cth-espionage-foreign-interference-2018",
+          "jurisdiction": "Commonwealth",
+          "short_title": "National Security Legislation Amendment (Espionage and Foreign Interference) Act 2018 (No. 67, 2018) — sabotage offences",
+          "full_title": "National Security Legislation Amendment (Espionage and Foreign Interference) Act 2018 (Cth) (No. 67, 2018) — sabotage offences",
+          "year": 2018,
+          "url": "https://www.legislation.gov.au/Details/C2018A00067",
+          "key_provisions": [
+            "Assent 29 June 2018. Schedule 1 inserted Division 82 (Part 5.2) of the Criminal Code, defining 'damage to public infrastructure', 'public infrastructure', 'national security', 'advantage' and 'prejudice'.",
+            "Sabotage offences: s 82.3 (foreign principal, intention as to national security) 25 years; s 82.4 (foreign principal, reckless) 20 years; s 82.5 (intention) 20 years; s 82.6 (reckless) 15 years.",
+            "Introducing a vulnerability: s 82.7 (intention) 15 years; s 82.8 (reckless) 10 years. Preparing or planning (s 82.9): 7 years.",
+            "'Public infrastructure' covers Commonwealth-owned infrastructure, defence premises, telecommunications networks, and facilities providing utilities or services to the public that belong to constitutional corporations or facilitate constitutional trade and commerce."
+          ],
+          "commentary": "The most under-recognised protest-relevant provision in Commonwealth law. The 2018 shift from 'critical' to 'public' infrastructure, combined with an economic-damage limb, means effective non-violent blockade action at a port, rail line or utility can in principle attract penalties of up to 20 years. The Independent National Security Legislation Monitor commenced a review of Division 82 and Part 5.2 in February 2025 (submissions closed 20 June 2025; hearings August 2025; final report to be tabled) — a live review directly relevant to this platform's research questions. The Law Council of Australia's submission of 4 July 2025 recommends 'public infrastructure' be 'further clarified to ensure it is appropriately limited to a smaller subset of services or utilities', and that the definition of 'damage to public infrastructure' should 'exclude industrial disputes and legitimate protest action'. No prosecution of a protester under Division 82 has been identified — itself the finding: the provisions operate as latent capacity rather than active enforcement.",
+          "tags": [
+            "sabotage",
+            "infrastructure",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-abhorrent-violent-material-2019",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Criminal Code Amendment (Sharing of Abhorrent Violent Material) Act 2019 (No. 38, 2019)",
+          "full_title": "Criminal Code Amendment (Sharing of Abhorrent Violent Material) Act 2019 (Cth) (No. 38, 2019)",
+          "year": 2019,
+          "url": "https://www.legislation.gov.au/Details/C2019A00038",
+          "key_provisions": [
+            "Passed the Senate 4 April 2019; assent 5 April 2019 — announced on the Saturday, drafted to industry on the Tuesday, through the Senate on the Thursday, following the Christchurch attack.",
+            "Schedule 1 inserted Subdivision H of Division 474 of the Criminal Code (ss 474.30–474.39). Section 474.31 defines 'abhorrent violent material'; s 474.32 defines 'abhorrent violent conduct' (terrorist act, murder, attempted murder, torture, rape or kidnapping).",
+            "Section 474.33: failure by an internet, content or hosting service provider to refer material to the AFP — 800 penalty units. Section 474.34: failure to expeditiously remove or cease hosting material — 3 years imprisonment for individuals; for a body corporate, the greater of approximately $10.5 million or 10 per cent of annual turnover."
+          ],
+          "commentary": "Included because it is the clearest Australian instance of legislation responding to far-right political violence, and because it regulates the circulation of the violence rather than the violence itself — a distinct legislative form, and the legislation cited in this tracker's Incidents Tracker record for the Christchurch mosque shootings' Australian legislative response. Passed in three sitting days with essentially no consultation and no committee inquiry. Law Council President Arthur Moses said 'laws formulated as a knee-jerk reaction to a tragic event do not necessarily equate to good legislation'; DIGI warned that US-headquartered companies could be forced to breach US data-sharing law; then Shadow Attorney-General Mark Dreyfus said it was 'poorly drafted and will not achieve its intended purpose'. The compressed passage timeline is itself a data point for this tracker's analysis of legislative response to political violence — compare the 10-day and 3-day timelines of the NSW 2025 and Commonwealth 2026 hate-crime packages.",
+          "tags": [
+            "online-content",
+            "far-right",
+            "Cth"
+          ],
+          "related_cases": []
         },
         {
           "id": "cth-state-sponsors-terrorism-2025",
@@ -216,15 +534,243 @@
           "short_title": "Criminal Code Amendment (State Sponsors of Terrorism) Act 2025",
           "full_title": "Criminal Code Amendment (State Sponsors of Terrorism) Act 2025 (Cth)",
           "year": 2025,
+          "url": "https://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/bd/bd2526/26bd027",
+          "key_provisions": [
+            "Introduced 8 October 2025; PJCIS advisory report tabled 28 October 2025; passed the House 29 October 2025 and Parliament in early November 2025. Act number and assent date not confirmed.",
+            "Inserts Part 5.3A into the Criminal Code — a parallel regime to Part 5.3/Division 102, which applies only to non-state organisations. Listing: the Governor-General prescribes a foreign state entity that has engaged in, prepared for, or fostered a terrorist act targeted at Australia, on the joint satisfaction of the Ministers for Home Affairs and Foreign Affairs, with the Leader of the Opposition briefed.",
+            "Division 111 (state terrorist acts): engaging in a state terrorist act (s 111.2), life imprisonment; preparatory acts (ss 111.3–111.6), 3 to 20 years. Division 112 (dealings with state sponsors): directing, membership, recruiting, training, funding, support and association (ss 112.1–112.7), 2 to 15 years. Division 113 (financing): 10 to 25 years."
+          ],
+          "commentary": "Enacted following confirmed IRGC-linked incidents on Australian soil in 2024 — the firebombing of a kosher restaurant in Sydney and the arson attack on the Adass Israel Synagogue in Melbourne. The Islamic Revolutionary Guard Corps was listed effective 28 November 2025, the first and only entity listed so far; the PJCIS is separately reviewing the listing. Structurally novel: it extends the terrorist-organisation architecture from non-state groups to a foreign government. Shadow Attorney-General Andrew Wallace criticised the 'extremely truncated period' for scrutiny — stakeholders had 'just seven clear days' — calling the process 'akin to a box-ticking exercise'. The Senate Scrutiny of Bills Committee raised reversed burden of proof and reliance on delegated legislation. The breadth of the 'support' and 'membership' offences has implications for protest and civil liberties, particularly for diaspora political organising.",
+          "tags": [
+            "state-sponsored-terrorism",
+            "IRGC",
+            "proscription",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-counter-terrorism-amendment-bill-2026",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Counter-Terrorism Legislation Amendment Bill 2026 — before Parliament",
+          "full_title": "Counter-Terrorism Legislation Amendment Bill 2026 (Cth) — before Parliament",
+          "year": 2026,
+          "url": "https://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/bd/bd2627/27bd013",
+          "status": "Bill — before Parliament",
+          "key_provisions": [
+            "Introduced 12 August 2026; before the Parliamentary Joint Committee on Intelligence and Security, submissions closing 2 September 2026. Not enacted as at the date of compilation.",
+            "Would extend the sunsets on Division 104 (control orders), Division 105 (preventative detention orders), Division 105A (post-sentence orders) and the associated Crimes Act police powers from 7 December 2026 to 7 December 2029.",
+            "Would revise the Division 105A post-sentence order system, and would allow courts to consider findings of guilt made in control order and post-sentence proceedings in the absence of a formal conviction."
+          ],
+          "commentary": "Live at the date of compilation and directly relevant: this is the fifth extension of powers first enacted as temporary in 2005. The proposal to allow courts to rely on findings made in civil preventive proceedings, absent conviction, would further blur the line between the criminal and preventive limbs of the regime — a development the INSLM has already criticised in the Division 105A context. Should be tracked to passage and converted to a full entry once enacted.",
+          "tags": [
+            "bill",
+            "sunset-clause",
+            "control-order",
+            "Cth"
+          ],
+          "related_cases": []
+        }
+      ]
+    },
+    {
+      "id": "political-violence-extremism",
+      "label": "Political Violence, Hate and Extremism Legislation",
+      "description": "The provisions under which political violence itself is defined, proscribed and prosecuted: the terrorist organisation and hate group listing regimes, citizenship cessation, hate symbol and vilification offences, and the 2023–2026 wave of Commonwealth and state hate crime legislation. New in Version 2.0 of this tracker — added so the platform can compare enforcement between political violence and civil protest.",
+      "entries": [
+        {
+          "id": "cth-criminal-code-div102-proscription",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Criminal Code Act 1995 Division 102 — the terrorist organisation proscription regime",
+          "full_title": "Criminal Code Act 1995 (Cth) Division 102 — the terrorist organisation proscription regime",
+          "year": 1995,
           "url": "https://www.legislation.gov.au/C2004A04868/latest",
           "key_provisions": [
-            "Inserts new Part 5.3A into the Criminal Code.",
-            "Framework to list foreign state entities as 'state sponsors of terrorism'.",
-            "Creates offences for engaging in or making preparations for a state terrorist act targeting Australia; providing support or training to listed state sponsors; and membership of listed entities.",
-            "The IRGC was listed as the first entity under the new provisions (27 November 2025)."
+            "Two routes to 'terrorist organisation' status: a court finding beyond reasonable doubt in a prosecution, or listing by regulation made by the Governor-General on ministerial advice, informed by an ASIO statement of reasons, with PJCIS review of each listing.",
+            "Division 102 offences: directing (s 102.2), membership (s 102.3), recruiting (s 102.4), training (s 102.5), funding (s 102.6), providing support (s 102.7), association (s 102.8). 31 organisations are currently listed.",
+            "SUNSET ABOLISHED: listings formerly lapsed after three years and required active re-listing. Following the Counter-Terrorism Legislation Amendment (Prohibited Hate Symbols and Other Measures) Act 2023, listings continue indefinitely unless actively ceased by ministerial decision.",
+            "Maximum penalties: ss 102.2, 102.4, 102.5, 102.6 and 102.7 carry 25 years where the person knows the organisation is a terrorist organisation and 15 years where reckless; s 102.3 (membership) carries 10 years; s 102.8 (associating) carries only 3 years."
           ],
-          "commentary": "Enacted following confirmed IRGC-linked incidents on Australian soil in 2024 (firebombing of a kosher restaurant in Sydney and arson attack on the Adass Israel Synagogue in Melbourne). While primarily targeting state-sponsored terrorism, the legislation has implications for protest and civil liberties through the breadth of 'support' and 'membership' offences. The Law Council of Australia raised concerns about mandatory sentencing provisions in the bill. Forms part of a broader pattern of expanding Commonwealth security legislation since 2001.",
-          "tags": ["IRGC", "state-sponsored-terrorism", "civil-liberties", "commonwealth"],
+          "commentary": "THE CENTRAL DATASET FOR THE SELECTIVE-CRIMINALISATION QUESTION. Of the 31 currently listed organisations, four are nationalist and racist violent extremist (right-wing) groups: Sonnenkrieg Division (listed 12 August 2021 — the first far-right group listed by Australia, twenty years after the regime commenced); The Base (10 December 2021, though 24 November 2021 also appears in sources and should be reconciled against the regulation); National Socialist Order (18 February 2022, successor to Atomwaffen Division); and Terrorgram (27 June 2025). The remaining 27 listings are jihadist or Islamist organisations, plus the Kurdistan Workers' Party (17 December 2005). This ratio — four of thirty-one — is a recurring point of criticism in submissions to the right-wing extremism inquiries and is directly answerable from this tracker. The Terrorgram listing is analytically distinctive: a decentralised online network rather than a conventional organisation, which raised definitional issues examined by the PJCIS and tests the limits of an organisation-based regime. The abolition of the three-year sunset materially changes the review posture of every listing and removes a recurring occasion for parliamentary scrutiny.",
+          "tags": [
+            "proscription",
+            "far-right",
+            "sunset-clause",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-charter-un-act-1945",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Charter of the United Nations Act 1945 — Parts 3 and 4 (counter-terrorism listing and asset freezing)",
+          "full_title": "Charter of the United Nations Act 1945 (Cth) — Parts 3 and 4 (counter-terrorism listing and asset freezing)",
+          "year": 1945,
+          "url": "https://www.legislation.gov.au/C1945A00032/latest/text",
+          "key_provisions": [
+            "Part 3 gives effect to UN Security Council Resolution 1267 and successor regimes. Part 4 is Australia's autonomous counter-terrorism financing sanctions regime, giving effect to UNSCR 1373.",
+            "Section 15: listing of persons, entities and assets, by the Minister for Foreign Affairs — not the Attorney-General or the Minister for Home Affairs. Section 15A: duration of listing, time-limited unlike Division 102. Section 16: the Minister may revoke a listing. Section 17: a listed person or entity may apply to have the listing revoked. Section 18: proscription by regulation.",
+            "Section 20: offence of dealing with freezable assets. Section 21: offence of giving an asset to a proscribed person or entity. Penalties and the s 15A duration could not be confirmed and should be checked before publication."
+          ],
+          "commentary": "Included because Australia's two Commonwealth proscription regimes are separate, parallel and non-contingent: listing under one does not effect listing under the other, and the lists do not fully overlap — any claim about 'who is proscribed in Australia' requires both. Key structural differences from Division 102: the decision-maker is the Foreign Minister rather than the Governor-General on ASIO advice; the regime reaches persons as well as entities; listings remain time-limited; and a listed person has a direct right to apply for revocation under s 17, with no Division 102 equivalent. In practice a proscribed neo-Nazi network can be listed under Division 102, criminalising participation, while its financing footprint is addressed separately under Part 4.",
+          "tags": [
+            "proscription",
+            "sanctions",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-citizenship-act-2007",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Australian Citizenship Act 2007, as amended by the Citizenship Repudiation Act 2023",
+          "full_title": "Australian Citizenship Act 2007 (Cth) — citizenship cessation, as amended by the Australian Citizenship Amendment (Citizenship Repudiation) Act 2023 (Cth) (No. 109, 2023)",
+          "year": 2007,
+          "amended": 2023,
+          "url": "https://www.legislation.gov.au/C2007A00020/latest/text",
+          "key_provisions": [
+            "The ministerial cessation powers were held invalid in two successive High Court decisions and replaced with a court-ordered regime.",
+            "Alexander v Minister for Home Affairs [2022] HCA 19 (8 June 2022): s 36B (ministerial cessation for conduct, without a conviction) held invalid — punitive in character and therefore exclusively judicial, applying the Chu Kheng Lim principle.",
+            "Benbrika v Minister for Home Affairs [2023] HCA 33 (1 November 2023): s 36D (ministerial cessation after conviction and a sentence of 3+ years) also held invalid — Chapter III makes the punishment of criminal conduct exclusively judicial even when severed from adjudication. Note the citation: [2023] HCA 33, not [2023] HCA 25.",
+            "The 2023 Repudiation Act (assent 7 December 2023, in force 8 December 2023) repealed the invalid provisions and substituted s 36C: a court may order cessation where the person is 14+, a dual national, convicted of specified serious offences (terrorism, treason, espionage, foreign interference) with sentences totalling at least three years, and the conduct demonstrates repudiation of allegiance to Australia."
+          ],
+          "commentary": "The single strongest example in Australian law of constitutional limits operating against the securitisation of political violence — and the counterpart, in the political violence context, to Brown, Kvelde, Lees and Jarrett in the protest context; both lines of authority belong in the same analysis. Note also the separate earlier decision Minister for Home Affairs v Benbrika [2021] HCA 4 on continuing detention orders — three distinct High Court proceedings involving the same person, across two different statutory schemes. The Parliamentary Joint Committee on Human Rights examined the 2023 Bill on 19 December 2023. Directly relevant to the media framing stream: citizenship stripping generated substantial coverage and is a case where the legal outcome diverged sharply from the political framing.",
+          "tags": [
+            "citizenship-cessation",
+            "chapter-iii",
+            "Cth"
+          ],
+          "related_cases": [
+            "Alexander v Minister for Home Affairs [2022] HCA 19",
+            "Benbrika v Minister for Home Affairs [2023] HCA 33",
+            "Minister for Home Affairs v Benbrika [2021] HCA 4"
+          ]
+        },
+        {
+          "id": "nsw-crimes-act-93z-2018",
+          "jurisdiction": "NSW",
+          "short_title": "Crimes Act 1900 s 93Z — publicly threatening or inciting violence",
+          "full_title": "Crimes Act 1900 (NSW) s 93Z — publicly threatening or inciting violence",
+          "year": 2018,
+          "url": "https://legislation.nsw.gov.au/view/html/inforce/current/act-1900-040",
+          "key_provisions": [
+            "Inserted by the Crimes Amendment (Publicly Threatening and Inciting Violence) Act 2018 (NSW) (No 32), replacing four separate serious vilification offences in the Anti-Discrimination Act 1977 (NSW).",
+            "Section 93Z(1): by a public act, intentionally or recklessly threatening or inciting violence on the ground of race, religion, sexual orientation, gender identity, intersex status or HIV/AIDS status. Maximum 200 penalty units or 5 years imprisonment, or both (individual); 1,000 penalty units (corporation).",
+            "Section 93Z(1A): aggravated form where the conduct results in violence being committed — maximum 400 penalty units or 7 years, or both; 2,000 penalty units (corporation). Section 93Z(5): 'public act' includes social media, observable conduct and distribution of material, and can occur on private land.",
+            "Section 93Z(4): prosecution may be commenced only by the DPP or a police officer, the police-officer alternative added by the Crimes Amendment (Prosecution of Certain Offences) Act 2023 (NSW), from 1 January 2024."
+          ],
+          "commentary": "The most important enforcement dataset in this category. Per NSW Law Reform Commission Report 151, as at July 2024 seven people had s 93Z charges finalised: two found guilty and five withdrawn. One conviction was quashed on appeal (6 February 2024) and one upheld (7 June 2024); two convictions were annulled because the then-applicable DPP consent had not been obtained. Seven finalised prosecutions in six years, against the volume of reported incidents, is the empirical answer to whether hate-speech offences are enforced — a striking contrast with protest-offence enforcement over the same period, and a strong candidate for a flagship visualisation. NSWLRC Report 151 (27 September 2024) recommended AGAINST creating new vilification offences or expanding s 93Z, directing its recommendations instead to sentencing and improved hate-crime data collection. The NSW Government legislated new offences five months later regardless — a documented instance of law reform advice being departed from.",
+          "tags": [
+            "vilification",
+            "hate-speech",
+            "NSW"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-hate-symbols-2023-2025",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Counter-Terrorism Legislation Amendment (Prohibited Hate Symbols and Other Measures) Act 2023, as amended by the Hate Crimes Act 2025",
+          "full_title": "Counter-Terrorism Legislation Amendment (Prohibited Hate Symbols and Other Measures) Act 2023 (Cth) (No. 113, 2023), as amended by the Criminal Code Amendment (Hate Crimes) Act 2025 (Cth) (No. 1, 2025)",
+          "year": 2023,
+          "amended": 2025,
+          "url": "https://www.legislation.gov.au/C2023A00113/asmade/text",
+          "key_provisions": [
+            "2023 Act: assent 11 December 2023; Schedule 1 offences commenced 8 January 2024. Inserted Subdivision CA of Division 80 of the Criminal Code, defining prohibited symbols (s 80.2E) and creating offences for public display of Nazi symbols/salute (s 80.2H) and of prohibited terrorist organisation symbols (s 80.2HA), plus trading offences (ss 80.2J, 80.2JA). Police directions to cease display at ss 80.2K–L.",
+            "Schedule 2 inserted s 474.45B — using a carriage service for violent extremist material, 5 years. Schedule 3 amended s 80.2C (advocating terrorism), adding 'providing instruction' and 'praising' limbs and raising the maximum to 7 years.",
+            "PENALTY UPDATE: the Criminal Code Amendment (Hate Crimes) Act 2025 (Cth), passed 6 February 2025, raised the maxima for ss 80.2H, 80.2HA, 80.2J and 80.2JA from 1 year to 5 years, and imposed mandatory minimum sentences of 12 months for ss 80.2H(1) and 80.2HA(1). The pre-2025 12-month maximum should not be cited as current law."
+          ],
+          "commentary": "The pivot point at which Commonwealth counter-terrorism law was extended from conduct to symbolic expression, and the entry point for the mandatory-sentencing question in this field. The PJCIS advisory report of 15 November 2023 recommended removing the specific reference to the Islamic State flag in favour of symbols of all proscribed terrorist organisations, and delaying commencement of the trading offences to allow collectors to dispose of holdings. The Australian Human Rights Commission has consistently opposed the 2025 mandatory minimums as undermining judicial independence and disproportionately affecting disadvantaged people. ENFORCEMENT DATA: the AFP reported 113 reports of prohibited symbol display between January and October 2024 with no federal charges at that point; the first charges under s 80.2H were announced 8 December 2025 against three men in Queensland and New South Wales — the gap between reports and charges is a directly trackable metric.",
+          "tags": [
+            "hate-symbol",
+            "mandatory-minimum",
+            "Cth"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "all-jurisdictions-nazi-symbols-comparative",
+          "jurisdiction": "All jurisdictions",
+          "short_title": "Nazi symbol and gesture prohibitions — comparative",
+          "full_title": "Nazi symbol and gesture prohibitions across all nine Australian jurisdictions — comparative entry",
+          "year": 2022,
+          "url": "https://www.legislation.vic.gov.au/as-made/acts/summary-offences-amendment-nazi-symbol-prohibition-act-2022",
+          "key_provisions": [
+            "Commonwealth: Counter-Terrorism Legislation Amendment (Prohibited Hate Symbols and Other Measures) Act 2023 — Criminal Code ss 80.2H, 80.2HA, 80.2J (see the previous entry).",
+            "Victoria: Summary Offences Amendment (Nazi Symbol Prohibition) Act 2022 (symbols, from 29 December 2022 — the first in Australia) and Summary Offences Amendment (Nazi Salute Prohibition) Act 2023 (gestures, from 21 October 2023). Maximum 120 penalty units, 12 months, or both.",
+            "NSW: Crimes Amendment (Prohibition on Display of Nazi Symbols) Act 2022 (No 37); Queensland: Criminal Code (Serious Vilification and Hate Crimes) and Other Legislation Amendment Act 2023 (No 26), symbols defined by regulation rather than on the face of the Act — the only jurisdiction to do so, and to cover publishing and distribution.",
+            "Tasmania: Police Offences Amendment (Nazi Symbol and Gesture Prohibition) Act 2023 (No. 14 of 2023). South Australia: Summary Offences (Nazi Salute and Symbols Prohibition) Amendment Act 2024 (No 24 of 2024). Western Australia: Criminal Code Amendment (Prohibition on Display of Nazi Symbols or Gesture) Act 2024 (No. 29 of 2024), passed 18 September 2024.",
+            "ACT: Criminal Code 2002 (ACT) s 752, maximum stated as $19,200 or 12 months, or both; the short title of the amending Act could not be confirmed. Northern Territory: no equivalent identified — treat as unconfirmed rather than confirmed absence. PENALTY FIGURES FOR QUEENSLAND, SOUTH AUSTRALIA, TASMANIA AND WESTERN AUSTRALIA WERE NOT VERIFIED against primary text and must be checked before publication."
+          ],
+          "commentary": "Presented as a single comparative entry because the interest is in the pattern rather than any one Act: eight of nine Australian jurisdictions legislated on the same subject within 25 months, beginning with Victoria in December 2022 — the fastest legislative diffusion in this tracker. All jurisdictions carry exceptions for genuine religious or cultural use (the Buddhist, Hindu and Jain swastika) and for academic, artistic, scientific, journalistic and law-enforcement purposes; Victoria expressly does not prohibit tattoos. This is the clearest instance in Australian law of legislation directed specifically at far-right political expression, and prosecutions under these provisions should be coded so that enforcement can be compared against the protest offences in the Anti-Protest Legislation category.",
+          "tags": [
+            "hate-symbol",
+            "far-right",
+            "comparative"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "nsw-hate-speech-package-2025",
+          "jurisdiction": "NSW",
+          "short_title": "The February 2025 hate speech package (s 93ZAA and related amendments)",
+          "full_title": "Crimes Amendment (Inciting Racial Hatred) Act 2025 (NSW) (No 9) and Crimes Legislation Amendment (Racial and Religious Hatred) Act 2025 (NSW)",
+          "year": 2025,
+          "url": "https://legislation.nsw.gov.au/view/pdf/asmade/act-2025-9",
+          "key_provisions": [
+            "Passed 21 February 2025 as part of a three-Act package with the Crimes Amendment (Places of Worship) Act 2025 (see the Anti-Protest Legislation category); assent 2 March 2025.",
+            "New s 93ZAA of the Crimes Act 1900: publicly inciting hatred on the ground of race, requiring intentional public incitement where a reasonable person would fear harassment, intimidation or violence. Maximum 100 penalty units or 2 years imprisonment, or both; 500 penalty units for a corporation. Exception for directly quoting a religious text for religious teaching.",
+            "Section 93ZAB: mandatory parliamentary review within 12 months of commencement. Section 93ZAC: the Division automatically repeals three years after commencement — a genuine sunset, unusual in this field.",
+            "The companion Act clarifies that graffiti is a 'public act' and provides for aggravated sentencing where Nazi symbols are displayed near synagogues, Jewish schools or the Sydney Jewish Museum. A further NSW Act creating an offence of publicly invoking Nazi imagery, chants or slogans is reported to have passed in June 2026; its short title and assent date could not be confirmed."
+          ],
+          "commentary": "Enacted five months after NSWLRC Report 151 recommended against creating new vilification offences — the clearest documented instance in this tracker of legislation departing from the law reform advice that preceded it. Legal Aid NSW submitted that s 93ZAA leaves 'hatred' undefined, requires no proof of intent to cause specific harm, has no good faith exemption (compare s 18D of the Racial Discrimination Act 1975 (Cth)), may be an impermissible burden on the implied freedom, and will fall disproportionately on Aboriginal and Torres Strait Islander people, young people, and people with mental illness or cognitive disability. The three-year sunset at s 93ZAC and the 12-month review at s 93ZAB fall due within this tracker's active period and will generate primary material. No prosecution under s 93ZAA has been identified as at the date of compilation.",
+          "tags": [
+            "hate-speech",
+            "sunset-clause",
+            "NSW"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "vic-anti-vilification-2025",
+          "jurisdiction": "Victoria",
+          "short_title": "Justice Legislation Amendment (Anti-vilification and Social Cohesion) Act 2025 (No. 11 of 2025)",
+          "full_title": "Justice Legislation Amendment (Anti-vilification and Social Cohesion) Act 2025 (Vic) (No. 11 of 2025)",
+          "year": 2025,
+          "url": "https://www.legislation.vic.gov.au/as-made/acts/justice-legislation-amendment-anti-vilification-and-social-cohesion-act-2025",
+          "key_provisions": [
+            "Passed April 2025 — the Bill was introduced in 2024 but the Act as enacted is a 2025 Act; there is no 2024 Act of this name. Repeals the Racial and Religious Tolerance Act 2001 (Vic) in its entirety, splitting the scheme: criminal offences into the Crimes Act 1958, civil protections into the Equal Opportunity Act 2010.",
+            "New Crimes Act 1958 Part 6A. Section 195N: incitement on the ground of a protected attribute, maximum 3 years (replacing the previous 6-month maximum), with a genuine political purpose defence. Section 195O: threatening physical harm or property damage on the ground of a protected attribute, maximum 5 years.",
+            "Protected attributes expanded from race and religion to include disability (expressly including HIV/AIDS status), gender identity, sex, sex characteristics, sexual orientation, and personal association with a protected person. Civil provisions move to the Equal Opportunity Act 2010 ss 102D–102E, with the incitement test lowered to 'likely to incite'.",
+            "Staged commencement: main criminal parts by proclamation or 20 September 2025 at the latest; a further tranche by proclamation or 18 September 2027. Proclamation dates should be confirmed before publication."
+          ],
+          "commentary": "The most significant restructuring of vilification law by any Australian jurisdiction in this period, and the counterpoint to the NSW package: Victoria acted on a parliamentary inquiry (the 2021 Inquiry into Anti-Vilification Protections) rather than against law reform advice. The genuine political purpose defence at s 195N is directly relevant to the protest/political violence boundary and should be tracked for judicial interpretation. Includes a mandatory five-year review. Opposed or criticised by the Catholic Archbishop of Melbourne and Christian groups, and by the Islamic Council of Victoria (which sought a standalone regime rather than folding the Racial and Religious Tolerance Act into a general framework); supported by disability, LGBTQIA+, multicultural and Jewish community organisations and VEOHRC. The divergence of civil society positions on this Act — unlike the near-unanimous opposition to the anti-protest statutes — is itself a finding worth recording.",
+          "tags": [
+            "vilification",
+            "hate-speech",
+            "Vic"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "cth-antisemitism-hate-extremism-2026",
+          "jurisdiction": "Commonwealth",
+          "short_title": "Combatting Antisemitism, Hate and Extremism (Criminal and Migration Laws) Act 2026 (No. 2, 2026)",
+          "full_title": "Combatting Antisemitism, Hate and Extremism (Criminal and Migration Laws) Act 2026 (Cth) (No. 2, 2026)",
+          "year": 2026,
+          "url": "https://www.legislation.gov.au/C2026A00002/asmade",
+          "key_provisions": [
+            "Exposure draft referred to the PJCIS on 12 January 2026; hearings 13–14 January 2026; submissions closed 15 January 2026. Passage announced and assent 21 January 2026 — nine days from referral to assent. The exposure draft's customs and firearms schedules, including a national buy-back, did not survive into the Act.",
+            "Section 80.2BF: new offence of promoting or inciting racial hatred, with a religious-text defence. Section 80.2DA: aggravated offence for religious officials or leaders advocating violence — 10 years, or 12 years where the conduct threatens the Commonwealth. New Part 5.3B: a prohibited hate group listing framework, the Minister listing on ASIO advice, with membership, recruitment, training, funding and support offences.",
+            "Migration: new character grounds, with the threshold lowered from 'would' to 'might' across ss 5C(1)(d), 500A(1)(c) and 501(6)(d) of the Migration Act 1958. Also increases penalties for postal harassment, creates an aggravated grooming offence, and amends the hate-symbol provisions (reversed evidential burden, lowered fault elements, expanded definitions, new direction and seizure powers)."
+          ],
+          "commentary": "THE SINGLE MOST IMPORTANT ADDITION TO THIS TRACKER. Enacted in the wake of the December 2025 Bondi Beach attack, in nine days from referral to assent. Part 5.3B creates a second hate-group proscription regime running in parallel to Division 102 and the Charter of the United Nations Act — Australia now has three proscription regimes. Its threshold is lower (a 'risk' of future conduct on ASIO advice) and it reaches 'hate groups' rather than terrorist organisations; which groups are listed under it, and how quickly, is the most consequential empirical question this platform can put to the material. The migration schedule operates entirely outside the criminal law and its evidentiary standards, so enforcement here will not appear in court records and will require separate data sources. The Australian Human Rights Commission's opening statement (14 January 2026) said three days for the inquiry 'is insufficient', flagged vague terms ('hatred', 'risk of harm', 'endorsement') as risking capture of legitimate speech, noted the religious-text defence lacks a good-faith requirement, and observed there is no procedural fairness in hate-group listings. The Law Council of Australia supported the objective but warned that 'compressed timelines and limited consultation periods increase the risk of drafting errors, inconsistencies and unintended consequences'.",
+          "tags": [
+            "proscription",
+            "hate-speech",
+            "migration",
+            "Cth"
+          ],
           "related_cases": []
         }
       ]
@@ -237,76 +783,283 @@
         {
           "id": "nsw-summary-offences-1988",
           "jurisdiction": "NSW",
-          "short_title": "Summary Offences Act 1988 (NSW) — Part 4 Public Assemblies",
-          "full_title": "Summary Offences Act 1988 (NSW), Part 4 — Public Assemblies",
+          "short_title": "Summary Offences Act 1988 Part 4 (Public Assemblies) and LEPRA ss 197–201",
+          "full_title": "Summary Offences Act 1988 (NSW) Part 4 — Public Assemblies, and Law Enforcement (Powers and Responsibilities) Act 2002 (NSW) ss 197–201",
           "year": 1988,
           "url": "https://legislation.nsw.gov.au/view/whole/html/inforce/current/act-1988-025",
           "key_provisions": [
-            "Part 4 (ss 22–27): framework for authorised public assemblies. An assembly can be authorised by giving 7 days' notice to the Commissioner of Police, or by court order.",
-            "Section 23: Commissioner may apply to the Court to prohibit an assembly if satisfied it will cause disruption to traffic, property damage, or public safety concerns.",
-            "Participating in an unauthorised assembly is not itself an offence, but participants lose protection from liability for obstruction and other public order offences.",
-            "Section 28F: offence to obstruct or hinder persons or vehicles on roads, carrying maximum penalty of $440 fine."
+            "Part 4 (ss 22–27): framework for authorised public assemblies. An assembly may be authorised by giving 7 days' notice to the Commissioner of Police (the Form 1), or by court order. Section 24: participants in an authorised assembly incur no liability for participating in an unlawful assembly or for obstructing a person, vehicle or vessel.",
+            "Section 23 is the notice provision; the power to prohibit an assembly is s 25, exercisable only by the Supreme or District Court on the Commissioner's application where notice was given seven or more days beforehand. Section 26 is the mirror provision by which an organiser can obtain an authorising order on shorter notice. Section 27 requires the Court to determine the application with the greatest expedition possible, and its decision is final and not subject to appeal. Participating in an unauthorised assembly is not itself an offence, but participants lose the statutory protection.",
+            "LEPRA s 197: general move-on power where behaviour obstructs, harasses, intimidates, is likely to cause fear, or is for the purpose of supplying a prohibited drug. Section 199: failing to comply, maximum 2 penalty units. The safeguards requiring an officer to give their name, place of duty and reason sit in Part 15 of LEPRA, not at s 201 — s 201 simply lists the powers to which Part 15 applies.",
+            "Section 200 is the protest carve-out: ss 197–198 do not authorise directions in relation to an industrial dispute, an apparently genuine demonstration or protest, a procession, or an organised assembly — unless s 200(3) applies (a reasonably-held belief of serious risk to safety), which is self-assessed by the officer on the ground."
           ],
-          "commentary": "The authorisation framework is the primary mechanism through which protest is regulated in NSW. The interaction between Part 4 and the 2025 PARD provisions is significant: PARDs override Part 4 authorisation, meaning even court-authorised assemblies are revoked. Legal commentators have noted the 'chilling effect' of the framework: while participation in an unauthorised assembly is not criminalised per se, the loss of legal protection effectively discourages unplanned or spontaneous protest. Multiple NSW Parliament research papers (2015, 2024) have analysed the evolving framework.",
-          "tags": ["public-assembly", "authorisation", "chilling-effect", "NSW"],
-          "related_cases": []
+          "commentary": "The authorisation framework is the primary mechanism through which protest is regulated in NSW, and the pivot on which the 2025 PARD regime turned: a PARD suspended Part 4 authorisation, meaning even court-authorised assemblies were revoked — what the Court of Appeal held invalid in Jarrett v State of New South Wales [2026] NSWCA 62. The protest carve-out at s 200 is real but thin, turning on the officer's own characterisation of the gathering as 'apparently genuine' and a safety exception widened by the 2016 Interference Act. Walton J made the same observation in Kvelde, finding that Part 4 'does not accommodate spontaneous protests or protests undertaken with urgency'. The low penalty for failing to comply with a move-on direction (2 penalty units) is deliberate: move-on directions function as a dispersal and arrest-precursor tool rather than a punitive one, which is why arrest data rather than conviction data is the better measure of their use.",
+          "tags": [
+            "public-assembly",
+            "move-on",
+            "NSW"
+          ],
+          "related_cases": [
+            "Jarrett v State of New South Wales [2026] NSWCA 62",
+            "Kvelde v State of New South Wales [2023] NSWSC 1560"
+          ]
         },
         {
           "id": "vic-control-of-weapons-1990",
           "jurisdiction": "Victoria",
-          "short_title": "Control of Weapons Act 1990 (Vic) — Designated Area Powers",
-          "full_title": "Control of Weapons Act 1990 (Vic) — Designated Area Powers",
+          "short_title": "Summary Offences Act 1966 s 6 (move-on), Control of Weapons Act 1990 s 10D (designated areas), and the Charter",
+          "full_title": "Summary Offences Act 1966 (Vic) s 6 (move-on), Control of Weapons Act 1990 (Vic) s 10D (designated areas), and Charter of Human Rights and Responsibilities Act 2006 (Vic) ss 15–16",
           "year": 1990,
           "url": "https://www.legislation.vic.gov.au/in-force/acts/control-weapons-act-1990",
           "key_provisions": [
-            "Section 10D(1): power to declare a 'designated area' within which police may conduct searches without warrant.",
-            "Used in conjunction with terrorism powers under the Terrorism (Community Protection) Act 2003.",
-            "Powers include stop and search of persons in the designated area."
+            "Summary Offences Act 1966 s 6: police move-on powers. The expanded grounds introduced in 2014 were repealed in 2015 (see the Anti-Protest Legislation category); the provision has since been supplemented by the protest provisions inserted by Act 55/2025.",
+            "Control of Weapons Act 1990 s 10D(1): power to declare a 'designated area' within which police may search without warrant, including stop and search of persons in the area.",
+            "Charter s 15: freedom of expression, subject to lawful restrictions reasonably necessary for public order, health or morality. Section 16: peaceful assembly and freedom of association. The Charter operates through s 7(2) (proportionate limitation), s 32(1) (interpretation) and s 38 (public authority obligation) — it provides no free-standing cause of action."
           ],
-          "commentary": "Used alongside s 21B terrorism powers at the Land Forces Exposition protest (September 2024). VALS noted the combined use of designated area powers and terrorism powers represented a significant expansion of police authority against non-violent protest. The Victorian Inspectorate and Integrity Oversight bodies have published reports on the use of these powers.",
-          "tags": ["designated-area", "stop-and-search", "land-forces", "VALS"],
+          "commentary": "Designated area powers were used alongside s 21B terrorism powers at the Land Forces Exposition protest in September 2024; the Victorian Aboriginal Legal Service described the combined use as a significant expansion of police authority against non-violent protest. Charter rights have succeeded in protest cases only at first instance: in Victoria Police v Anderson & Ors (Magistrates' Court of Victoria, 23 July 2012, unreported) charges against 16 accused were dismissed, the Court applying ss 15, 16 and 32(1) and holding that construing the offence to prohibit political protest would contravene the right to freedom of expression — not binding. Against that, the Occupy Melbourne litigation and its appeal were dismissed, and the Victorian Supreme Court has read down the s 15 freedom of expression right in that line of cases. Net position, and an important finding for the site: no appellate authority in Victoria or Queensland has struck down or read down an anti-protest offence on Charter or Human Rights Act grounds — every successful challenge to Australian anti-protest legislation has instead run through the implied freedom of political communication, in jurisdictions where the statutory rights instruments were available but not decisive.",
+          "tags": [
+            "move-on",
+            "designated-area",
+            "charter-rights",
+            "Vic"
+          ],
+          "related_cases": [
+            "Victoria Police v Anderson & Ors (Magistrates' Court of Victoria, unreported, 23 July 2012)"
+          ]
+        },
+        {
+          "id": "qld-peaceful-assembly-1992",
+          "jurisdiction": "Queensland",
+          "short_title": "Peaceful Assembly Act 1992 (Act No. 38 of 1992) and Human Rights Act 2019 ss 21–22",
+          "full_title": "Peaceful Assembly Act 1992 (Qld) (Act No. 38 of 1992) and Human Rights Act 2019 (Qld) ss 21–22",
+          "year": 1992,
+          "url": "https://www.legislation.qld.gov.au/view/html/inforce/current/act-1992-038",
+          "key_provisions": [
+            "Section 5: statutory right — 'A person has the right to assemble peacefully with others in a public place' — subject only to restrictions necessary and reasonable in a democratic society. Section 6: a participant in an authorised assembly held substantially in accordance with the notice incurs no civil or criminal liability for obstruction.",
+            "Sections 8–10: written notice to the Commissioner of Police and the local authority; the assembly is authorised if notice is given and no court refusal order is made. Section 12 — the critical structural feature: the Commissioner and local authority have NO power to refuse to authorise the assembly. They must instead apply to a Magistrates Court for a refusal order, and only where notice was given at least five business days beforehand. Section 11 allows conditions to be attached to a permission notice, requiring the organiser's agreement.",
+            "Sections 12–16: only a Magistrates Court may refuse authorisation; mediation is required first, short-notice assemblies may be authorised by the Court, and the Court must hear applications 'with the greatest possible speed' and minimal formality. The Act creates no offences and no penalties.",
+            "Human Rights Act 2019 (Qld) s 21 (freedom of expression) and s 22 (peaceful assembly and association, including trade unions), limited under s 13, with no independent cause of action."
+          ],
+          "commentary": "The Goss government reform that replaced the Bjelke-Petersen permit regime, and still the most protest-protective assembly framework in Australia — the comparator against which every other jurisdiction's framework should be read. Key differences from NSW Part 4: a declared statutory right and objects clause; only a court, not the executive, can refuse authorisation; mandatory mediation; and an express short-notice judicial pathway that partly answers Walton J's criticism in Kvelde that NSW cannot accommodate spontaneous protest. The framework has since been overlaid by the Summary Offences and Other Legislation Amendment Act 2019 (Qld) (see the Anti-Protest Legislation category) — the clearest illustration in Australian law of a rights-based assembly statute being neutralised by conduct offences enacted around it. In Attorney-General for the State of Queensland v Sri & Ors [2020] QSC 246 (Applegarth J, 8 August 2020) the Supreme Court granted an ex parte interlocutory injunction restraining a planned sit-in on Brisbane's Story Bridge during COVID-19, acknowledging the ss 21–22 rights but holding the limitation justified — not a final determination on the assembly scheme itself. Do not cite Gilbert v Metro North Hospital and Health Service as protest authority — it engages s 22 but concerns employment conduct.",
+          "tags": [
+            "public-assembly",
+            "human-rights-act",
+            "Qld"
+          ],
+          "related_cases": [
+            "Attorney-General (Qld) v Sri & Ors [2020] QSC 246"
+          ]
+        },
+        {
+          "id": "sa-public-assemblies-1972",
+          "jurisdiction": "South Australia",
+          "short_title": "Public Assemblies Act 1972 and Summary Offences Act 1953 s 58",
+          "full_title": "Public Assemblies Act 1972 (SA) and Summary Offences Act 1953 (SA) s 58",
+          "year": 1972,
+          "url": "https://www.legislation.sa.gov.au/lz?path=%2Fc%2Fa%2Fpublic+assemblies+act+1972",
+          "key_provisions": [
+            "Organisers may give notice at least 4 days before an assembly or procession, stating date, times, location or route, organiser details, purpose and estimated numbers. Section 6: if no objection is raised and the assembly proceeds in accordance with the notice, participants incur no civil or criminal liability for obstruction of a public place.",
+            "An assembly held without notice is not itself unlawful — it simply attracts no obstruction immunity.",
+            "Summary Offences Act s 58, before the 2023 amendment: wilful obstruction of a public place, maximum $750, no imprisonment. Current s 58 (see the Anti-Protest Legislation category for the 2023 amendment): 'A person who intentionally obstructs the free passage of a public place is guilty of an offence' — up to $50,000 or 3 months imprisonment, with an exception preserved for a person exercising a legal or equitable interest in the place."
+          ],
+          "commentary": "The structural point that makes the 2023 amendment intelligible: South Australia does not prohibit unnotified assembly, it withdraws immunity from it. The 2023 Act therefore did not create a new prohibition — it raised the cost of losing that immunity by roughly 66 times. This is the clearest example in this tracker of an anti-protest measure operating through an existing immunity structure rather than a new offence, and it is easy to misread from the offence provision alone. The same structure exists in Queensland (Peaceful Assembly Act s 6), NSW (Summary Offences Act s 24) and Western Australia (Public Order in Streets Act) — four of nine jurisdictions regulate protest primarily through conditional immunity rather than prohibition.",
+          "tags": [
+            "public-assembly",
+            "obstruction",
+            "SA"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "wa-public-order-in-streets-1984",
+          "jurisdiction": "Western Australia",
+          "short_title": "Public Order in Streets Act 1984, Criminal Investigation Act 2006 s 27, and the Criminal Code",
+          "full_title": "Public Order in Streets Act 1984 (WA), Criminal Investigation Act 2006 (WA) s 27, and Criminal Code (WA)",
+          "year": 1984,
+          "url": "https://www.legislation.wa.gov.au/legislation/statutes.nsf/main_mrtitle_770_homepage.html",
+          "key_provisions": [
+            "There is no offence of holding a public meeting or procession without a permit; the permit's function is protective, supplying immunity from traffic and obstruction charges. Notice to the Commissioner of Police at least 4 days beforehand.",
+            "The Commissioner may refuse only on reasonable grounds to apprehend serious public disorder, property damage, excessive or prolonged obstruction, or a risk to safety. Section 8: review of a refusal to the State Administrative Tribunal.",
+            "Criminal Investigation Act 2006 s 27: police may order a person to move on for up to 24 hours; the statutory grounds and penalty for breach could not be confirmed and should be checked before publication.",
+            "Other offences commonly used against protesters: Criminal Code (WA) s 62 unlawful assembly (12 months or $12,000), s 65 riot (5–10 years), s 70A trespass (12 months or $12,000), s 74A disorderly behaviour ($6,000); Road Traffic Code 2000 (WA) r 201 obstructing pedestrians or vehicles ($100)."
+          ],
+          "commentary": "This is the permit regime that the Public Order Legislation Amendment Bill 2026 (see the Anti-Protest Legislation category) would tighten, by empowering police to refuse a permit on hate-promotion grounds. Reading the two together shows what is actually being changed: not a prohibition, but the conditions on which protective immunity is granted, together with a new discretionary refusal power. Western Australia has enacted no dedicated anti-protest statute; until 2026 it relied entirely on the general Criminal Code offences above and move-on powers — which is why the WA anti-protest entries in this tracker are mostly Bills rather than Acts, and why the outcome of the 2026 Bills matters for the national picture.",
+          "tags": [
+            "permit",
+            "move-on",
+            "WA"
+          ],
+          "related_cases": []
+        },
+        {
+          "id": "tas-police-offences-act-1935",
+          "jurisdiction": "Tasmania",
+          "short_title": "Police Offences Act 1935",
+          "full_title": "Police Offences Act 1935 (Tas)",
+          "year": 1935,
+          "url": "https://www.legislation.tas.gov.au/view/html/inforce/current/act-1935-044",
+          "key_provisions": [
+            "The general public order statute, and since the 2022 repeal of the Workplaces (Protection from Protesters) Act 2014 the primary vehicle for protest offences in Tasmania.",
+            "Section 13: public annoyance, including unreasonable obstruction of a street — penalty raised from 3 to 10 penalty units in 2022. Section 14B: trespass, with the aggravated workplace-protection provisions inserted in 2022 (see the Anti-Protest Legislation category).",
+            "Sections 6C and 6D: Nazi symbol and gesture prohibitions, inserted in 2023 (see the Political Violence, Hate and Extremism category)."
+          ],
+          "commentary": "Tasmania is the clearest illustration of the drafting shift this tracker documents: from a standalone, protest-specific statute (2014, struck down 2017) to protest-specific penalties embedded within a general public order Act (2022). The conduct reached is substantially similar; the constitutional exposure is not. Because the offences now sit inside a general statute, protest prosecutions in Tasmania are considerably harder to identify from the legislation alone — charge-level coding will be needed to separate them from ordinary trespass matters, a data-collection implication worth recording in the codebook.",
+          "tags": [
+            "trespass",
+            "general-offence-drafting",
+            "Tas"
+          ],
           "related_cases": []
         },
         {
           "id": "act-human-rights-2004",
           "jurisdiction": "ACT",
-          "short_title": "Human Rights Act 2004 (ACT) and Public Assemblies Act 1959 (ACT)",
+          "short_title": "Human Rights Act 2004 and Public Assemblies Act 1959",
           "full_title": "Human Rights Act 2004 (ACT) and Public Assemblies Act 1959 (ACT)",
           "year": 2004,
           "url": "https://www.legislation.act.gov.au/View/a/2004-5/current/html/2004-5.html",
           "key_provisions": [
-            "The ACT Human Rights Act expressly protects the right to peaceful assembly (s 15), freedom of association (s 15), and freedom of expression (s 16).",
-            "No formal approval required for protests or demonstrations in most public spaces.",
-            "Permission required for protests in parliamentary precincts (Parliamentary Precincts Act 1988 (Cth)) and diplomatic areas.",
-            "Permission also required to erect structures as part of protest."
+            "The ACT Human Rights Act expressly protects the right to peaceful assembly and freedom of association (s 15) and freedom of expression (s 16). No formal approval is required for protests or demonstrations in most public spaces.",
+            "Permission is required for protests in parliamentary precincts (Parliamentary Precincts Act 1988 (Cth)) and diplomatic areas, and to erect structures as part of a protest."
           ],
-          "commentary": "The ACT's human rights framework provides stronger protections for protest than any other Australian jurisdiction. The ACT has not enacted specific anti-protest legislation of the kind seen in NSW, Queensland, Victoria, Tasmania, or South Australia. However, Commonwealth laws (including the Parliamentary Precincts Act) impose some restrictions on protest in the national capital. The ACT stands as a notable counterpoint to the broader trend of securitisation of protest across Australia.",
-          "tags": ["human-rights", "ACT", "counterpoint", "peaceful-assembly"],
+          "commentary": "The ACT's human rights framework provides stronger protections for protest than any other Australian jurisdiction, and it has enacted no anti-protest legislation of the kind seen in NSW, Queensland, Victoria, Tasmania and South Australia. Commonwealth laws, including the Parliamentary Precincts Act, still impose restrictions on protest in the national capital. The ACT is the control case for this tracker: a jurisdiction with comparable protest activity and no securitising legislative response — any claim that the post-2019 wave was a necessary response to changed protest tactics has to account for it.",
+          "tags": [
+            "human-rights-act",
+            "control-case",
+            "ACT"
+          ],
           "related_cases": []
         },
         {
           "id": "nt-summary-offences-1923",
           "jurisdiction": "Northern Territory",
-          "short_title": "Summary Offences Act 1923 (NT) and Police Administration Act 2014 (NT)",
-          "full_title": "Summary Offences Act 1923 (NT) and Police Administration Act 2014 (NT)",
+          "short_title": "Summary Offences Act 1923 and Police Administration Act 1978",
+          "full_title": "Summary Offences Act 1923 (NT) and Police Administration Act 1978 (NT)",
           "year": 1923,
           "url": "https://legislation.nt.gov.au/Legislation/SUMMARY-OFFENCES-ACT-1923",
           "key_provisions": [
-            "Permit required to protest in a public place.",
-            "Move-on powers: police may issue move-on directions; failure to comply is a criminal offence.",
-            "Move-on orders do not apply to authorised public assemblies."
+            "Permit required to protest in a public place. Move-on powers: police may issue move-on directions, and failure to comply is a criminal offence; move-on orders do not apply to authorised public assemblies.",
+            "CORRECTION: the previous version of this tracker cited the 'Police Administration Act 2014 (NT)'. The principal Act is the Police Administration Act 1978 (NT); this entry's citation has been corrected accordingly."
           ],
-          "commentary": "The NT has not introduced specific anti-protest legislation targeting environmental or political activism. The permit system and move-on powers are the primary regulatory tools. The NT's relatively small population and different political dynamics have meant less legislative focus on protest securitisation compared to southeastern states.",
-          "tags": ["move-on", "permit", "NT"],
+          "commentary": "The Northern Territory has not introduced specific anti-protest legislation targeting environmental or political activism; the permit system and move-on powers are the primary regulatory tools. The NT's smaller population and different political dynamics have meant less legislative focus on protest securitisation than in the south-eastern states. Together with the ACT, the NT provides the comparison set for jurisdictions that did not legislate — as analytically necessary as the jurisdictions that did.",
+          "tags": [
+            "move-on",
+            "permit",
+            "NT"
+          ],
           "related_cases": []
         }
       ]
+    }
+  ],
+  "key_cases": [
+    {
+      "id": "brown-v-tasmania-2017",
+      "case_name": "Brown v Tasmania",
+      "court_year": "High Court of Australia, 2017",
+      "citation": "[2017] HCA 43",
+      "provision_considered": "Workplaces (Protection from Protesters) Act 2014 (Tas)",
+      "outcome": "Key operative provisions invalid in their operation on forestry land, 5:2 (Gordon and Edelman JJ dissenting) — the first invalidation of anti-protest legislation on implied freedom grounds.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2017/43.html"
     },
     {
-      "id": "political-violence-extremism",
-      "label": "Political Violence and Extremism Legislation",
-      "description": "Commonwealth, state and territory legislation defining, proscribing and penalising terrorism and politically motivated violence, including proscription regimes, hate-symbol and incitement offences, and recent antisemitism, hate and extremism measures. These are the provisions under which the political violence prosecutions in this database are charged.",
-      "entries": []
+      "id": "clubb-v-edwards-2019",
+      "case_name": "Clubb v Edwards; Preston v Avery",
+      "court_year": "High Court of Australia, 2019",
+      "citation": "[2019] HCA 11",
+      "provision_considered": "Abortion clinic safe access zones (Vic and Tas)",
+      "outcome": "Legislation upheld — the principal authority for the proposition that content-neutral protest restrictions may be proportionate.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2019/11.html"
+    },
+    {
+      "id": "kvelde-v-nsw-2023",
+      "case_name": "Kvelde v State of New South Wales",
+      "court_year": "NSW Supreme Court, Walton J, 13 December 2023",
+      "citation": "[2023] NSWSC 1560",
+      "provision_considered": "Crimes Act 1900 (NSW) s 214A; Roads Regulation 2018 cl 48A(1)",
+      "outcome": "Section 214A(1)(c) and (d) invalid; (a) and (b), and cl 48A(1), valid. Walton J also criticised Summary Offences Act 1988 Part 4 for failing to accommodate spontaneous protest.",
+      "url": "https://www.caselaw.nsw.gov.au/decision/18c5af7c0dffcf5160213c43"
+    },
+    {
+      "id": "lees-v-nsw-2025",
+      "case_name": "Lees v State of New South Wales",
+      "court_year": "NSW Supreme Court, Mitchelmore J, 16 October 2025",
+      "citation": "[2025] NSWSC 1209",
+      "provision_considered": "LEPRA s 200(5), inserted by the Crimes Amendment (Places of Worship) Act 2025",
+      "outcome": "Invalid. Failed at the necessity stage: an obvious and compelling alternative existed, limited to protests affecting persons accessing or leaving a place of worship.",
+      "url": "https://www.caselaw.nsw.gov.au/decision/199e5c7433d9fb1aa8d32c05"
+    },
+    {
+      "id": "jarrett-v-nsw-2026",
+      "case_name": "Jarrett v State of New South Wales",
+      "court_year": "NSW Court of Appeal, 2026",
+      "citation": "[2026] NSWCA 62",
+      "provision_considered": "Public Assembly Restriction Declaration scheme, Terrorism (Police Powers) Act 2002 (NSW) Pt 2 Div 3A",
+      "outcome": "Scheme invalid. 'Social cohesion' held not to be a constitutionally legitimate end in itself. Applied the test as restated in Ravbar (2025). Whether special leave to appeal to the High Court has been sought is unconfirmed.",
+      "url": ""
+    },
+    {
+      "id": "thomas-v-mowbray-2007",
+      "case_name": "Thomas v Mowbray",
+      "court_year": "High Court of Australia, 2007",
+      "citation": "[2007] HCA 33; (2007) 233 CLR 307",
+      "provision_considered": "Criminal Code Div 104 (control orders)",
+      "outcome": "Upheld 5:2 (Kirby and Hayne JJ dissenting) — the first constitutional test of the post-9/11 preventive architecture.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2007/33.html"
+    },
+    {
+      "id": "alexander-v-minister-home-affairs-2022",
+      "case_name": "Alexander v Minister for Home Affairs",
+      "court_year": "High Court of Australia, 2022",
+      "citation": "[2022] HCA 19",
+      "provision_considered": "Australian Citizenship Act 2007 s 36B",
+      "outcome": "Invalid. Ministerial citizenship cessation for conduct is punitive and therefore exclusively judicial.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2022/19.html"
+    },
+    {
+      "id": "benbrika-v-minister-home-affairs-2023",
+      "case_name": "Benbrika v Minister for Home Affairs",
+      "court_year": "High Court of Australia, 2023",
+      "citation": "[2023] HCA 33",
+      "provision_considered": "Australian Citizenship Act 2007 s 36D",
+      "outcome": "Invalid. Punishment of criminal conduct is exclusively judicial even when severed from adjudication. Note: [2023] HCA 33, not [2023] HCA 25.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2023/33.html"
+    },
+    {
+      "id": "minister-home-affairs-v-benbrika-2021",
+      "case_name": "Minister for Home Affairs v Benbrika",
+      "court_year": "High Court of Australia, 2021",
+      "citation": "[2021] HCA 4",
+      "provision_considered": "Criminal Code Div 105A (continuing detention orders)",
+      "outcome": "Upheld. The majority found an evident non-punitive, protective purpose.",
+      "url": "https://classic.austlii.edu.au/au/cases/cth/HCA/2021/4.html"
+    },
+    {
+      "id": "ag-qld-v-sri-2020",
+      "case_name": "Attorney-General (Qld) v Sri & Ors",
+      "court_year": "Queensland Supreme Court, Applegarth J, 8 August 2020",
+      "citation": "[2020] QSC 246",
+      "provision_considered": "Human Rights Act 2019 (Qld) ss 21–22",
+      "outcome": "Ex parte interlocutory injunction restraining a planned Story Bridge sit-in. Rights acknowledged, limitation held justified. Not a final determination on the assembly scheme.",
+      "url": "https://www.queenslandjudgments.com.au/caselaw/qsc/2020/246"
+    },
+    {
+      "id": "victoria-police-v-anderson-2012",
+      "case_name": "Victoria Police v Anderson & Ors",
+      "court_year": "Magistrates' Court of Victoria, 2012",
+      "citation": "(unreported, 23 July 2012)",
+      "provision_considered": "Charter of Human Rights and Responsibilities Act 2006 (Vic) ss 15, 16, 32(1)",
+      "outcome": "Charges against 16 accused dismissed — the clearest Victorian example of Charter rights defeating protest charges. First instance only, not binding, and unreported.",
+      "url": ""
+    },
+    {
+      "id": "brown-v-victoria-no3-2025",
+      "case_name": "Brown v State of Victoria (No 3)",
+      "court_year": "Victorian Supreme Court, Harris J, 12 December 2025",
+      "citation": "[2025] VSC 765",
+      "provision_considered": "Police use of OC foam at the 2019 IMARC protest",
+      "outcome": "Two OC foam deployments were batteries without lawful justification; the ss 322K, 322N and 462A defences failed. Damages $54,000, including $10,000 aggravated.",
+      "url": "https://www.supremecourt.vic.gov.au/sites/default/files/2025-12/Brown%20v%20State%20of%20Victoria%20(No%203)%20%5B2025%5D%20VSC%20765.pdf"
     }
   ],
   "themes": [
