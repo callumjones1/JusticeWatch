@@ -3505,8 +3505,10 @@ ul {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
+  padding: 0;
   box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
 }
 
 .analytics-graph-svg {
@@ -3623,4 +3625,76 @@ ul {
 .ng-brush .selection {
   fill: var(--color-accent-soft);
   stroke: var(--color-accent);
+}
+
+.ng-panel {
+  position: absolute;
+  z-index: 6;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.8rem;
+}
+
+.ng-panel-top {
+  top: 3.25rem;
+  left: 0.75rem;
+  right: 210px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.ng-panel-search {
+  min-width: 160px;
+}
+
+.ng-panel-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-border);
+  margin: 0 0.15rem;
+}
+
+.ng-panel-side {
+  top: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  width: 190px;
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  overflow-y: auto;
+}
+
+.ng-panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ng-panel-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ng-panel-stack .leg-pill {
+  width: 100%;
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .ng-panel-top {
+    right: 0.75rem;
+  }
+  .ng-panel-side {
+    position: static;
+    width: auto;
+    margin: 0.75rem;
+  }
 }

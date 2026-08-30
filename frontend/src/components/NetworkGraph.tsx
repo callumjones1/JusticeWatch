@@ -34,13 +34,20 @@ type SimLink = { source: SimNode | string; target: SimNode | string; colour: str
 const TYPE_CENTER: Record<NetworkNodeType, [number, number]> = {
   legislation: [0.22, 0.3],
   incident: [0.78, 0.28],
-  source: [0.85, 0.64],
+  source: [0.78, 0.64],
   case: [0.5, 0.85],
 };
 
 // Contiguous ring order for the circular layout — sources sit next to the
 // incidents they're drawn from.
 const CIRCULAR_ORDER: NetworkNodeType[] = ['legislation', 'incident', 'source', 'case'];
+
+// Pixel margins reserved for the settings overlays that sit on top of the
+// canvas (top toolbar row(s) + right sidebar) — layout math keeps clusters
+// and the circular ring inside the remaining visible area rather than under
+// that chrome. Analytics.tsx's overlay CSS positions match these.
+export const TOP_RESERVE = 150;
+export const RIGHT_RESERVE = 210;
 
 interface NetworkGraphProps {
   nodes: NetworkNode[];
@@ -71,6 +78,13 @@ export default function NetworkGraph({
 
     const W = container.clientWidth || 900;
     const H = height;
+    // Visible area not covered by the settings overlays — clusters, the
+    // circular ring, and fit/focus framing all target this sub-rectangle
+    // rather than the full canvas.
+    const safeW = Math.max(200, W - RIGHT_RESERVE);
+    const safeH = Math.max(200, H - TOP_RESERVE);
+    const safeCX = safeW / 2;
+    const safeCY = TOP_RESERVE + safeH / 2;
 
     d3.select(container).selectAll('.ng-overlay').remove();
 
@@ -107,11 +121,11 @@ export default function NetworkGraph({
 
     if (layout === 'circular') {
       const sorted = [...nodeData].sort((a, b) => CIRCULAR_ORDER.indexOf(a.type) - CIRCULAR_ORDER.indexOf(b.type));
-      const R = Math.min(W, H) / 2 - 40;
+      const R = Math.min(safeW, safeH) / 2 - 40;
       sorted.forEach((n, i) => {
         const angle = (i / sorted.length) * Math.PI * 2 - Math.PI / 2;
-        n.x = W / 2 + R * Math.cos(angle);
-        n.y = H / 2 + R * Math.sin(angle);
+        n.x = safeCX + R * Math.cos(angle);
+        n.y = safeCY + R * Math.sin(angle);
       });
       sim
         .force('collide', d3.forceCollide<SimNode>().radius(d => radius(d) + 2).strength(0.9))
@@ -125,12 +139,12 @@ export default function NetworkGraph({
         .alphaDecay(0.02);
       if (layout === 'clustered') {
         sim
-          .force('x', d3.forceX<SimNode>(d => TYPE_CENTER[d.type][0] * W).strength(0.06))
-          .force('y', d3.forceY<SimNode>(d => TYPE_CENTER[d.type][1] * H).strength(0.06));
+          .force('x', d3.forceX<SimNode>(d => TYPE_CENTER[d.type][0] * safeW).strength(0.06))
+          .force('y', d3.forceY<SimNode>(d => TOP_RESERVE + TYPE_CENTER[d.type][1] * safeH).strength(0.06));
       } else {
         sim
-          .force('x', d3.forceX<SimNode>(W / 2).strength(0.02))
-          .force('y', d3.forceY<SimNode>(H / 2).strength(0.02));
+          .force('x', d3.forceX<SimNode>(safeCX).strength(0.02))
+          .force('y', d3.forceY<SimNode>(safeCY).strength(0.02));
       }
     }
 
@@ -172,9 +186,9 @@ export default function NetworkGraph({
       const xs = nodeData.map(n => n.x ?? 0), ys = nodeData.map(n => n.y ?? 0);
       const x0 = Math.min(...xs) - 24, x1 = Math.max(...xs) + 24;
       const y0 = Math.min(...ys) - 24, y1 = Math.max(...ys) + 24;
-      const scale = Math.min((W - 60) / (x1 - x0 || 1), (H - 60) / (y1 - y0 || 1), 2.5);
-      const tx = W / 2 - ((x0 + x1) / 2) * scale;
-      const ty = H / 2 - ((y0 + y1) / 2) * scale;
+      const scale = Math.min((safeW - 40) / (x1 - x0 || 1), (safeH - 40) / (y1 - y0 || 1), 2.5);
+      const tx = safeCX - ((x0 + x1) / 2) * scale;
+      const ty = safeCY - ((y0 + y1) / 2) * scale;
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
     }
 
@@ -185,8 +199,8 @@ export default function NetworkGraph({
       const cx = xs.reduce((a, b) => a + b, 0) / xs.length;
       const cy = ys.reduce((a, b) => a + b, 0) / ys.length;
       const scale = 1.7;
-      const tx = W / 2 - cx * scale;
-      const ty = H / 2 - cy * scale;
+      const tx = safeCX - cx * scale;
+      const ty = safeCY - cy * scale;
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
       setSelection(new Set(ids));
     }

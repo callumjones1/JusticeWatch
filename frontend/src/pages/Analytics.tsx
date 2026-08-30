@@ -132,6 +132,104 @@ function useDebouncedValue<T>(value: T, delay: number): T {
   return debounced;
 }
 
+function truncateLabel(s: string, maxChars: number): string {
+  return s.length > maxChars ? s.slice(0, maxChars - 1) + '…' : s;
+}
+
+const LEG_CHART_W = 900;
+const LEG_CHART_ROW_H = 34;
+const LEG_CHART_BAR_H = 22;
+const LEG_CHART_LEFT = 250;
+const LEG_CHART_RIGHT = 56;
+
+function LegislationIndexChart({
+  rows, legislationById,
+}: {
+  rows: LegIndexRow[];
+  legislationById: Map<string, LegEntry>;
+}) {
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; row: LegIndexRow } | null>(null);
+  const innerW = LEG_CHART_W - LEG_CHART_LEFT - LEG_CHART_RIGHT;
+  const maxCases = Math.max(...rows.map(r => r.cases ?? 0), 1);
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map(f => Math.round(maxCases * f));
+  const chartH = rows.length * LEG_CHART_ROW_H + 16;
+
+  if (rows.length === 0) {
+    return <p className="events-detail-note">No provisions match the current filters.</p>;
+  }
+
+  return (
+    <div>
+      <div className="cases-chart-legend" style={{ marginBottom: '0.75rem' }}>
+        {(Object.keys(CASE_REGISTER_META) as CaseRegister[]).map(r => (
+          <div key={r} className="cases-legend-item">
+            <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
+            {CASE_REGISTER_META[r].label}
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'relative' }}>
+        <svg viewBox={`0 0 ${LEG_CHART_W} ${chartH}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
+          {ticks.map((t, i) => {
+            const x = LEG_CHART_LEFT + (t / maxCases) * innerW;
+            return (
+              <g key={i}>
+                <line x1={x} y1={4} x2={x} y2={chartH - 12} stroke="var(--color-border)" strokeWidth={1} />
+                <text x={x} y={chartH - 2} textAnchor="middle" fontSize="10" fill="var(--color-text-muted)">{t}</text>
+              </g>
+            );
+          })}
+          {rows.map((r, i) => {
+            const cy = 12 + i * LEG_CHART_ROW_H;
+            const barW = Math.max(2, (r.cases ?? 0) / maxCases * innerW);
+            const colour = CASE_REGISTER_META[r.register].color;
+            const linkedEntry = r.legislation_id ? legislationById.get(r.legislation_id) : undefined;
+            const barTop = cy - LEG_CHART_BAR_H / 2;
+            const path = barW <= 4
+              ? `M${LEG_CHART_LEFT},${barTop} h${barW} v${LEG_CHART_BAR_H} h${-barW} Z`
+              : `M${LEG_CHART_LEFT},${barTop} H${LEG_CHART_LEFT + barW - 4} Q${LEG_CHART_LEFT + barW},${barTop} ${LEG_CHART_LEFT + barW},${barTop + 4} V${barTop + LEG_CHART_BAR_H - 4} Q${LEG_CHART_LEFT + barW},${barTop + LEG_CHART_BAR_H} ${LEG_CHART_LEFT + barW - 4},${barTop + LEG_CHART_BAR_H} H${LEG_CHART_LEFT} Z`;
+            return (
+              <g key={i}>
+                <text x={LEG_CHART_LEFT - 10} y={cy + 4} textAnchor="end" fontSize="11" fill="var(--color-text)">
+                  {truncateLabel(r.name, 34)}
+                </text>
+                <path
+                  d={path}
+                  fill={colour}
+                  style={{ cursor: linkedEntry ? 'pointer' : 'default' }}
+                  onClick={() => linkedEntry && window.open(linkedEntry.url, '_blank', 'noopener,noreferrer')}
+                  onMouseEnter={e => setTooltip({ x: e.clientX, y: e.clientY, row: r })}
+                  onMouseMove={e => setTooltip({ x: e.clientX, y: e.clientY, row: r })}
+                  onMouseLeave={() => setTooltip(null)}
+                />
+                <text x={LEG_CHART_LEFT + barW + 8} y={cy + 4} fontSize="11" fill="var(--color-text-muted)" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {r.cases}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+        {tooltip && (
+          <div
+            style={{
+              position: 'fixed', left: tooltip.x + 12, top: tooltip.y - 10, zIndex: 1000, pointerEvents: 'none',
+              background: 'var(--color-primary)', color: 'var(--color-text-light)', padding: '0.5rem 0.75rem',
+              borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', maxWidth: '260px', boxShadow: 'var(--shadow-lg)',
+            }}
+          >
+            <div style={{ fontWeight: 600, marginBottom: '0.15rem' }}>{tooltip.row.name}</div>
+            {tooltip.row.category && <div style={{ opacity: 0.75 }}>{tooltip.row.category}</div>}
+            <div style={{ opacity: 0.75 }}>{CASE_REGISTER_META[tooltip.row.register].label} · {tooltip.row.cases} cases</div>
+            {tooltip.row.earliest_year && tooltip.row.latest_year && (
+              <div style={{ opacity: 0.75 }}>{tooltip.row.earliest_year}–{tooltip.row.latest_year}</div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Analytics() {
   const [activeTab, setActiveTab] = useState<AnalyticsTab>('network');
   const [mapSubView, setMapSubView] = useState<MapSubView>('graph');
@@ -162,6 +260,7 @@ export default function Analytics() {
   const [legIdxSearch, setLegIdxSearch] = useState('');
   const [legIdxRegister, setLegIdxRegister] = useState<'all' | CaseRegister>('all');
   const [legIdxSort, setLegIdxSort] = useState<'cases' | 'name' | 'latest_year'>('cases');
+  const [legIdxView, setLegIdxView] = useState<'visualise' | 'data'>('visualise');
 
   function nodeColour(n: GraphNode): string {
     if (n.type === 'source' && n.sourceBucket) return SOURCE_TYPE_COLOURS[n.sourceBucket];
@@ -337,6 +436,11 @@ export default function Analytics() {
     });
   }, [legIdxFiltered, legIdxSort]);
 
+  const legIdxTopRows = useMemo(
+    () => [...legIdxFiltered].sort((a, b) => (b.cases ?? 0) - (a.cases ?? 0)).slice(0, 15),
+    [legIdxFiltered]
+  );
+
   const linkedRecords = selected ? getLinkedForSelected(selected) : [];
 
   return (
@@ -371,98 +475,11 @@ export default function Analytics() {
               </p>
 
               {mapSubView === 'graph' && (
-                <>
-                  <div className="analytics-toolbar">
-                    <div className="db-search-wrapper">
-                      <span className="db-search-icon">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-                          <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        </svg>
-                      </span>
-                      <input
-                        className="db-search"
-                        type="text"
-                        placeholder="Search node labels…"
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                      />
-                      {search && (
-                        <button className="db-search-clear" onClick={() => setSearch('')} aria-label="Clear search">×</button>
-                      )}
-                    </div>
-                    <span className="db-count">{baseNodes.length.toLocaleString()} of {rawNodes.length.toLocaleString()} nodes</span>
-                  </div>
-
-                  <div className="analytics-filter-bar">
-                    <div className="leg-filter-group">
-                      <span className="leg-filter-label">Databases</span>
-                      {(Object.keys(TYPE_META) as NodeType[]).map(t => (
-                        <button
-                          key={t}
-                          className={`db-pill${typeVisible[t] ? ' db-pill-active' : ''}`}
-                          onClick={() => toggleType(t)}
-                          style={typeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
-                        >
-                          {TYPE_META[t].label} ({typeCounts[t]})
-                        </button>
-                      ))}
-                    </div>
-                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
-                      <span className="leg-filter-label">Colour by</span>
-                      <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
-                      <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
-                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Size by</span>
-                      {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
-                        <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
-                          {SIZE_MODE_META[sm]}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
-                      <span className="leg-filter-label">Layout</span>
-                      {(Object.keys(LAYOUT_META) as LayoutAlgo[]).map(la => (
-                        <button key={la} className={`leg-pill${layoutAlgo === la ? ' leg-pill-active' : ''}`} onClick={() => setLayoutAlgo(la)}>
-                          {LAYOUT_META[la]}
-                        </button>
-                      ))}
-                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Edges</span>
-                      <button className={`leg-pill${showEdges ? ' leg-pill-active' : ''}`} onClick={() => setShowEdges(v => !v)}>
-                        {showEdges ? `Shown (${graphEdges.length})` : 'Hidden'}
-                      </button>
-                      <button className="leg-pill" style={{ marginLeft: '0.75rem' }} onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
-                    </div>
-                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
-                      <span className="leg-filter-label">Repulsion</span>
-                      <div className="inc-year-range" style={{ maxWidth: '220px' }}>
-                        <input
-                          type="range" min={0.4} max={2.5} step={0.1} value={repulsion}
-                          onChange={e => setRepulsion(Number(e.target.value))}
-                          disabled={layoutAlgo === 'circular'}
-                        />
-                        <span>{repulsion.toFixed(1)}×</span>
-                      </div>
-                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Year range</span>
-                      <div className="inc-year-range">
-                        <span>{yearFrom}</span>
-                        <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearFrom}
-                          onChange={e => setYearFrom(Math.min(Number(e.target.value), yearTo))} />
-                        <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearTo}
-                          onChange={e => setYearTo(Math.max(Number(e.target.value), yearFrom))} />
-                        <span>{yearTo}</span>
-                      </div>
-                      {hasFilter && (
-                        <button className="leg-pill" onClick={clearFilters} style={{ marginLeft: 'auto' }}>Clear ×</button>
-                      )}
-                    </div>
-                  </div>
-
-                  <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
-                    Scroll to zoom · drag the background to pan · drag a node to move it · "Select area" brushes a
-                    group to highlight · right-click a node for quick actions · right-click a case or Act in the Edge
-                    List to jump here.
-                  </p>
-                </>
+                <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                  Scroll to zoom · drag the background to pan · drag a node to move it · "Select area" brushes a
+                  group to highlight · right-click a node for quick actions · right-click a case or Act in the Edge
+                  List to jump here. All map settings live on the canvas itself, below.
+                </p>
               )}
 
               {mapSubView === 'edgelist' && (
@@ -527,7 +544,90 @@ export default function Analytics() {
                         onSelectNode={id => setSelectedId(id)}
                         onNodeContextMenu={handleNodeContextMenu}
                       />
-                      <div className="cases-chart-legend" style={{ marginTop: '0.75rem' }}>
+
+                      <div className="ng-panel ng-panel-top">
+                        <div className="db-search-wrapper ng-panel-search">
+                          <span className="db-search-icon">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+                              <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                          </span>
+                          <input
+                            className="db-search"
+                            type="text"
+                            placeholder="Search node labels…"
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                          />
+                          {search && (
+                            <button className="db-search-clear" onClick={() => setSearch('')} aria-label="Clear search">×</button>
+                          )}
+                        </div>
+                        <span className="db-count">{baseNodes.length.toLocaleString()} of {rawNodes.length.toLocaleString()}</span>
+                        <span className="ng-panel-divider" />
+                        {(Object.keys(TYPE_META) as NodeType[]).map(t => (
+                          <button
+                            key={t}
+                            className={`db-pill${typeVisible[t] ? ' db-pill-active' : ''}`}
+                            onClick={() => toggleType(t)}
+                            style={typeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
+                          >
+                            {TYPE_META[t].label} ({typeCounts[t]})
+                          </button>
+                        ))}
+                        <span className="ng-panel-divider" />
+                        <span className="leg-filter-label">Colour</span>
+                        <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
+                        <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
+                        <span className="leg-filter-label" style={{ marginLeft: '0.5rem' }}>Size</span>
+                        {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
+                          <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
+                            {SIZE_MODE_META[sm]}
+                          </button>
+                        ))}
+                        <span className="leg-filter-label" style={{ marginLeft: '0.5rem' }}>Edges</span>
+                        <button className={`leg-pill${showEdges ? ' leg-pill-active' : ''}`} onClick={() => setShowEdges(v => !v)}>
+                          {showEdges ? `Shown (${graphEdges.length})` : 'Hidden'}
+                        </button>
+                      </div>
+
+                      <div className="ng-panel ng-panel-side">
+                        <div className="ng-panel-section">
+                          <span className="leg-filter-label">Layout</span>
+                          <div className="ng-panel-stack">
+                            {(Object.keys(LAYOUT_META) as LayoutAlgo[]).map(la => (
+                              <button key={la} className={`leg-pill${layoutAlgo === la ? ' leg-pill-active' : ''}`} onClick={() => setLayoutAlgo(la)}>
+                                {LAYOUT_META[la]}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="ng-panel-section">
+                          <span className="leg-filter-label">Repulsion {repulsion.toFixed(1)}×</span>
+                          <input
+                            type="range" min={0.4} max={2.5} step={0.1} value={repulsion}
+                            onChange={e => setRepulsion(Number(e.target.value))}
+                            disabled={layoutAlgo === 'circular'}
+                            style={{ width: '100%' }}
+                          />
+                        </div>
+                        <div className="ng-panel-section">
+                          <span className="leg-filter-label">Year {yearFrom}–{yearTo}</span>
+                          <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearFrom}
+                            onChange={e => setYearFrom(Math.min(Number(e.target.value), yearTo))} style={{ width: '100%' }} />
+                          <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearTo}
+                            onChange={e => setYearTo(Math.max(Number(e.target.value), yearFrom))} style={{ width: '100%' }} />
+                        </div>
+                        <div className="ng-panel-section" style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                          <button className="leg-pill" onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
+                          {hasFilter && (
+                            <button className="leg-pill" onClick={clearFilters}>Clear ×</button>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="cases-chart-legend" style={{ margin: '0.75rem 1.25rem 1.25rem' }}>
                         {(['legislation', 'incident'] as NodeType[]).map(t => (
                           <div key={t} className="cases-legend-item">
                             <span className="cases-legend-dot" style={{ background: TYPE_META[t].color }} />
@@ -711,49 +811,68 @@ export default function Analytics() {
                 ))}
               </div>
 
-              <div className="db-table-wrapper">
-                <table className="db-table">
-                  <thead>
-                    <tr>
-                      <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('name')}>Act / instrument</th>
-                      <th className="db-th">Category</th>
-                      <th className="db-th">Register</th>
-                      <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('cases')}>Cases</th>
-                      <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('latest_year')}>Year range</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {legIdxSorted.slice(0, 60).map((r, i) => {
-                      const linkedEntry = r.legislation_id ? legislationById.get(r.legislation_id) : undefined;
-                      return (
-                        <tr key={i} className="db-row">
-                          <td className="db-td db-td-name">
-                            {linkedEntry ? (
-                              <a href={linkedEntry.url} target="_blank" rel="noopener noreferrer">{r.name} ↗</a>
-                            ) : r.name}
-                            {r.provision && <div className="events-detail-note">{r.provision}</div>}
-                          </td>
-                          <td className="db-td db-td-muted" style={{ fontSize: '0.82rem' }}>{r.category ?? '—'}</td>
-                          <td className="db-td">
-                            <span className="events-status-pill" style={{ background: CASE_REGISTER_META[r.register].color + '22', color: CASE_REGISTER_META[r.register].color }}>
-                              {CASE_REGISTER_META[r.register].label}
-                            </span>
-                          </td>
-                          <td className="db-td">{r.cases}</td>
-                          <td className="db-td db-td-muted" style={{ fontSize: '0.85rem' }}>
-                            {r.earliest_year && r.latest_year ? `${r.earliest_year}–${r.latest_year}` : '—'}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                {legIdxSorted.length > 60 && (
-                  <p className="events-detail-note" style={{ marginTop: '0.75rem' }}>
-                    Showing the top 60 of {legIdxSorted.length} — narrow with search or the register filter to see more.
-                  </p>
-                )}
+              <div className="cases-view-tabs" style={{ marginBottom: '1.25rem' }}>
+                <button className={`cases-tab${legIdxView === 'visualise' ? ' cases-tab-active' : ''}`} onClick={() => setLegIdxView('visualise')}>
+                  Visualise
+                </button>
+                <button className={`cases-tab${legIdxView === 'data' ? ' cases-tab-active' : ''}`} onClick={() => setLegIdxView('data')}>
+                  Data
+                </button>
               </div>
+
+              {legIdxView === 'visualise' ? (
+                <>
+                  <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                    Top {legIdxTopRows.length} provisions by case count, within the current search and register
+                    filter. Click a bar to open its Legislation Tracker entry where one is resolved.
+                  </p>
+                  <LegislationIndexChart rows={legIdxTopRows} legislationById={legislationById} />
+                </>
+              ) : (
+                <div className="db-table-wrapper">
+                  <table className="db-table">
+                    <thead>
+                      <tr>
+                        <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('name')}>Act / instrument</th>
+                        <th className="db-th">Category</th>
+                        <th className="db-th">Register</th>
+                        <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('cases')}>Cases</th>
+                        <th className="db-th db-th-sortable" onClick={() => setLegIdxSort('latest_year')}>Year range</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {legIdxSorted.slice(0, 60).map((r, i) => {
+                        const linkedEntry = r.legislation_id ? legislationById.get(r.legislation_id) : undefined;
+                        return (
+                          <tr key={i} className="db-row">
+                            <td className="db-td db-td-name">
+                              {linkedEntry ? (
+                                <a href={linkedEntry.url} target="_blank" rel="noopener noreferrer">{r.name} ↗</a>
+                              ) : r.name}
+                              {r.provision && <div className="events-detail-note">{r.provision}</div>}
+                            </td>
+                            <td className="db-td db-td-muted" style={{ fontSize: '0.82rem' }}>{r.category ?? '—'}</td>
+                            <td className="db-td">
+                              <span className="events-status-pill" style={{ background: CASE_REGISTER_META[r.register].color + '22', color: CASE_REGISTER_META[r.register].color }}>
+                                {CASE_REGISTER_META[r.register].label}
+                              </span>
+                            </td>
+                            <td className="db-td">{r.cases}</td>
+                            <td className="db-td db-td-muted" style={{ fontSize: '0.85rem' }}>
+                              {r.earliest_year && r.latest_year ? `${r.earliest_year}–${r.latest_year}` : '—'}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  {legIdxSorted.length > 60 && (
+                    <p className="events-detail-note" style={{ marginTop: '0.75rem' }}>
+                      Showing the top 60 of {legIdxSorted.length} — narrow with search or the register filter to see more.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
