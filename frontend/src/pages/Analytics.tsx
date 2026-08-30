@@ -4,11 +4,11 @@ import incidentsData from '../data/incidents_tracker.json';
 import casesData from '../data/cases.json';
 import edgesData from '../data/case_legislation_edges.json';
 import legIndexData from '../data/legislation_index.json';
-import NetworkGraph, { type NetworkGraphHandle } from '../components/NetworkGraph';
+import NetworkGraph, { type NetworkGraphHandle, type LayoutAlgo, type SizeMode } from '../components/NetworkGraph';
+import { SOURCE_TYPE_COLOURS, normalizeSourceType, type SourceTypeLabel } from '../lib/sourceTypes';
 
 type NodeType = 'legislation' | 'incident' | 'case' | 'source';
 type CaseRegister = 'protest' | 'political_violence';
-type SourceBucket = 'Academic' | 'Government' | 'Civil Society' | 'Media' | 'International' | 'Legal/Court' | 'Other';
 type AnalyticsTab = 'network' | 'legislationIndex';
 type MapSubView = 'graph' | 'edgelist';
 
@@ -20,7 +20,7 @@ interface GraphNode {
   year: number | null;
   url?: string;
   caseRegister?: CaseRegister;
-  sourceBucket?: SourceBucket;
+  sourceBucket?: SourceTypeLabel;
   summary?: string;
 }
 
@@ -36,34 +36,17 @@ const CASE_REGISTER_META: Record<CaseRegister, { label: string; color: string }>
   political_violence: { label: 'Political violence cases', color: '#dc2626' },
 };
 
-const SOURCE_TYPE_COLOURS: Record<SourceBucket, string> = {
-  Academic: '#be185d',
-  Government: '#0f766e',
-  'Civil Society': '#7c3aed',
-  Media: '#1d4ed8',
-  International: '#c2410c',
-  'Legal/Court': '#4d7c0f',
-  Other: '#6b7280',
-};
-
 const INCIDENT_SOURCE_EDGE_COLOUR = '#94a3b8';
 const GRAPH_HEIGHT = 620;
-
-function bucketSourceType(raw: string): SourceBucket {
-  const primary = raw.split('/')[0].trim();
-  switch (primary) {
-    case 'Academic': return 'Academic';
-    case 'Government': return 'Government';
-    case 'Civil Society': return 'Civil Society';
-    case 'Activist': return 'Civil Society';
-    case 'Media': return 'Media';
-    case 'International': return 'International';
-    case 'Court': return 'Legal/Court';
-    case 'Legal': return 'Legal/Court';
-    case 'Oversight': return 'Government';
-    default: return 'Other';
-  }
-}
+const LAYOUT_META: Record<LayoutAlgo, string> = {
+  clustered: 'Clustered',
+  force: 'Force-directed',
+  circular: 'Circular',
+};
+const SIZE_MODE_META: Record<SizeMode, string> = {
+  degree: 'Degree centrality',
+  uniform: 'Uniform',
+};
 
 type LegEntry = { id: string; short_title: string; jurisdiction: string; year: number; url: string };
 type LegCategory = { id: string; label: string; entries: LegEntry[] };
@@ -94,7 +77,7 @@ const incidentSourceEdges: { incidentId: string; sourceId: string }[] = [];
 const sourceNodes: GraphNode[] = [];
 incidentsList.forEach(inc => {
   (inc.sources ?? []).forEach((s, idx) => {
-    const bucket = bucketSourceType(s.type);
+    const bucket = normalizeSourceType(s.type);
     const id = `source_${inc.id}_${idx}`;
     sourceNodes.push({
       id, type: 'source', label: s.title, sub: bucket, year: inc.year,
@@ -124,6 +107,7 @@ const rawNodes: GraphNode[] = [
 ];
 
 const nodeById = new Map(rawNodes.map(n => [n.id, n]));
+const presentSourceBuckets = [...new Set(sourceNodes.map(n => n.sourceBucket as SourceTypeLabel))];
 
 type CombinedEdge = { from: string; to: string; colour: string };
 const combinedEdges: CombinedEdge[] = [
@@ -156,6 +140,10 @@ export default function Analytics() {
     legislation: true, incident: true, case: true, source: true,
   });
   const [colourMode, setColourMode] = useState<'database' | 'caseType'>('database');
+  const [sizeMode, setSizeMode] = useState<SizeMode>('degree');
+  const [layoutAlgo, setLayoutAlgo] = useState<LayoutAlgo>('clustered');
+  const [repulsion, setRepulsion] = useState(1);
+  const debouncedRepulsion = useDebouncedValue(repulsion, 200);
   const [showEdges, setShowEdges] = useState(true);
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebouncedValue(search.trim().toLowerCase(), 300);
@@ -377,18 +365,10 @@ export default function Analytics() {
                 Every legislation, incident, case and cited source is plotted as a node. Case-to-legislation edges
                 are drawn from the case registers' own legislation mapping, so only cases and Acts that connect to
                 a live Legislation Tracker entry are linked — the rest remain unlinked nodes. Source nodes are drawn
-                from each incident's own source list (in the Incidents Tracker) and are coloured by evidentiary type —
-                Government, Civil Society, Academic, Media, International, Legal/Court.
+                from each incident's own source list (in the Incidents Tracker) and are coloured by the same
+                evidentiary-type classing used on the Case Tracker's Sources — News media, Government or official,
+                Legal or NGO commentary, Academic commentary, The Conversation.
               </p>
-
-              <div className="cases-view-tabs" style={{ marginBottom: '1.25rem' }}>
-                <button className={`cases-tab${mapSubView === 'graph' ? ' cases-tab-active' : ''}`} onClick={() => setMapSubView('graph')}>
-                  Map
-                </button>
-                <button className={`cases-tab${mapSubView === 'edgelist' ? ' cases-tab-active' : ''}`} onClick={() => setMapSubView('edgelist')}>
-                  Edge List
-                </button>
-              </div>
 
               {mapSubView === 'graph' && (
                 <>
@@ -432,14 +412,37 @@ export default function Analytics() {
                       <span className="leg-filter-label">Colour by</span>
                       <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
                       <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
+                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Size by</span>
+                      {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
+                        <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
+                          {SIZE_MODE_META[sm]}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Layout</span>
+                      {(Object.keys(LAYOUT_META) as LayoutAlgo[]).map(la => (
+                        <button key={la} className={`leg-pill${layoutAlgo === la ? ' leg-pill-active' : ''}`} onClick={() => setLayoutAlgo(la)}>
+                          {LAYOUT_META[la]}
+                        </button>
+                      ))}
                       <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Edges</span>
                       <button className={`leg-pill${showEdges ? ' leg-pill-active' : ''}`} onClick={() => setShowEdges(v => !v)}>
                         {showEdges ? `Shown (${graphEdges.length})` : 'Hidden'}
                       </button>
-                      <button className="leg-pill" style={{ marginLeft: '1.5rem' }} onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
+                      <button className="leg-pill" style={{ marginLeft: '0.75rem' }} onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
                     </div>
                     <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
-                      <span className="leg-filter-label">Year range</span>
+                      <span className="leg-filter-label">Repulsion</span>
+                      <div className="inc-year-range" style={{ maxWidth: '220px' }}>
+                        <input
+                          type="range" min={0.4} max={2.5} step={0.1} value={repulsion}
+                          onChange={e => setRepulsion(Number(e.target.value))}
+                          disabled={layoutAlgo === 'circular'}
+                        />
+                        <span>{repulsion.toFixed(1)}×</span>
+                      </div>
+                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Year range</span>
                       <div className="inc-year-range">
                         <span>{yearFrom}</span>
                         <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearFrom}
@@ -459,13 +462,67 @@ export default function Analytics() {
                     group to highlight · right-click a node for quick actions · right-click a case or Act in the Edge
                     List to jump here.
                   </p>
+                </>
+              )}
 
+              {mapSubView === 'edgelist' && (
+                <>
+                  <div className="db-toolbar" style={{ marginBottom: '1rem' }}>
+                    <div className="db-search-wrapper">
+                      <span className="db-search-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+                          <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </span>
+                      <input
+                        className="db-search"
+                        type="text"
+                        placeholder="Search case or legislation name…"
+                        value={edgeSearch}
+                        onChange={e => setEdgeSearch(e.target.value)}
+                      />
+                    </div>
+                    <span className="db-count">{edgeRows.length.toLocaleString()} of {edges.length.toLocaleString()} links</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                    {(['all', 'protest', 'political_violence'] as const).map(r => (
+                      <button
+                        key={r}
+                        className={`leg-pill${edgeRegisterFilter === r ? ' leg-pill-active' : ''}`}
+                        onClick={() => setEdgeRegisterFilter(r)}
+                      >
+                        {r === 'all' ? 'All' : CASE_REGISTER_META[r].label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                    Right-click a case name, a legislation name, or the provision cell to jump to that record (or that
+                    link) in the map view.
+                  </p>
+                </>
+              )}
+
+              <div className="cases-view-tabs" style={{ marginBottom: '1.25rem' }}>
+                <button className={`cases-tab${mapSubView === 'graph' ? ' cases-tab-active' : ''}`} onClick={() => setMapSubView('graph')}>
+                  Map
+                </button>
+                <button className={`cases-tab${mapSubView === 'edgelist' ? ' cases-tab-active' : ''}`} onClick={() => setMapSubView('edgelist')}>
+                  Edge List
+                </button>
+              </div>
+
+              {mapSubView === 'graph' && (
+                <>
                   <div className="analytics-layout">
                     <div className="analytics-graph-wrapper">
                       <NetworkGraph
                         nodes={graphNodes}
                         edges={graphEdges}
                         height={GRAPH_HEIGHT}
+                        layout={layoutAlgo}
+                        sizeMode={sizeMode}
+                        repulsion={debouncedRepulsion}
                         cmdRef={graphCmdRef}
                         onSelectNode={id => setSelectedId(id)}
                         onNodeContextMenu={handleNodeContextMenu}
@@ -490,7 +547,7 @@ export default function Analytics() {
                             </div>
                           ))
                         )}
-                        {(Object.keys(SOURCE_TYPE_COLOURS) as SourceBucket[]).map(b => (
+                        {presentSourceBuckets.map(b => (
                           <div key={b} className="cases-legend-item">
                             <span className="cases-legend-dot" style={{ background: SOURCE_TYPE_COLOURS[b] }} />
                             Source · {b}
@@ -555,39 +612,6 @@ export default function Analytics() {
 
               {mapSubView === 'edgelist' && (
                 <>
-                  <div className="db-toolbar" style={{ marginBottom: '1rem' }}>
-                    <div className="db-search-wrapper">
-                      <span className="db-search-icon">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-                          <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        </svg>
-                      </span>
-                      <input
-                        className="db-search"
-                        type="text"
-                        placeholder="Search case or legislation name…"
-                        value={edgeSearch}
-                        onChange={e => setEdgeSearch(e.target.value)}
-                      />
-                    </div>
-                    <span className="db-count">{edgeRows.length.toLocaleString()} of {edges.length.toLocaleString()} links</span>
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                    {(['all', 'protest', 'political_violence'] as const).map(r => (
-                      <button
-                        key={r}
-                        className={`leg-pill${edgeRegisterFilter === r ? ' leg-pill-active' : ''}`}
-                        onClick={() => setEdgeRegisterFilter(r)}
-                      >
-                        {r === 'all' ? 'All' : CASE_REGISTER_META[r].label}
-                      </button>
-                    ))}
-                  </div>
-                  <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
-                    Right-click a case name, a legislation name, or the provision cell to jump to that record (or that
-                    link) in the map view.
-                  </p>
                   <div className="db-table-wrapper" style={{ maxHeight: '560px', overflowY: 'auto' }}>
                     <table className="db-table">
                       <thead>

@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import data from '../data/cases.json';
 import caseSourcesData from '../data/case_sources.json';
+import { sourceTypeColour } from '../lib/sourceTypes';
 
 type CaseRegister = 'protest' | 'political_violence';
 
@@ -48,14 +49,6 @@ type SourceEntry = {
 
 const caseSources = caseSourcesData as Record<string, SourceEntry[]>;
 
-const SOURCE_TYPE_COLOURS: Record<string, string> = {
-  'News media': '#1d4ed8',
-  'Government or official': '#0f766e',
-  'Legal or NGO commentary': '#7c3aed',
-  'Academic commentary': '#be185d',
-  'The Conversation': '#c2410c',
-};
-
 function CaseSources({ c }: { c: Case }) {
   if (!c.sourcing_status) return null;
   const sources = caseSources[c.id];
@@ -69,8 +62,8 @@ function CaseSources({ c }: { c: Case }) {
               <span
                 className="cases-source-type-badge"
                 style={{
-                  backgroundColor: (SOURCE_TYPE_COLOURS[s.type] ?? '#6b7280') + '1a',
-                  color: SOURCE_TYPE_COLOURS[s.type] ?? '#6b7280',
+                  backgroundColor: sourceTypeColour(s.type) + '1a',
+                  color: sourceTypeColour(s.type),
                 }}
               >
                 {s.type}

@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
 export type NetworkNodeType = 'legislation' | 'incident' | 'case' | 'source';
+export type LayoutAlgo = 'clustered' | 'force' | 'circular';
+export type SizeMode = 'degree' | 'uniform';
 
 export interface NetworkNode {
   id: string;
@@ -36,16 +38,25 @@ const TYPE_CENTER: Record<NetworkNodeType, [number, number]> = {
   case: [0.5, 0.85],
 };
 
+// Contiguous ring order for the circular layout — sources sit next to the
+// incidents they're drawn from.
+const CIRCULAR_ORDER: NetworkNodeType[] = ['legislation', 'incident', 'source', 'case'];
+
 interface NetworkGraphProps {
   nodes: NetworkNode[];
   edges: NetworkEdge[];
   height?: number;
+  layout: LayoutAlgo;
+  sizeMode: SizeMode;
+  repulsion: number;
   cmdRef: React.MutableRefObject<NetworkGraphHandle | null>;
   onSelectNode: (id: string | null) => void;
   onNodeContextMenu: (id: string, clientX: number, clientY: number) => void;
 }
 
-export default function NetworkGraph({ nodes, edges, height = 620, cmdRef, onSelectNode, onNodeContextMenu }: NetworkGraphProps) {
+export default function NetworkGraph({
+  nodes, edges, height = 620, layout, sizeMode, repulsion, cmdRef, onSelectNode, onNodeContextMenu,
+}: NetworkGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const onSelectRef = useRef(onSelectNode);
@@ -90,15 +101,38 @@ export default function NetworkGraph({ nodes, edges, height = 620, cmdRef, onSel
     });
     const maxDegree = d3.max(nodeData, d => degree.get(d.id) ?? 0) || 1;
     const rScale = d3.scaleSqrt().domain([0, maxDegree]).range([4, 13]);
-    const radius = (d: SimNode) => rScale(degree.get(d.id) ?? 0);
+    const radius = (d: SimNode) => (sizeMode === 'uniform' ? 6 : rScale(degree.get(d.id) ?? 0));
 
-    const sim = d3.forceSimulation(nodeData)
-      .force('link', d3.forceLink<SimNode, SimLink>(linkData).id(d => d.id).distance(26).strength(0.35))
-      .force('charge', d3.forceManyBody().strength(d => -Math.max(30, radius(d as SimNode) * 9)))
-      .force('collide', d3.forceCollide<SimNode>().radius(d => radius(d) + 2).strength(0.8))
-      .force('x', d3.forceX<SimNode>(d => TYPE_CENTER[d.type][0] * W).strength(0.06))
-      .force('y', d3.forceY<SimNode>(d => TYPE_CENTER[d.type][1] * H).strength(0.06))
-      .alphaDecay(0.02);
+    const sim = d3.forceSimulation(nodeData);
+
+    if (layout === 'circular') {
+      const sorted = [...nodeData].sort((a, b) => CIRCULAR_ORDER.indexOf(a.type) - CIRCULAR_ORDER.indexOf(b.type));
+      const R = Math.min(W, H) / 2 - 40;
+      sorted.forEach((n, i) => {
+        const angle = (i / sorted.length) * Math.PI * 2 - Math.PI / 2;
+        n.x = W / 2 + R * Math.cos(angle);
+        n.y = H / 2 + R * Math.sin(angle);
+      });
+      sim
+        .force('collide', d3.forceCollide<SimNode>().radius(d => radius(d) + 2).strength(0.9))
+        .alpha(0.4)
+        .alphaDecay(0.08);
+    } else {
+      sim
+        .force('link', d3.forceLink<SimNode, SimLink>(linkData).id(d => d.id).distance(26).strength(0.35))
+        .force('charge', d3.forceManyBody().strength(d => -Math.max(30, radius(d as SimNode) * 9) * repulsion))
+        .force('collide', d3.forceCollide<SimNode>().radius(d => radius(d) + 2).strength(0.8))
+        .alphaDecay(0.02);
+      if (layout === 'clustered') {
+        sim
+          .force('x', d3.forceX<SimNode>(d => TYPE_CENTER[d.type][0] * W).strength(0.06))
+          .force('y', d3.forceY<SimNode>(d => TYPE_CENTER[d.type][1] * H).strength(0.06));
+      } else {
+        sim
+          .force('x', d3.forceX<SimNode>(W / 2).strength(0.02))
+          .force('y', d3.forceY<SimNode>(H / 2).strength(0.02));
+      }
+    }
 
     let selectedIds = new Set<string>();
     let focusedThisRun = false;
@@ -273,7 +307,7 @@ export default function NetworkGraph({ nodes, edges, height = 620, cmdRef, onSel
       tip.remove();
       d3.select(container).selectAll('.ng-overlay').remove();
     };
-  }, [nodes, edges, height, cmdRef]);
+  }, [nodes, edges, height, layout, sizeMode, repulsion, cmdRef]);
 
   return (
     <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>
