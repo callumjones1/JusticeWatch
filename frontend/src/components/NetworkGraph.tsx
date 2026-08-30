@@ -42,12 +42,13 @@ const TYPE_CENTER: Record<NetworkNodeType, [number, number]> = {
 // incidents they're drawn from.
 const CIRCULAR_ORDER: NetworkNodeType[] = ['legislation', 'incident', 'source', 'case'];
 
-// Pixel margins reserved for the settings overlays that sit on top of the
-// canvas (top toolbar row(s) + right sidebar) — layout math keeps clusters
-// and the circular ring inside the remaining visible area rather than under
-// that chrome. Analytics.tsx's overlay CSS positions match these.
-export const TOP_RESERVE = 150;
-export const RIGHT_RESERVE = 210;
+// All settings controls live off-canvas (Analytics.tsx renders them above
+// the graph, not overlaid on it), so there's no chrome to keep clear of —
+// these stay at 0 rather than removing the safe-area math outright, in case
+// on-canvas chrome (e.g. the Pan/Select area/Fit view toolbar growing) ever
+// needs it reinstated.
+export const TOP_RESERVE = 0;
+export const RIGHT_RESERVE = 0;
 
 interface NetworkGraphProps {
   nodes: NetworkNode[];

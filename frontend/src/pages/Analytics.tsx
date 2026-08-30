@@ -5,7 +5,7 @@ import casesData from '../data/cases.json';
 import edgesData from '../data/case_legislation_edges.json';
 import legIndexData from '../data/legislation_index.json';
 import NetworkGraph, { type NetworkGraphHandle, type LayoutAlgo, type SizeMode } from '../components/NetworkGraph';
-import { SOURCE_TYPE_COLOURS, normalizeSourceType, type SourceTypeLabel } from '../lib/sourceTypes';
+import { normalizeSourceType, type SourceTypeLabel } from '../lib/sourceTypes';
 
 type NodeType = 'legislation' | 'incident' | 'case' | 'source';
 type CaseRegister = 'protest' | 'political_violence';
@@ -107,7 +107,6 @@ const rawNodes: GraphNode[] = [
 ];
 
 const nodeById = new Map(rawNodes.map(n => [n.id, n]));
-const presentSourceBuckets = [...new Set(sourceNodes.map(n => n.sourceBucket as SourceTypeLabel))];
 
 type CombinedEdge = { from: string; to: string; colour: string };
 const combinedEdges: CombinedEdge[] = [
@@ -263,7 +262,6 @@ export default function Analytics() {
   const [legIdxView, setLegIdxView] = useState<'visualise' | 'data'>('visualise');
 
   function nodeColour(n: GraphNode): string {
-    if (n.type === 'source' && n.sourceBucket) return SOURCE_TYPE_COLOURS[n.sourceBucket];
     if (colourMode === 'caseType' && n.type === 'case' && n.caseRegister) {
       return CASE_REGISTER_META[n.caseRegister].color;
     }
@@ -466,20 +464,108 @@ export default function Analytics() {
           {activeTab === 'network' && (
             <div style={{ marginTop: '1.5rem' }}>
               <p className="db-note" style={{ textAlign: 'left', marginTop: 0, marginBottom: '1.25rem' }}>
-                Every legislation, incident, case and cited source is plotted as a node. Case-to-legislation edges
-                are drawn from the case registers' own legislation mapping, so only cases and Acts that connect to
-                a live Legislation Tracker entry are linked — the rest remain unlinked nodes. Source nodes are drawn
-                from each incident's own source list (in the Incidents Tracker) and are coloured by the same
-                evidentiary-type classing used on the Case Tracker's Sources — News media, Government or official,
-                Legal or NGO commentary, Academic commentary, The Conversation.
+                Every legislation, incident, case and cited source is plotted as a node, each database its own
+                colour. Case-to-legislation edges are drawn from the case registers' own legislation mapping, so
+                only cases and Acts that connect to a live Legislation Tracker entry are linked — the rest remain
+                unlinked nodes. Source nodes are drawn from each incident's own source list (in the Incidents
+                Tracker); click one to see its evidentiary type — News media, Government or official, Legal or NGO
+                commentary, Academic commentary, The Conversation — using the same classing as the Case Tracker's
+                Sources.
               </p>
 
               {mapSubView === 'graph' && (
-                <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
-                  Scroll to zoom · drag the background to pan · drag a node to move it · "Select area" brushes a
-                  group to highlight · right-click a node for quick actions · right-click a case or Act in the Edge
-                  List to jump here. All map settings live on the canvas itself, below.
-                </p>
+                <>
+                  <div className="analytics-toolbar">
+                    <div className="db-search-wrapper">
+                      <span className="db-search-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+                          <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </span>
+                      <input
+                        className="db-search"
+                        type="text"
+                        placeholder="Search node labels…"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                      />
+                      {search && (
+                        <button className="db-search-clear" onClick={() => setSearch('')} aria-label="Clear search">×</button>
+                      )}
+                    </div>
+                    <span className="db-count">{baseNodes.length.toLocaleString()} of {rawNodes.length.toLocaleString()} nodes</span>
+                  </div>
+
+                  <div className="analytics-filter-bar">
+                    <div className="leg-filter-group">
+                      <span className="leg-filter-label">Databases</span>
+                      {(Object.keys(TYPE_META) as NodeType[]).map(t => (
+                        <button
+                          key={t}
+                          className={`db-pill${typeVisible[t] ? ' db-pill-active' : ''}`}
+                          onClick={() => toggleType(t)}
+                          style={typeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
+                        >
+                          {TYPE_META[t].label} ({typeCounts[t]})
+                        </button>
+                      ))}
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Colour by</span>
+                      <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
+                      <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
+                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Size by</span>
+                      {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
+                        <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
+                          {SIZE_MODE_META[sm]}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Layout</span>
+                      {(Object.keys(LAYOUT_META) as LayoutAlgo[]).map(la => (
+                        <button key={la} className={`leg-pill${layoutAlgo === la ? ' leg-pill-active' : ''}`} onClick={() => setLayoutAlgo(la)}>
+                          {LAYOUT_META[la]}
+                        </button>
+                      ))}
+                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Edges</span>
+                      <button className={`leg-pill${showEdges ? ' leg-pill-active' : ''}`} onClick={() => setShowEdges(v => !v)}>
+                        {showEdges ? `Shown (${graphEdges.length})` : 'Hidden'}
+                      </button>
+                      <button className="leg-pill" style={{ marginLeft: '0.75rem' }} onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Repulsion</span>
+                      <div className="inc-year-range" style={{ maxWidth: '220px' }}>
+                        <input
+                          type="range" min={0.4} max={2.5} step={0.1} value={repulsion}
+                          onChange={e => setRepulsion(Number(e.target.value))}
+                          disabled={layoutAlgo === 'circular'}
+                        />
+                        <span>{repulsion.toFixed(1)}×</span>
+                      </div>
+                      <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Year range</span>
+                      <div className="inc-year-range">
+                        <span>{yearFrom}</span>
+                        <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearFrom}
+                          onChange={e => setYearFrom(Math.min(Number(e.target.value), yearTo))} />
+                        <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearTo}
+                          onChange={e => setYearTo(Math.max(Number(e.target.value), yearFrom))} />
+                        <span>{yearTo}</span>
+                      </div>
+                      {hasFilter && (
+                        <button className="leg-pill" onClick={clearFilters} style={{ marginLeft: 'auto' }}>Clear ×</button>
+                      )}
+                    </div>
+                  </div>
+
+                  <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                    Scroll to zoom · drag the background to pan · drag a node to move it · "Select area" brushes a
+                    group to highlight · right-click a node for quick actions · right-click a case or Act in the Edge
+                    List to jump here.
+                  </p>
+                </>
               )}
 
               {mapSubView === 'edgelist' && (
@@ -544,90 +630,7 @@ export default function Analytics() {
                         onSelectNode={id => setSelectedId(id)}
                         onNodeContextMenu={handleNodeContextMenu}
                       />
-
-                      <div className="ng-panel ng-panel-top">
-                        <div className="db-search-wrapper ng-panel-search">
-                          <span className="db-search-icon">
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-                              <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                            </svg>
-                          </span>
-                          <input
-                            className="db-search"
-                            type="text"
-                            placeholder="Search node labels…"
-                            value={search}
-                            onChange={e => setSearch(e.target.value)}
-                          />
-                          {search && (
-                            <button className="db-search-clear" onClick={() => setSearch('')} aria-label="Clear search">×</button>
-                          )}
-                        </div>
-                        <span className="db-count">{baseNodes.length.toLocaleString()} of {rawNodes.length.toLocaleString()}</span>
-                        <span className="ng-panel-divider" />
-                        {(Object.keys(TYPE_META) as NodeType[]).map(t => (
-                          <button
-                            key={t}
-                            className={`db-pill${typeVisible[t] ? ' db-pill-active' : ''}`}
-                            onClick={() => toggleType(t)}
-                            style={typeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
-                          >
-                            {TYPE_META[t].label} ({typeCounts[t]})
-                          </button>
-                        ))}
-                        <span className="ng-panel-divider" />
-                        <span className="leg-filter-label">Colour</span>
-                        <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
-                        <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
-                        <span className="leg-filter-label" style={{ marginLeft: '0.5rem' }}>Size</span>
-                        {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
-                          <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
-                            {SIZE_MODE_META[sm]}
-                          </button>
-                        ))}
-                        <span className="leg-filter-label" style={{ marginLeft: '0.5rem' }}>Edges</span>
-                        <button className={`leg-pill${showEdges ? ' leg-pill-active' : ''}`} onClick={() => setShowEdges(v => !v)}>
-                          {showEdges ? `Shown (${graphEdges.length})` : 'Hidden'}
-                        </button>
-                      </div>
-
-                      <div className="ng-panel ng-panel-side">
-                        <div className="ng-panel-section">
-                          <span className="leg-filter-label">Layout</span>
-                          <div className="ng-panel-stack">
-                            {(Object.keys(LAYOUT_META) as LayoutAlgo[]).map(la => (
-                              <button key={la} className={`leg-pill${layoutAlgo === la ? ' leg-pill-active' : ''}`} onClick={() => setLayoutAlgo(la)}>
-                                {LAYOUT_META[la]}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="ng-panel-section">
-                          <span className="leg-filter-label">Repulsion {repulsion.toFixed(1)}×</span>
-                          <input
-                            type="range" min={0.4} max={2.5} step={0.1} value={repulsion}
-                            onChange={e => setRepulsion(Number(e.target.value))}
-                            disabled={layoutAlgo === 'circular'}
-                            style={{ width: '100%' }}
-                          />
-                        </div>
-                        <div className="ng-panel-section">
-                          <span className="leg-filter-label">Year {yearFrom}–{yearTo}</span>
-                          <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearFrom}
-                            onChange={e => setYearFrom(Math.min(Number(e.target.value), yearTo))} style={{ width: '100%' }} />
-                          <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={yearTo}
-                            onChange={e => setYearTo(Math.max(Number(e.target.value), yearFrom))} style={{ width: '100%' }} />
-                        </div>
-                        <div className="ng-panel-section" style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                          <button className="leg-pill" onClick={() => graphCmdRef.current?.fitView()}>Fit view</button>
-                          {hasFilter && (
-                            <button className="leg-pill" onClick={clearFilters}>Clear ×</button>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="cases-chart-legend" style={{ margin: '0.75rem 1.25rem 1.25rem' }}>
+                      <div className="cases-chart-legend" style={{ marginTop: '0.75rem' }}>
                         {(['legislation', 'incident'] as NodeType[]).map(t => (
                           <div key={t} className="cases-legend-item">
                             <span className="cases-legend-dot" style={{ background: TYPE_META[t].color }} />
@@ -647,12 +650,10 @@ export default function Analytics() {
                             </div>
                           ))
                         )}
-                        {presentSourceBuckets.map(b => (
-                          <div key={b} className="cases-legend-item">
-                            <span className="cases-legend-dot" style={{ background: SOURCE_TYPE_COLOURS[b] }} />
-                            Source · {b}
-                          </div>
-                        ))}
+                        <div className="cases-legend-item">
+                          <span className="cases-legend-dot" style={{ background: TYPE_META.source.color }} />
+                          {TYPE_META.source.label}
+                        </div>
                       </div>
                     </div>
 
