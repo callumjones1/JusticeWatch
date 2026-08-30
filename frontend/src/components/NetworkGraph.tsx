@@ -1,0 +1,287 @@
+import { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
+
+export type NetworkNodeType = 'legislation' | 'incident' | 'case' | 'source';
+
+export interface NetworkNode {
+  id: string;
+  type: NetworkNodeType;
+  label: string;
+  sub: string;
+  year: number | null;
+  url?: string;
+  colour: string;
+}
+
+export interface NetworkEdge {
+  from: string;
+  to: string;
+  colour: string;
+}
+
+export interface NetworkGraphHandle {
+  focusNode: (id: string) => void;
+  focusEdge: (aId: string, bId: string) => void;
+  fitView: () => void;
+  clearSelection: () => void;
+}
+
+type SimNode = NetworkNode & d3.SimulationNodeDatum;
+type SimLink = { source: SimNode | string; target: SimNode | string; colour: string };
+
+const TYPE_CENTER: Record<NetworkNodeType, [number, number]> = {
+  legislation: [0.22, 0.3],
+  incident: [0.78, 0.28],
+  source: [0.85, 0.64],
+  case: [0.5, 0.85],
+};
+
+interface NetworkGraphProps {
+  nodes: NetworkNode[];
+  edges: NetworkEdge[];
+  height?: number;
+  cmdRef: React.MutableRefObject<NetworkGraphHandle | null>;
+  onSelectNode: (id: string | null) => void;
+  onNodeContextMenu: (id: string, clientX: number, clientY: number) => void;
+}
+
+export default function NetworkGraph({ nodes, edges, height = 620, cmdRef, onSelectNode, onNodeContextMenu }: NetworkGraphProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const onSelectRef = useRef(onSelectNode);
+  const onCtxRef = useRef(onNodeContextMenu);
+  useEffect(() => { onSelectRef.current = onSelectNode; }, [onSelectNode]);
+  useEffect(() => { onCtxRef.current = onNodeContextMenu; }, [onNodeContextMenu]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const svgEl = svgRef.current;
+    if (!container || !svgEl) return;
+
+    const W = container.clientWidth || 900;
+    const H = height;
+
+    d3.select(container).selectAll('.ng-overlay').remove();
+
+    const svg = d3.select(svgEl).attr('width', W).attr('height', H);
+    svg.selectAll('*').remove();
+    svg.append('rect').attr('width', W).attr('height', H).attr('fill', 'transparent');
+
+    const g = svg.append('g');
+    let currentTransform = d3.zoomIdentity;
+
+    const zoomBehaviour = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.15, 8])
+      .on('zoom', e => {
+        currentTransform = e.transform;
+        g.attr('transform', e.transform.toString());
+      });
+    svg.call(zoomBehaviour);
+
+    const nodeData: SimNode[] = nodes.map(n => ({ ...n }));
+    const linkData: SimLink[] = edges.map(e => ({ source: e.from, target: e.to, colour: e.colour }));
+
+    const degree = new Map<string, number>();
+    linkData.forEach(l => {
+      const s = typeof l.source === 'string' ? l.source : l.source.id;
+      const t = typeof l.target === 'string' ? l.target : l.target.id;
+      degree.set(s, (degree.get(s) ?? 0) + 1);
+      degree.set(t, (degree.get(t) ?? 0) + 1);
+    });
+    const maxDegree = d3.max(nodeData, d => degree.get(d.id) ?? 0) || 1;
+    const rScale = d3.scaleSqrt().domain([0, maxDegree]).range([4, 13]);
+    const radius = (d: SimNode) => rScale(degree.get(d.id) ?? 0);
+
+    const sim = d3.forceSimulation(nodeData)
+      .force('link', d3.forceLink<SimNode, SimLink>(linkData).id(d => d.id).distance(26).strength(0.35))
+      .force('charge', d3.forceManyBody().strength(d => -Math.max(30, radius(d as SimNode) * 9)))
+      .force('collide', d3.forceCollide<SimNode>().radius(d => radius(d) + 2).strength(0.8))
+      .force('x', d3.forceX<SimNode>(d => TYPE_CENTER[d.type][0] * W).strength(0.06))
+      .force('y', d3.forceY<SimNode>(d => TYPE_CENTER[d.type][1] * H).strength(0.06))
+      .alphaDecay(0.02);
+
+    let selectedIds = new Set<string>();
+    let focusedThisRun = false;
+
+    function updateHighlight() {
+      if (selectedIds.size === 0) {
+        nodeSel.attr('opacity', 1).attr('stroke-width', 1.25);
+        edgeSel.attr('stroke-opacity', 0.35);
+        return;
+      }
+      const adj = new Set(selectedIds);
+      linkData.forEach(l => {
+        const s = typeof l.source === 'string' ? l.source : l.source.id;
+        const t = typeof l.target === 'string' ? l.target : l.target.id;
+        if (selectedIds.has(s)) adj.add(t);
+        if (selectedIds.has(t)) adj.add(s);
+      });
+      nodeSel
+        .attr('opacity', d => (selectedIds.has(d.id) ? 1 : adj.has(d.id) ? 0.55 : 0.08))
+        .attr('stroke-width', d => (selectedIds.has(d.id) ? 2.5 : 1.25));
+      edgeSel.attr('stroke-opacity', l => {
+        const s = typeof l.source === 'string' ? l.source : l.source.id;
+        const t = typeof l.target === 'string' ? l.target : l.target.id;
+        return selectedIds.has(s) || selectedIds.has(t) ? 0.9 : 0.03;
+      });
+    }
+
+    function setSelection(ids: Set<string>) {
+      selectedIds = ids;
+      updateHighlight();
+      if (ids.size === 1) onSelectRef.current?.([...ids][0]);
+      else onSelectRef.current?.(null);
+    }
+
+    function doFit(ms = 600) {
+      if (!nodeData.length) return;
+      const xs = nodeData.map(n => n.x ?? 0), ys = nodeData.map(n => n.y ?? 0);
+      const x0 = Math.min(...xs) - 24, x1 = Math.max(...xs) + 24;
+      const y0 = Math.min(...ys) - 24, y1 = Math.max(...ys) + 24;
+      const scale = Math.min((W - 60) / (x1 - x0 || 1), (H - 60) / (y1 - y0 || 1), 2.5);
+      const tx = W / 2 - ((x0 + x1) / 2) * scale;
+      const ty = H / 2 - ((y0 + y1) / 2) * scale;
+      svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    }
+
+    function focusOnIds(ids: string[], ms = 650) {
+      const found = nodeData.filter(n => ids.includes(n.id));
+      if (found.length === 0) return;
+      const xs = found.map(n => n.x ?? 0), ys = found.map(n => n.y ?? 0);
+      const cx = xs.reduce((a, b) => a + b, 0) / xs.length;
+      const cy = ys.reduce((a, b) => a + b, 0) / ys.length;
+      const scale = 1.7;
+      const tx = W / 2 - cx * scale;
+      const ty = H / 2 - cy * scale;
+      svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+      setSelection(new Set(ids));
+    }
+
+    cmdRef.current = {
+      focusNode(id) {
+        focusedThisRun = true;
+        focusOnIds([id]);
+      },
+      focusEdge(a, b) {
+        focusedThisRun = true;
+        focusOnIds([a, b]);
+      },
+      fitView: () => doFit(500),
+      clearSelection: () => setSelection(new Set()),
+    };
+
+    // ── Edges ──
+    const edgeSel = g.append('g').selectAll<SVGLineElement, SimLink>('line').data(linkData).join('line')
+      .attr('stroke', d => d.colour)
+      .attr('stroke-opacity', 0.35)
+      .attr('stroke-width', 1.1);
+
+    // ── Nodes ──
+    const drag = d3.drag<SVGCircleElement, SimNode>()
+      .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; });
+
+    const nodeSel = g.append('g').selectAll<SVGCircleElement, SimNode>('circle').data(nodeData).join('circle')
+      .attr('r', radius)
+      .attr('fill', d => d.colour)
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 1.25)
+      .style('cursor', 'pointer')
+      .call(drag);
+
+    nodeSel.on('click', (e, d) => {
+      e.stopPropagation();
+      setSelection(selectedIds.has(d.id) && selectedIds.size === 1 ? new Set() : new Set([d.id]));
+    });
+    svg.on('click.desel', () => setSelection(new Set()));
+
+    nodeSel.on('contextmenu', (e, d) => {
+      e.preventDefault();
+      onCtxRef.current?.(d.id, e.clientX, e.clientY);
+    });
+
+    // ── Tooltip ──
+    const tip = d3.select('body').append('div').attr('class', 'ng-overlay ng-tooltip');
+    nodeSel
+      .on('mouseover', (_e, d) => {
+        tip.style('display', 'block').html(
+          `<div class="ng-tip-title">${escapeHtml(d.label)}</div>` +
+          `<div class="ng-tip-sub">${escapeHtml(d.sub)}</div>` +
+          (d.year !== null ? `<div class="ng-tip-sub">${d.year}</div>` : '')
+        );
+      })
+      .on('mousemove', e => tip.style('left', e.clientX + 14 + 'px').style('top', e.clientY - 10 + 'px'))
+      .on('mouseout', () => tip.style('display', 'none'));
+
+    // ── Toolbar ──
+    const toolbar = d3.select(container).append('div').attr('class', 'ng-overlay ng-toolbar');
+    const panBtn = toolbar.append('button').attr('class', 'ng-toolbar-btn ng-toolbar-btn-active').text('Pan');
+    const selBtn = toolbar.append('button').attr('class', 'ng-toolbar-btn').text('Select area');
+    const fitBtn = toolbar.append('button').attr('class', 'ng-toolbar-btn').text('Fit view');
+
+    const brushG = svg.append('g').attr('class', 'ng-brush').style('display', 'none');
+    const brush = d3.brush().extent([[0, 0], [W, H]])
+      .on('end', e => {
+        if (!e.selection) return;
+        const [[bx0, by0], [bx1, by1]] = e.selection as [[number, number], [number, number]];
+        const brushed = new Set(
+          nodeData
+            .filter(n => {
+              const sx = currentTransform.applyX(n.x ?? 0), sy = currentTransform.applyY(n.y ?? 0);
+              return sx >= bx0 && sx <= bx1 && sy >= by0 && sy <= by1;
+            })
+            .map(n => n.id)
+        );
+        if (brushed.size > 0) {
+          selectedIds = brushed;
+          updateHighlight();
+          onSelectRef.current?.(null);
+        }
+        brushG.call(brush.clear);
+      });
+
+    panBtn.on('click', () => {
+      panBtn.classed('ng-toolbar-btn-active', true);
+      selBtn.classed('ng-toolbar-btn-active', false);
+      brushG.style('display', 'none').on('.brush', null);
+      svg.call(zoomBehaviour);
+    });
+    selBtn.on('click', () => {
+      selBtn.classed('ng-toolbar-btn-active', true);
+      panBtn.classed('ng-toolbar-btn-active', false);
+      svg.on('.zoom', null);
+      brushG.style('display', 'block').call(brush);
+    });
+    fitBtn.on('click', () => doFit());
+
+    sim.on('tick', () => {
+      edgeSel
+        .attr('x1', d => (typeof d.source === 'string' ? 0 : d.source.x ?? 0))
+        .attr('y1', d => (typeof d.source === 'string' ? 0 : d.source.y ?? 0))
+        .attr('x2', d => (typeof d.target === 'string' ? 0 : d.target.x ?? 0))
+        .attr('y2', d => (typeof d.target === 'string' ? 0 : d.target.y ?? 0));
+      nodeSel.attr('cx', d => d.x ?? 0).attr('cy', d => d.y ?? 0);
+    });
+
+    sim.on('end', () => {
+      if (!focusedThisRun) doFit(700);
+    });
+
+    return () => {
+      sim.stop();
+      tip.remove();
+      d3.select(container).selectAll('.ng-overlay').remove();
+    };
+  }, [nodes, edges, height, cmdRef]);
+
+  return (
+    <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>
+      <svg ref={svgRef} style={{ width: '100%', display: 'block' }} />
+    </div>
+  );
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+}

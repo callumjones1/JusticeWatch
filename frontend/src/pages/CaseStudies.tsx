@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import data from '../data/cases.json';
+import caseSourcesData from '../data/case_sources.json';
 
 type CaseRegister = 'protest' | 'political_violence';
 
@@ -29,9 +30,68 @@ type Case = {
   sanction_type?: string;
   url: string | null;
   tags: string[];
+  sourcing_status?: string;
+  sources_count?: number;
 };
 
 const cases = data.cases as Case[];
+
+type SourceEntry = {
+  type: string;
+  outlet: string;
+  title: string;
+  date: string | null;
+  link: string;
+  verified_via: string;
+  note: string;
+};
+
+const caseSources = caseSourcesData as Record<string, SourceEntry[]>;
+
+const SOURCE_TYPE_COLOURS: Record<string, string> = {
+  'News media': '#1d4ed8',
+  'Government or official': '#0f766e',
+  'Legal or NGO commentary': '#7c3aed',
+  'Academic commentary': '#be185d',
+  'The Conversation': '#c2410c',
+};
+
+function CaseSources({ c }: { c: Case }) {
+  if (!c.sourcing_status) return null;
+  const sources = caseSources[c.id];
+  return (
+    <>
+      <h4>Sources</h4>
+      {sources && sources.length > 0 ? (
+        <div className="cases-sources-list">
+          {sources.map((s, i) => (
+            <div key={i} className="cases-source-row">
+              <span
+                className="cases-source-type-badge"
+                style={{
+                  backgroundColor: (SOURCE_TYPE_COLOURS[s.type] ?? '#6b7280') + '1a',
+                  color: SOURCE_TYPE_COLOURS[s.type] ?? '#6b7280',
+                }}
+              >
+                {s.type}
+              </span>
+              <a href={s.link} target="_blank" rel="noopener noreferrer" className="cases-source-title">
+                {s.title}
+              </a>
+              <span className="cases-source-meta">{s.outlet}{s.date ? ` · ${s.date}` : ''}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="cases-sourcing-note">
+          {c.sourcing_status === 'Searched - no public commentary located'
+            ? 'Searched — no public commentary located.'
+            : 'Not yet searched for public commentary.'}
+        </p>
+      )}
+    </>
+  );
+}
 
 const SPLIT_TABS: { key: CaseRegister; label: string }[] = [
   { key: 'protest', label: 'Protest' },
@@ -517,6 +577,7 @@ export default function CaseStudies() {
                                   </div>
                                 </>
                               )}
+                              <CaseSources c={c} />
                             </div>
                           </td>
                         </tr>
@@ -664,6 +725,7 @@ export default function CaseStudies() {
                       </div>
                     </>
                   )}
+                  <CaseSources c={chartDetail} />
                 </div>
               )}
 

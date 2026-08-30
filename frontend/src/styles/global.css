@@ -2558,6 +2558,48 @@ ul {
   font-weight: 500;
 }
 
+.cases-sourcing-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.cases-sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cases-source-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.cases-source-type-badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cases-source-title {
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+
+.cases-source-title:hover {
+  color: var(--color-accent);
+}
+
+.cases-source-meta {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
 /* Chart view */
 .cases-chart-container {
   background: var(--color-surface);
@@ -3508,4 +3550,77 @@ ul {
     width: 100%;
     position: static;
   }
+}
+
+.ng-container {
+  width: 100%;
+  background: var(--color-background-warm);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ng-toolbar {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 5;
+  display: flex;
+  gap: 0.35rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.ng-toolbar-btn {
+  border: none;
+  background: none;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.ng-toolbar-btn:hover {
+  background: var(--color-background-warm);
+}
+
+.ng-toolbar-btn-active {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.ng-toolbar-btn-active:hover {
+  background: var(--color-primary);
+}
+
+.ng-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  pointer-events: none;
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  max-width: 260px;
+  box-shadow: var(--shadow-lg);
+}
+
+.ng-tip-title {
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.ng-tip-sub {
+  opacity: 0.75;
+}
+
+.ng-brush .selection {
+  fill: var(--color-accent-soft);
+  stroke: var(--color-accent);
 }
