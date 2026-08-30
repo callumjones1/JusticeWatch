@@ -83,13 +83,6 @@ export default function Layout() {
                 >
                   Cases
                 </NavLink>
-                <NavLink
-                  to="/databases/media"
-                  className={({ isActive }) => isActive ? 'nav-dropdown-item active' : 'nav-dropdown-item'}
-                  onClick={() => { setDbOpen(false); setMenuOpen(false); }}
-                >
-                  News Media Coverage
-                </NavLink>
               </div>
             </div>
 
