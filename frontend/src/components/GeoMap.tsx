@@ -117,15 +117,15 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
       .join('path')
       .attr('d', path)
       .attr('fill', 'var(--color-background-warm)')
-      .attr('stroke', 'var(--color-border)')
-      .attr('stroke-width', 1)
+      .attr('stroke', 'var(--color-text)')
+      .attr('stroke-width', 1.5)
       .style('cursor', 'pointer');
 
     const bubbleLayer = g.append('g');
 
     function updateSelectionStyle() {
-      stateSel.attr('stroke', d => (d.properties.STATE_NAME === selectedState ? 'var(--color-accent)' : 'var(--color-border)'))
-        .attr('stroke-width', d => (d.properties.STATE_NAME === selectedState ? 2 : 1));
+      stateSel.attr('stroke', d => (d.properties.STATE_NAME === selectedState ? 'var(--color-accent)' : 'var(--color-text)'))
+        .attr('stroke-width', d => (d.properties.STATE_NAME === selectedState ? 2.5 : 1.5));
     }
 
     function selectState(name: string | null) {
