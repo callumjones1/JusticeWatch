@@ -6,11 +6,13 @@ import casesData from '../data/cases.json';
 import edgesData from '../data/case_legislation_edges.json';
 import legIndexData from '../data/legislation_index.json';
 import NetworkGraph, { type NetworkGraphHandle, type LayoutAlgo, type SizeMode } from '../components/NetworkGraph';
+import GeoMap, { joinCasesToStates, type GeoCase, type GeoStateSelection } from '../components/GeoMap';
+import Timeline, { type TimelineHandle, type TimelineSelection, type TimelineType } from '../components/Timeline';
 import { normalizeSourceType, type SourceTypeLabel } from '../lib/sourceTypes';
 
 type NodeType = 'legislation' | 'incident' | 'case' | 'source';
 type CaseRegister = 'protest' | 'political_violence';
-type AnalyticsTab = 'network' | 'legislationIndex';
+type AnalyticsTab = 'network' | 'legislationIndex' | 'geoMap' | 'timeline';
 type MapSubView = 'graph' | 'edgelist';
 
 interface GraphNode {
@@ -266,6 +268,28 @@ function LegislationIndexChart({
   );
 }
 
+function TimelineSparkline({ data, colour }: { data: { year: number; count: number }[]; colour: string }) {
+  if (data.length === 0) return null;
+  const w = 240, h = 70, pad = 4, axisH = 12;
+  const minYear = data[0].year;
+  const maxYear = data[data.length - 1].year;
+  const yearSpan = Math.max(1, maxYear - minYear);
+  const maxCount = Math.max(...data.map(d => d.count), 1);
+  const innerW = w - pad * 2;
+  const barW = Math.max(2, innerW / (yearSpan + 1) - 1);
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
+      {data.map((d, i) => {
+        const x = pad + ((d.year - minYear) / yearSpan) * (innerW - barW);
+        const barH = (d.count / maxCount) * (h - pad - axisH);
+        return <rect key={i} x={x} y={h - axisH - barH} width={barW} height={Math.max(1, barH)} fill={colour} rx={1} />;
+      })}
+      <text x={pad} y={h - 2} fontSize="9" fill="var(--color-text-muted)">{minYear}</text>
+      <text x={w - pad} y={h - 2} fontSize="9" fill="var(--color-text-muted)" textAnchor="end">{maxYear}</text>
+    </svg>
+  );
+}
+
 export default function Analytics() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<AnalyticsTab>('network');
@@ -298,6 +322,28 @@ export default function Analytics() {
   const [legIdxRegister, setLegIdxRegister] = useState<'all' | CaseRegister>('all');
   const [legIdxSort, setLegIdxSort] = useState<'cases' | 'name' | 'latest_year'>('cases');
   const [legIdxView, setLegIdxView] = useState<'visualise' | 'data'>('visualise');
+
+  // --- Geographic map ---
+  const [geoYearFrom, setGeoYearFrom] = useState(MIN_YEAR);
+  const [geoYearTo, setGeoYearTo] = useState(MAX_YEAR);
+  const [geoRegisterVisible, setGeoRegisterVisible] = useState<Record<CaseRegister, boolean>>({
+    protest: true, political_violence: true,
+  });
+  const [geoSelected, setGeoSelected] = useState<GeoStateSelection | null>(null);
+
+  // --- Timeline ---
+  const [tlSearch, setTlSearch] = useState('');
+  const debouncedTlSearch = useDebouncedValue(tlSearch.trim().toLowerCase(), 300);
+  const [tlYearFrom, setTlYearFrom] = useState(MIN_YEAR);
+  const [tlYearTo, setTlYearTo] = useState(MAX_YEAR);
+  const [tlTypeVisible, setTlTypeVisible] = useState<Record<TimelineType, boolean>>({
+    legislation: true, incident: true, case: true,
+  });
+  const [tlRegisterVisible, setTlRegisterVisible] = useState<Record<CaseRegister, boolean>>({
+    protest: true, political_violence: true,
+  });
+  const [tlSelected, setTlSelected] = useState<TimelineSelection | null>(null);
+  const tlCmdRef = useRef<TimelineHandle | null>(null);
 
   function nodeColour(n: GraphNode): string {
     if (colourMode === 'caseType' && n.type === 'case' && n.caseRegister) {
@@ -519,6 +565,68 @@ export default function Analytics() {
 
   const linkedRecords = selected ? getLinkedForSelected(selected) : [];
 
+  // --- Geographic map ---
+  function toggleGeoRegister(r: CaseRegister) {
+    setGeoRegisterVisible(prev => ({ ...prev, [r]: !prev[r] }));
+  }
+
+  const geoCases: GeoCase[] = useMemo(
+    () => casesList
+      .filter(c => c.year >= geoYearFrom && c.year <= geoYearTo && geoRegisterVisible[c.register])
+      .map(c => ({
+        id: c.id, caseName: c.case_name, year: c.year, register: c.register,
+        jurisdictionDisplay: c.jurisdiction_display, url: c.url,
+      })),
+    [geoYearFrom, geoYearTo, geoRegisterVisible]
+  );
+
+  const geoExcluded = useMemo(() => joinCasesToStates(geoCases).excluded, [geoCases]);
+
+  // --- Timeline ---
+  function toggleTlType(t: TimelineType) {
+    setTlTypeVisible(prev => ({ ...prev, [t]: !prev[t] }));
+  }
+  function toggleTlRegister(r: CaseRegister) {
+    setTlRegisterVisible(prev => ({ ...prev, [r]: !prev[r] }));
+  }
+
+  const tlLegislation = useMemo(
+    () => (!tlTypeVisible.legislation ? [] : legislationCategories.flatMap(cat => cat.entries)
+      .filter(e => e.year >= tlYearFrom && e.year <= tlYearTo &&
+        (!debouncedTlSearch || e.short_title.toLowerCase().includes(debouncedTlSearch)))
+      .map(e => ({ id: e.id, label: e.short_title, year: e.year }))),
+    [tlTypeVisible.legislation, tlYearFrom, tlYearTo, debouncedTlSearch]
+  );
+
+  const tlIncidents = useMemo(
+    () => (!tlTypeVisible.incident ? [] : incidentsList
+      .filter(i => i.year >= tlYearFrom && i.year <= tlYearTo &&
+        (!debouncedTlSearch || i.short_title.toLowerCase().includes(debouncedTlSearch)))
+      .map(i => ({ id: i.id, label: i.short_title, year: i.year }))),
+    [tlTypeVisible.incident, tlYearFrom, tlYearTo, debouncedTlSearch]
+  );
+
+  const tlCases = useMemo(
+    () => (!tlTypeVisible.case ? [] : casesList
+      .filter(c => tlRegisterVisible[c.register] && c.year >= tlYearFrom && c.year <= tlYearTo &&
+        (!debouncedTlSearch || c.case_name.toLowerCase().includes(debouncedTlSearch)))
+      .map(c => ({ id: c.id, label: c.case_name, year: c.year, register: c.register, url: c.url }))),
+    [tlTypeVisible.case, tlRegisterVisible, tlYearFrom, tlYearTo, debouncedTlSearch]
+  );
+
+  const tlEdges = useMemo(() => edges.map(e => ({ caseId: e.case_id, legislationId: e.legislation_id })), []);
+
+  const tlHasFilter = tlSearch !== '' || tlYearFrom !== MIN_YEAR || tlYearTo !== MAX_YEAR ||
+    Object.values(tlTypeVisible).some(v => !v) || Object.values(tlRegisterVisible).some(v => !v);
+
+  function clearTlFilters() {
+    setTlSearch('');
+    setTlYearFrom(MIN_YEAR);
+    setTlYearTo(MAX_YEAR);
+    setTlTypeVisible({ legislation: true, incident: true, case: true });
+    setTlRegisterVisible({ protest: true, political_violence: true });
+  }
+
   return (
     <div>
       <div className="page-header">
@@ -536,6 +644,12 @@ export default function Analytics() {
             </button>
             <button className={`inc-view-tab${activeTab === 'legislationIndex' ? ' inc-view-tab-active' : ''}`} onClick={() => setActiveTab('legislationIndex')}>
               Legislation Index
+            </button>
+            <button className={`inc-view-tab${activeTab === 'geoMap' ? ' inc-view-tab-active' : ''}`} onClick={() => setActiveTab('geoMap')}>
+              Geographic Map
+            </button>
+            <button className={`inc-view-tab${activeTab === 'timeline' ? ' inc-view-tab-active' : ''}`} onClick={() => setActiveTab('timeline')}>
+              Timeline
             </button>
           </div>
 
@@ -862,6 +976,252 @@ export default function Analytics() {
                   </div>
                 </>
               )}
+            </div>
+          )}
+
+          {activeTab === 'geoMap' && (
+            <div style={{ marginTop: '1.5rem' }}>
+              <p className="db-note" style={{ textAlign: 'left', marginTop: 0, marginBottom: '1.25rem' }}>
+                Each state or territory shows two proportional markers, sized by how many cases in the current
+                filter are attributed to it — one for protest cases, one for political violence cases. A case with
+                jurisdiction spanning multiple states counts toward each one. Cases with no state-level jurisdiction
+                (Commonwealth-only reach, or not yet identified) can't be placed on the map and are excluded.
+              </p>
+
+              <div className="analytics-filter-bar">
+                <div className="leg-filter-group">
+                  <span className="leg-filter-label">Register</span>
+                  {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                    <button
+                      key={r}
+                      className={`db-pill${geoRegisterVisible[r] ? ' db-pill-active' : ''}`}
+                      onClick={() => toggleGeoRegister(r)}
+                      style={geoRegisterVisible[r] ? { background: CASE_REGISTER_META[r].color, borderColor: CASE_REGISTER_META[r].color } : undefined}
+                    >
+                      {CASE_REGISTER_META[r].label}
+                    </button>
+                  ))}
+                </div>
+                <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                  <span className="leg-filter-label">Year range</span>
+                  <div className="inc-year-range">
+                    <span>{geoYearFrom}</span>
+                    <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={geoYearFrom}
+                      onChange={e => setGeoYearFrom(Math.min(Number(e.target.value), geoYearTo))} />
+                    <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={geoYearTo}
+                      onChange={e => setGeoYearTo(Math.max(Number(e.target.value), geoYearFrom))} />
+                    <span>{geoYearTo}</span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                Scroll to zoom · drag to pan · click a state or one of its markers to see its cases.
+                {geoExcluded > 0 && ` ${geoExcluded.toLocaleString()} case${geoExcluded === 1 ? '' : 's'} excluded — jurisdiction not state-level.`}
+              </p>
+
+              <div className="analytics-layout">
+                <div className="analytics-graph-wrapper">
+                  <GeoMap
+                    cases={geoCases}
+                    height={GRAPH_HEIGHT}
+                    registerColours={{ protest: CASE_REGISTER_META.protest.color, political_violence: CASE_REGISTER_META.political_violence.color }}
+                    onSelectState={setGeoSelected}
+                  />
+                  <div className="cases-chart-legend" style={{ marginTop: '0.75rem' }}>
+                    {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                      <div key={r} className="cases-legend-item">
+                        <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
+                        {CASE_REGISTER_META[r].label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="analytics-detail-panel">
+                  {geoSelected ? (
+                    <>
+                      <h3 className="analytics-detail-title">{geoSelected.stateName}</h3>
+                      <p className="analytics-detail-sub">{CASE_REGISTER_META.protest.label}: {geoSelected.counts.protest}</p>
+                      <p className="analytics-detail-sub">{CASE_REGISTER_META.political_violence.label}: {geoSelected.counts.political_violence}</p>
+                      <div className="events-detail-h4" style={{ marginTop: '1.25rem' }}>
+                        Cases ({geoSelected.cases.length})
+                      </div>
+                      <ul className="events-plain-list" style={{ maxHeight: '420px', overflowY: 'auto' }}>
+                        {geoSelected.cases.map(c => (
+                          <li key={c.id}>
+                            {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
+                            <span className="events-detail-note"> — {c.year}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
+                      Click a state to see its cases.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'timeline' && (
+            <div style={{ marginTop: '1.5rem' }}>
+              <p className="db-note" style={{ textAlign: 'left', marginTop: 0, marginBottom: '1.25rem' }}>
+                Legislation, incidents and cases plotted against a shared year axis. Click a piece of legislation to
+                see which cases cite it and when — including whether use of it grew or fell away over time. Click a
+                case to see the legislation it draws on.
+              </p>
+
+              <div className="analytics-toolbar">
+                <div className="db-search-wrapper">
+                  <span className="db-search-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+                      <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </span>
+                  <input
+                    className="db-search"
+                    type="text"
+                    placeholder="Search legislation, incident or case labels…"
+                    value={tlSearch}
+                    onChange={e => setTlSearch(e.target.value)}
+                  />
+                  {tlSearch && (
+                    <button className="db-search-clear" onClick={() => setTlSearch('')} aria-label="Clear search">×</button>
+                  )}
+                </div>
+                <span className="db-count">{(tlLegislation.length + tlIncidents.length + tlCases.length).toLocaleString()} items shown</span>
+              </div>
+
+              <div className="analytics-filter-bar">
+                <div className="leg-filter-group">
+                  <span className="leg-filter-label">Databases</span>
+                  {(['legislation', 'incident', 'case'] as TimelineType[]).map(t => (
+                    <button
+                      key={t}
+                      className={`db-pill${tlTypeVisible[t] ? ' db-pill-active' : ''}`}
+                      onClick={() => toggleTlType(t)}
+                      style={tlTypeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
+                    >
+                      {TYPE_META[t].label}
+                    </button>
+                  ))}
+                </div>
+                <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                  <span className="leg-filter-label">Case register</span>
+                  {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                    <button key={r} className={`leg-pill${tlRegisterVisible[r] ? ' leg-pill-active' : ''}`} onClick={() => toggleTlRegister(r)}>
+                      {CASE_REGISTER_META[r].label}
+                    </button>
+                  ))}
+                  <button className="leg-pill" style={{ marginLeft: '0.75rem' }} onClick={() => tlCmdRef.current?.resetZoom()}>Reset zoom</button>
+                </div>
+                <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                  <span className="leg-filter-label">Year range</span>
+                  <div className="inc-year-range">
+                    <span>{tlYearFrom}</span>
+                    <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={tlYearFrom}
+                      onChange={e => setTlYearFrom(Math.min(Number(e.target.value), tlYearTo))} />
+                    <input type="range" min={MIN_YEAR} max={MAX_YEAR} value={tlYearTo}
+                      onChange={e => setTlYearTo(Math.max(Number(e.target.value), tlYearFrom))} />
+                    <span>{tlYearTo}</span>
+                  </div>
+                  {tlHasFilter && (
+                    <button className="leg-pill" onClick={clearTlFilters} style={{ marginLeft: 'auto' }}>Clear ×</button>
+                  )}
+                </div>
+              </div>
+
+              <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
+                Scroll to zoom into a period · drag to pan the year axis · click a legislation or case dot to see its
+                connections (arcs are only drawn for the selected item, to keep this readable).
+              </p>
+
+              <div className="analytics-layout">
+                <div className="analytics-graph-wrapper">
+                  <Timeline
+                    legislation={tlLegislation}
+                    incidents={tlIncidents}
+                    cases={tlCases}
+                    edges={tlEdges}
+                    minYear={tlYearFrom}
+                    maxYear={tlYearTo}
+                    height={GRAPH_HEIGHT}
+                    typeColours={{ legislation: TYPE_META.legislation.color, incident: TYPE_META.incident.color, case: TYPE_META.case.color }}
+                    registerColours={{ protest: CASE_REGISTER_META.protest.color, political_violence: CASE_REGISTER_META.political_violence.color }}
+                    cmdRef={tlCmdRef}
+                    onSelect={setTlSelected}
+                  />
+                  <div className="cases-chart-legend" style={{ marginTop: '0.75rem' }}>
+                    {(['legislation', 'incident'] as TimelineType[]).map(t => (
+                      <div key={t} className="cases-legend-item">
+                        <span className="cases-legend-dot" style={{ background: TYPE_META[t].color }} />
+                        {TYPE_META[t].label}
+                      </div>
+                    ))}
+                    {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                      <div key={r} className="cases-legend-item">
+                        <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
+                        {CASE_REGISTER_META[r].label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="analytics-detail-panel">
+                  {tlSelected ? (
+                    <>
+                      <span
+                        className="db-pill db-pill-active"
+                        style={{
+                          background: tlSelected.type === 'case' ? 'var(--color-primary)' : TYPE_META[tlSelected.type].color,
+                          borderColor: tlSelected.type === 'case' ? 'var(--color-primary)' : TYPE_META[tlSelected.type].color,
+                          cursor: 'default',
+                        }}
+                      >
+                        {tlSelected.sub}
+                      </span>
+                      <h3 className="analytics-detail-title">{tlSelected.label}</h3>
+                      <p className="analytics-detail-sub">Year: {tlSelected.year}</p>
+                      {tlSelected.yearCounts && tlSelected.yearCounts.length > 0 && (
+                        <>
+                          <div className="events-detail-h4" style={{ marginTop: '1rem' }}>Cases citing this, by year</div>
+                          <TimelineSparkline data={tlSelected.yearCounts} colour={TYPE_META.legislation.color} />
+                        </>
+                      )}
+                      {tlSelected.linked.length === 0 ? (
+                        <p className="events-detail-note" style={{ marginTop: '1.25rem' }}>
+                          No linked records for this item.
+                        </p>
+                      ) : (
+                        <>
+                          <div className="events-detail-h4" style={{ marginTop: '1.25rem' }}>
+                            Linked records ({tlSelected.linked.length})
+                          </div>
+                          <ul className="events-plain-list">
+                            {tlSelected.linked.slice(0, 8).map(l => (
+                              <li key={l.id}>
+                                {l.url ? <a href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a> : l.label}
+                                <span className="events-detail-note"> — {l.year}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          {tlSelected.linked.length > 8 && (
+                            <p className="events-detail-note">and {tlSelected.linked.length - 8} more.</p>
+                          )}
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
+                      Click a legislation, incident, or case dot to see its details.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
