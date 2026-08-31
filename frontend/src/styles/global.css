@@ -1449,6 +1449,16 @@ ul {
   color: var(--color-text-light);
 }
 
+.db-pill:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.db-pill:disabled:hover {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
 .db-table-wrapper {
   width: 100%;
   overflow-x: auto;

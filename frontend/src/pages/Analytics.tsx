@@ -27,9 +27,15 @@ interface GraphNode {
   summary?: string;
 }
 
+// Single source of truth for database/register colours across every Analytics
+// visualisation (Network Map, Geographic Map, Timeline, Legislation Index) —
+// GeoMap and Timeline receive these as props rather than defining their own,
+// so any change here stays consistent everywhere. Kept clear of each other:
+// incident (amber) must not collide with political-violence (red), which is
+// why it isn't red too, despite that being a more "obvious" incident colour.
 const TYPE_META: Record<NodeType, { label: string; color: string }> = {
   legislation: { label: 'Legislation', color: '#1d3a5c' },
-  incident: { label: 'Incidents', color: '#dc2626' },
+  incident: { label: 'Incidents', color: '#d97706' },
   case: { label: 'Cases', color: '#8b5cf6' },
   source: { label: 'Sources', color: '#6b7280' },
 };
@@ -298,6 +304,9 @@ export default function Analytics() {
   const [typeVisible, setTypeVisible] = useState<Record<NodeType, boolean>>({
     legislation: true, incident: true, case: true, source: true,
   });
+  const [caseRegisterVisible, setCaseRegisterVisible] = useState<Record<CaseRegister, boolean>>({
+    protest: true, political_violence: true,
+  });
   const [colourMode, setColourMode] = useState<'database' | 'caseType'>('database');
   const [sizeMode, setSizeMode] = useState<SizeMode>('degree');
   const [layoutAlgo, setLayoutAlgo] = useState<LayoutAlgo>('force');
@@ -361,11 +370,12 @@ export default function Analytics() {
   const baseNodes = useMemo(() => {
     return rawNodes.filter(n => {
       if (!typeVisible[n.type]) return false;
+      if (n.type === 'case' && n.caseRegister && !caseRegisterVisible[n.caseRegister]) return false;
       if (n.year !== null && (n.year < yearFrom || n.year > yearTo)) return false;
       if (debouncedSearch && !n.label.toLowerCase().includes(debouncedSearch) && !n.sub.toLowerCase().includes(debouncedSearch)) return false;
       return true;
     });
-  }, [typeVisible, yearFrom, yearTo, debouncedSearch]);
+  }, [typeVisible, caseRegisterVisible, yearFrom, yearTo, debouncedSearch]);
 
   const baseNodeIds = useMemo(() => new Set(baseNodes.map(n => n.id)), [baseNodes]);
 
@@ -383,10 +393,14 @@ export default function Analytics() {
   const graphEdges = useMemo(() => (showEdges ? baseEdges : []), [showEdges, baseEdges]);
 
   const hasFilter = search !== '' || yearFrom !== MIN_YEAR || yearTo !== MAX_YEAR ||
-    Object.values(typeVisible).some(v => !v);
+    Object.values(typeVisible).some(v => !v) || Object.values(caseRegisterVisible).some(v => !v);
 
   function toggleType(t: NodeType) {
     setTypeVisible(prev => ({ ...prev, [t]: !prev[t] }));
+  }
+
+  function toggleCaseRegister(r: CaseRegister) {
+    setCaseRegisterVisible(prev => ({ ...prev, [r]: !prev[r] }));
   }
 
   function clearFilters() {
@@ -394,6 +408,7 @@ export default function Analytics() {
     setYearFrom(MIN_YEAR);
     setYearTo(MAX_YEAR);
     setTypeVisible({ legislation: true, incident: true, case: true, source: true });
+    setCaseRegisterVisible({ protest: true, political_violence: true });
   }
 
   function revealNode(node: GraphNode) {
@@ -701,6 +716,20 @@ export default function Analytics() {
                           style={typeVisible[t] ? { background: TYPE_META[t].color, borderColor: TYPE_META[t].color } : undefined}
                         >
                           {TYPE_META[t].label} ({typeCounts[t]})
+                        </button>
+                      ))}
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Case register</span>
+                      {(Object.keys(CASE_REGISTER_META) as CaseRegister[]).map(r => (
+                        <button
+                          key={r}
+                          className={`db-pill${caseRegisterVisible[r] ? ' db-pill-active' : ''}`}
+                          onClick={() => toggleCaseRegister(r)}
+                          disabled={!typeVisible.case}
+                          style={caseRegisterVisible[r] && typeVisible.case ? { background: CASE_REGISTER_META[r].color, borderColor: CASE_REGISTER_META[r].color } : undefined}
+                        >
+                          {CASE_REGISTER_META[r].label}
                         </button>
                       ))}
                     </div>
@@ -1044,17 +1073,25 @@ export default function Analytics() {
                       <h3 className="analytics-detail-title">{geoSelected.stateName}</h3>
                       <p className="analytics-detail-sub">{CASE_REGISTER_META.protest.label}: {geoSelected.counts.protest}</p>
                       <p className="analytics-detail-sub">{CASE_REGISTER_META.political_violence.label}: {geoSelected.counts.political_violence}</p>
-                      <div className="events-detail-h4" style={{ marginTop: '1.25rem' }}>
-                        Cases ({geoSelected.cases.length})
-                      </div>
-                      <ul className="events-plain-list" style={{ maxHeight: '420px', overflowY: 'auto' }}>
-                        {geoSelected.cases.map(c => (
-                          <li key={c.id}>
-                            {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
-                            <span className="events-detail-note"> — {c.year}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      {(['protest', 'political_violence'] as CaseRegister[]).map(register => {
+                        const regionCases = geoSelected.cases.filter(c => c.register === register);
+                        if (regionCases.length === 0) return null;
+                        return (
+                          <div key={register}>
+                            <div className="events-detail-h4" style={{ marginTop: '1.25rem', color: CASE_REGISTER_META[register].color }}>
+                              {CASE_REGISTER_META[register].label} ({regionCases.length})
+                            </div>
+                            <ul className="events-plain-list" style={{ maxHeight: '260px', overflowY: 'auto' }}>
+                              {regionCases.map(c => (
+                                <li key={c.id}>
+                                  {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
+                                  <span className="events-detail-note"> — {c.year}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })}
                     </>
                   ) : (
                     <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>

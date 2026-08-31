@@ -135,7 +135,17 @@ export default function Timeline({
     const nodeLayer = g.append('g');
 
     let currentXScale = xScale;
-    let selected: { id: string; type: TimelineType } | null = null;
+    // `pinned` is set by clicking a node — it drives the detail panel and
+    // persists until something else is clicked. `hovered` is a transient
+    // preview shown while the mouse is over a node, so connections are
+    // visible without needing to click at all; it takes priority over
+    // `pinned` for what's drawn, but never touches the detail panel.
+    let pinned: { id: string; type: TimelineType } | null = null;
+    let hovered: { id: string; type: TimelineType } | null = null;
+
+    function activeForArcs(): { id: string; type: TimelineType } | null {
+      return hovered ?? pinned;
+    }
 
     function arcPath(a: { x: number; y: number }, b: { x: number; y: number }): string {
       const link = d3.linkVertical<unknown, [number, number]>()
@@ -148,15 +158,16 @@ export default function Timeline({
     }
 
     function renderArcsForSelection() {
-      if (!selected) {
+      const active = activeForArcs();
+      if (!active) {
         arcLayer.selectAll('*').remove();
         return;
       }
       let connections: { caseId: string; legislationId: string }[] = [];
-      if (selected.type === 'legislation') {
-        connections = edgesInView.filter(e => e.legislationId === selected!.id);
-      } else if (selected.type === 'case') {
-        connections = edgesInView.filter(e => e.caseId === selected!.id);
+      if (active.type === 'legislation') {
+        connections = edgesInView.filter(e => e.legislationId === active.id);
+      } else if (active.type === 'case') {
+        connections = edgesInView.filter(e => e.caseId === active.id);
       }
       const paths = connections.map(e => {
         const legItem = itemById.get(e.legislationId);
@@ -175,16 +186,17 @@ export default function Timeline({
         .join('path')
         .attr('d', d => arcPath(d.a, d.b))
         .attr('stroke', d => d.colour)
-        .attr('stroke-width', 1.4)
-        .attr('stroke-opacity', 0.75);
+        .attr('stroke-width', 2.25)
+        .attr('stroke-opacity', 0.9);
     }
 
     function selectionAdjacentIds(): Set<string> | null {
-      if (!selected) return null;
-      const adj = new Set<string>([selected.id]);
+      const active = activeForArcs();
+      if (!active) return null;
+      const adj = new Set<string>([active.id]);
       edgesInView.forEach(e => {
-        if (selected!.type === 'legislation' && e.legislationId === selected!.id) adj.add(e.caseId);
-        if (selected!.type === 'case' && e.caseId === selected!.id) adj.add(e.legislationId);
+        if (active.type === 'legislation' && e.legislationId === active.id) adj.add(e.caseId);
+        if (active.type === 'case' && e.caseId === active.id) adj.add(e.legislationId);
       });
       return adj;
     }
@@ -222,16 +234,28 @@ export default function Timeline({
     }
 
     function selectItem(id: string | null, type?: TimelineType) {
-      selected = id && type ? { id, type } : null;
+      pinned = id && type ? { id, type } : null;
       onSelectRef.current(id && type ? buildSelection(id, type) : null);
+      renderArcsForSelection();
+      updateHighlight();
+    }
+
+    // Live preview while the mouse is over a node — shows connections
+    // immediately, without requiring a click, since a tiny legislation dot
+    // is easy to miss otherwise. Doesn't touch the detail panel.
+    function hoverItem(id: string | null, type?: TimelineType) {
+      hovered = id && type ? { id, type } : null;
       renderArcsForSelection();
       updateHighlight();
     }
 
     function updateHighlight() {
       const adj = selectionAdjacentIds();
-      nodeLayer.selectAll<SVGCircleElement, PosItem>('circle')
-        .attr('opacity', d => (!adj ? 1 : adj.has(d.id) ? 1 : 0.15));
+      const active = activeForArcs();
+      nodeSel
+        .attr('opacity', d => (!adj ? 1 : adj.has(d.id) ? 1 : 0.15))
+        .attr('stroke', d => (active && d.id === active.id ? 'var(--color-accent)' : '#fff'))
+        .attr('stroke-width', d => (active && d.id === active.id ? 3 : (d.type === 'case' ? 0.5 : 1)));
     }
 
     svg.on('click', () => selectItem(null));
@@ -255,25 +279,39 @@ export default function Timeline({
       return 3;
     }
 
-    const nodeSel = nodeLayer.selectAll<SVGCircleElement, PosItem>('circle')
+    const nodeSel = nodeLayer.selectAll<SVGCircleElement, PosItem>('circle.tl-node')
       .data(items, d => d.id)
       .join('circle')
+      .attr('class', 'tl-node')
       .attr('r', nodeRadius)
       .attr('fill', nodeColour)
       .attr('fill-opacity', d => (d.type === 'case' ? 0.55 : 0.9))
       .attr('stroke', '#fff')
       .attr('stroke-width', d => (d.type === 'case' ? 0.5 : 1))
+      .style('pointer-events', 'none');
+
+    // A separate, larger, invisible circle handles clicks/hover for every
+    // node — many legislation dots render at only 4-5px radius (low
+    // citation count), which is too small a target to reliably hit or even
+    // notice as interactive otherwise.
+    const hitSel = nodeLayer.selectAll<SVGCircleElement, PosItem>('circle.tl-hit')
+      .data(items, d => d.id)
+      .join('circle')
+      .attr('class', 'tl-hit')
+      .attr('r', d => Math.max(nodeRadius(d), 9))
+      .attr('fill', 'transparent')
       .style('cursor', 'pointer')
       .style('pointer-events', 'all');
 
-    nodeSel
-      .on('click', (e, d) => { e.stopPropagation(); selectItem(selected?.id === d.id ? null : d.id, d.type); })
-      .on('mouseover', (e, d) => showTip(e.clientX, e.clientY, d))
+    hitSel
+      .on('click', (e, d) => { e.stopPropagation(); selectItem(pinned?.id === d.id ? null : d.id, d.type); })
+      .on('mouseover', (e, d) => { showTip(e.clientX, e.clientY, d); hoverItem(d.id, d.type); })
       .on('mousemove', (e, d) => showTip(e.clientX, e.clientY, d))
-      .on('mouseout', () => tip.style('display', 'none'));
+      .on('mouseout', () => { tip.style('display', 'none'); hoverItem(null); });
 
     function render() {
       nodeSel.attr('cx', d => computeX(d.year)).attr('cy', d => d.laneY);
+      hitSel.attr('cx', d => computeX(d.year)).attr('cy', d => d.laneY);
       axisG.call(d3.axisBottom(currentXScale).ticks(Math.min(innerW / 70, 20)).tickFormat(d3.format('d')));
       renderArcsForSelection();
     }
