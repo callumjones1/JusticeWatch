@@ -151,6 +151,7 @@ export default function NetworkGraph({
 
     let selectedIds = new Set<string>();
     let focusedThisRun = false;
+    let pendingFocusIds: string[] | null = null;
 
     function updateHighlight() {
       if (selectedIds.size === 0) {
@@ -193,7 +194,7 @@ export default function NetworkGraph({
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
     }
 
-    function focusOnIds(ids: string[], ms = 650) {
+    function moveCameraTo(ids: string[], ms = 650) {
       const found = nodeData.filter(n => ids.includes(n.id));
       if (found.length === 0) return;
       const xs = found.map(n => n.x ?? 0), ys = found.map(n => n.y ?? 0);
@@ -203,16 +204,27 @@ export default function NetworkGraph({
       const tx = safeCX - cx * scale;
       const ty = safeCY - cy * scale;
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    }
+
+    // Highlighting is instant, but the camera move must wait for the
+    // simulation to actually settle near its final layout — jumping while
+    // alpha is still high (e.g. right after a fresh mount) lands on the
+    // initial seed position, not where the node ends up.
+    function focusOnIds(ids: string[]) {
       setSelection(new Set(ids));
+      if (sim.alpha() > 0.05) {
+        pendingFocusIds = ids;
+      } else {
+        focusedThisRun = true;
+        moveCameraTo(ids);
+      }
     }
 
     cmdRef.current = {
       focusNode(id) {
-        focusedThisRun = true;
         focusOnIds([id]);
       },
       focusEdge(a, b) {
-        focusedThisRun = true;
         focusOnIds([a, b]);
       },
       fitView: () => doFit(500),
@@ -314,7 +326,13 @@ export default function NetworkGraph({
     });
 
     sim.on('end', () => {
-      if (!focusedThisRun) doFit(700);
+      if (pendingFocusIds) {
+        focusedThisRun = true;
+        moveCameraTo(pendingFocusIds, 700);
+        pendingFocusIds = null;
+      } else if (!focusedThisRun) {
+        doFit(700);
+      }
     });
 
     return () => {
