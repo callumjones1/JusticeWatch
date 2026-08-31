@@ -36,7 +36,7 @@ const CASE_REGISTER_META: Record<CaseRegister, { label: string; color: string }>
   political_violence: { label: 'Political violence cases', color: '#dc2626' },
 };
 
-const INCIDENT_SOURCE_EDGE_COLOUR = '#94a3b8';
+const SOURCE_EDGE_COLOUR = '#94a3b8';
 const GRAPH_HEIGHT = 620;
 const LAYOUT_META: Record<LayoutAlgo, string> = {
   clustered: 'Clustered',
@@ -73,7 +73,31 @@ const legIndex = legIndexData as LegIndexRow[];
 const legislationById = new Map(legislationCategories.flatMap(c => c.entries.map(e => [e.id, e])));
 const caseById = new Map(casesList.map(c => [c.id, c]));
 
+const LEGISLATION_REGISTRY_LABELS: Record<string, string> = {
+  'www.legislation.gov.au': 'Federal Register of Legislation',
+  'www.legislation.vic.gov.au': 'Victorian Legislation Register',
+  'legislation.nsw.gov.au': 'NSW Legislation',
+  'www.legislation.tas.gov.au': 'Tasmanian Legislation',
+  'www.legislation.qld.gov.au': 'Queensland Legislation',
+  'www.legislation.sa.gov.au': 'South Australian Legislation',
+  'www.legislation.wa.gov.au': 'WA Legislation',
+  'www.legislation.act.gov.au': 'ACT Legislation Register',
+  'legislation.nt.gov.au': 'NT Legislation',
+  'www.parliament.wa.gov.au': 'WA Parliament',
+  'www.parliament.nsw.gov.au': 'NSW Parliament',
+  'www.aph.gov.au': 'Australian Parliament House',
+};
+
+function legislationSourceLabel(url: string): string {
+  try {
+    return LEGISLATION_REGISTRY_LABELS[new URL(url).hostname] ?? 'Official legislation text';
+  } catch {
+    return 'Official legislation text';
+  }
+}
+
 const incidentSourceEdges: { incidentId: string; sourceId: string }[] = [];
+const legislationSourceEdges: { legislationId: string; sourceId: string }[] = [];
 const sourceNodes: GraphNode[] = [];
 incidentsList.forEach(inc => {
   (inc.sources ?? []).forEach((s, idx) => {
@@ -84,6 +108,17 @@ incidentsList.forEach(inc => {
       url: s.url, sourceBucket: bucket, summary: s.summary,
     });
     incidentSourceEdges.push({ incidentId: inc.id, sourceId: id });
+  });
+});
+legislationCategories.forEach(cat => {
+  cat.entries.forEach(e => {
+    if (!e.url) return;
+    const id = `source_leg_${e.id}`;
+    sourceNodes.push({
+      id, type: 'source', label: legislationSourceLabel(e.url), sub: `Official text · ${e.jurisdiction}`,
+      year: e.year, url: e.url, sourceBucket: 'Government or official',
+    });
+    legislationSourceEdges.push({ legislationId: e.id, sourceId: id });
   });
 });
 
@@ -111,7 +146,8 @@ const nodeById = new Map(rawNodes.map(n => [n.id, n]));
 type CombinedEdge = { from: string; to: string; colour: string };
 const combinedEdges: CombinedEdge[] = [
   ...edges.map(e => ({ from: e.case_id, to: e.legislation_id, colour: CASE_REGISTER_META[e.register].color })),
-  ...incidentSourceEdges.map(e => ({ from: e.incidentId, to: e.sourceId, colour: INCIDENT_SOURCE_EDGE_COLOUR })),
+  ...incidentSourceEdges.map(e => ({ from: e.incidentId, to: e.sourceId, colour: SOURCE_EDGE_COLOUR })),
+  ...legislationSourceEdges.map(e => ({ from: e.legislationId, to: e.sourceId, colour: SOURCE_EDGE_COLOUR })),
 ];
 
 const ALL_YEARS = rawNodes.map(n => n.year).filter((y): y is number => y !== null).sort((a, b) => a - b);
@@ -374,7 +410,7 @@ export default function Analytics() {
 
   function getLinkedForSelected(sel: GraphNode): LinkedRecord[] {
     if (sel.type === 'case' || sel.type === 'legislation') {
-      return edges
+      const caseLinks = edges
         .filter(e => e.case_id === sel.id || e.legislation_id === sel.id)
         .map((e): LinkedRecord | null => {
           const otherId = e.case_id === sel.id ? e.legislation_id : e.case_id;
@@ -382,6 +418,17 @@ export default function Analytics() {
           return other ? { label: other.label, note: e.provision ?? undefined } : null;
         })
         .filter((x): x is LinkedRecord => x !== null);
+      if (sel.type === 'legislation') {
+        const sourceLinks = legislationSourceEdges
+          .filter(e => e.legislationId === sel.id)
+          .map((e): LinkedRecord | null => {
+            const s = nodeById.get(e.sourceId);
+            return s ? { label: s.label, note: s.sub } : null;
+          })
+          .filter((x): x is LinkedRecord => x !== null);
+        return [...sourceLinks, ...caseLinks];
+      }
+      return caseLinks;
     }
     if (sel.type === 'incident') {
       return incidentSourceEdges
@@ -393,13 +440,21 @@ export default function Analytics() {
         .filter((x): x is LinkedRecord => x !== null);
     }
     if (sel.type === 'source') {
-      return incidentSourceEdges
+      const incidentParent = incidentSourceEdges
         .filter(e => e.sourceId === sel.id)
         .map((e): LinkedRecord | null => {
           const inc = nodeById.get(e.incidentId);
           return inc ? { label: inc.label, note: 'Incident' } : null;
         })
         .filter((x): x is LinkedRecord => x !== null);
+      const legislationParent = legislationSourceEdges
+        .filter(e => e.sourceId === sel.id)
+        .map((e): LinkedRecord | null => {
+          const leg = nodeById.get(e.legislationId);
+          return leg ? { label: leg.label, note: 'Legislation' } : null;
+        })
+        .filter((x): x is LinkedRecord => x !== null);
+      return [...incidentParent, ...legislationParent];
     }
     return [];
   }
@@ -467,8 +522,9 @@ export default function Analytics() {
                 Every legislation, incident, case and cited source is plotted as a node, each database its own
                 colour. Case-to-legislation edges are drawn from the case registers' own legislation mapping, so
                 only cases and Acts that connect to a live Legislation Tracker entry are linked — the rest remain
-                unlinked nodes. Source nodes are drawn from each incident's own source list (in the Incidents
-                Tracker); click one to see its evidentiary type — News media, Government or official, Legal or NGO
+                unlinked nodes. Source nodes come from two places: each incident's own source list (in the Incidents
+                Tracker), and each Act or instrument's own official legislative text (its Legislation Tracker link).
+                Click a source node to see its evidentiary type — News media, Government or official, Legal or NGO
                 commentary, Academic commentary, The Conversation — using the same classing as the Case Tracker's
                 Sources.
               </p>
