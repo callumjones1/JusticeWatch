@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import legislationData from '../data/legislation_tracker.json';
 import incidentsData from '../data/incidents_tracker.json';
 import casesData from '../data/cases.json';
@@ -266,6 +267,7 @@ function LegislationIndexChart({
 }
 
 export default function Analytics() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<AnalyticsTab>('network');
   const [mapSubView, setMapSubView] = useState<MapSubView>('graph');
 
@@ -274,7 +276,7 @@ export default function Analytics() {
   });
   const [colourMode, setColourMode] = useState<'database' | 'caseType'>('database');
   const [sizeMode, setSizeMode] = useState<SizeMode>('degree');
-  const [layoutAlgo, setLayoutAlgo] = useState<LayoutAlgo>('clustered');
+  const [layoutAlgo, setLayoutAlgo] = useState<LayoutAlgo>('force');
   const [repulsion, setRepulsion] = useState(1);
   const debouncedRepulsion = useDebouncedValue(repulsion, 200);
   const [showEdges, setShowEdges] = useState(true);
@@ -378,6 +380,27 @@ export default function Analytics() {
     setFocusRequest({ targetId: caseId, edgeOtherId: legislationId, nonce: Date.now() });
     setContextMenu(null);
   }
+
+  // Cross-page links from the three database pages land here as
+  // /analytics?focus=<nodeId>[&edge=<otherNodeId>] — consume once, then
+  // strip the params so a refresh/back-nav doesn't re-trigger the jump.
+  useEffect(() => {
+    const focusId = searchParams.get('focus');
+    if (!focusId) return;
+    const edgeOtherId = searchParams.get('edge');
+    if (edgeOtherId) {
+      showEdgeInMap(focusId, edgeOtherId);
+    } else {
+      showNodeInMap(focusId);
+    }
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      next.delete('focus');
+      next.delete('edge');
+      return next;
+    }, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   useEffect(() => {
     if (!focusRequest) return;
@@ -709,6 +732,19 @@ export default function Analytics() {
                         <div className="cases-legend-item">
                           <span className="cases-legend-dot" style={{ background: TYPE_META.source.color }} />
                           {TYPE_META.source.label}
+                        </div>
+                      </div>
+                      <div className="cases-chart-legend" style={{ marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+                        <span className="cases-legend-label">Edges</span>
+                        {(Object.keys(CASE_REGISTER_META) as CaseRegister[]).map(r => (
+                          <div key={r} className="cases-legend-item">
+                            <span className="cases-legend-line" style={{ background: CASE_REGISTER_META[r].color }} />
+                            {CASE_REGISTER_META[r].label} → legislation
+                          </div>
+                        ))}
+                        <div className="cases-legend-item">
+                          <span className="cases-legend-line" style={{ background: SOURCE_EDGE_COLOUR }} />
+                          Source → incident / legislation
                         </div>
                       </div>
                     </div>

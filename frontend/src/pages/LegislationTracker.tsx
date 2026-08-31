@@ -1,4 +1,5 @@
 import { useState, useMemo, type JSX } from 'react';
+import { Link } from 'react-router-dom';
 import data from '../data/legislation_tracker.json';
 
 type Entry = {
@@ -324,6 +325,9 @@ export default function LegislationTracker() {
                       {exEntry.year}{exEntry.amended ? `, amended ${exEntry.amended}` : ''}
                       {exEntry.status && <span className="leg-status-badge" style={{ marginLeft: '0.75rem' }}>{exEntry.status}</span>}
                     </div>
+                    <p style={{ marginTop: '0.5rem' }}>
+                      <Link className="db-link" to={`/analytics?focus=${exEntry.id}`}>View in Analytics ↗</Link>
+                    </p>
 
                     <div className="explorer-detail-section-label">Key provisions</div>
                     <ul className="explorer-detail-provisions">
@@ -405,6 +409,9 @@ export default function LegislationTracker() {
                                         <p>{entry.url
                                           ? <a href={entry.url} target="_blank" rel="noopener noreferrer">{entry.full_title} ↗</a>
                                           : entry.full_title}</p>
+                                        <p>
+                                          <Link className="db-link" to={`/analytics?focus=${entry.id}`}>View in Analytics ↗</Link>
+                                        </p>
                                         <h4>Key provisions</h4>
                                         <ul>{entry.key_provisions.map((p, i) => <li key={i}>{p}</li>)}</ul>
                                         <h4>Commentary</h4>

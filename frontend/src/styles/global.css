@@ -2640,6 +2640,22 @@ ul {
   flex-shrink: 0;
 }
 
+.cases-legend-line {
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.cases-legend-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-right: 0.25rem;
+}
+
 
 /* ═══════════════════════════════
    LEGISLATION EXPLORER

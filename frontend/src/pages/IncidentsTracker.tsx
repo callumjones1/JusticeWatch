@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import data from '../data/incidents_tracker.json';
 
 type Source = {
@@ -245,6 +246,9 @@ export default function IncidentsTracker() {
                               {isOpen && (
                                 <div className="inc-node-body">
                                   <p className="inc-node-summary">{inc.summary}</p>
+                                  <p>
+                                    <Link className="db-link" to={`/analytics?focus=${inc.id}`}>View in Analytics ↗</Link>
+                                  </p>
 
                                   {inc.sources.length > 0 && (
                                     <>

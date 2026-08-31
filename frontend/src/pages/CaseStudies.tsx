@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import data from '../data/cases.json';
 import caseSourcesData from '../data/case_sources.json';
 import { sourceTypeColour } from '../lib/sourceTypes';
@@ -571,6 +572,9 @@ export default function CaseStudies() {
                                 </>
                               )}
                               <CaseSources c={c} />
+                              <p style={{ marginTop: '1rem' }}>
+                                <Link className="db-link" to={`/analytics?focus=${c.id}`}>View in Analytics ↗</Link>
+                              </p>
                             </div>
                           </td>
                         </tr>
@@ -719,6 +723,9 @@ export default function CaseStudies() {
                     </>
                   )}
                   <CaseSources c={chartDetail} />
+                  <p style={{ marginTop: '1rem' }}>
+                    <Link className="db-link" to={`/analytics?focus=${chartDetail.id}`}>View in Analytics ↗</Link>
+                  </p>
                 </div>
               )}
 
