@@ -1,5 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+
+// How settled the simulation needs to be before the camera is allowed to
+// move to it (a fit-on-load or a cross-page focus jump). Waiting for the
+// simulation's true 'end' (alpha below ~0.001) takes several seconds on a
+// graph this size; the layout already reads as settled well before that,
+// so triggering off a much higher alpha cuts the wait dramatically.
+const SETTLE_ALPHA = 0.15;
 
 export type NetworkNodeType = 'legislation' | 'incident' | 'case' | 'source';
 export type LayoutAlgo = 'clustered' | 'force' | 'circular';
@@ -69,6 +76,7 @@ export default function NetworkGraph({
   const svgRef = useRef<SVGSVGElement>(null);
   const onSelectRef = useRef(onSelectNode);
   const onCtxRef = useRef(onNodeContextMenu);
+  const [settling, setSettling] = useState(true);
   useEffect(() => { onSelectRef.current = onSelectNode; }, [onSelectNode]);
   useEffect(() => { onCtxRef.current = onNodeContextMenu; }, [onNodeContextMenu]);
 
@@ -76,6 +84,8 @@ export default function NetworkGraph({
     const container = containerRef.current;
     const svgEl = svgRef.current;
     if (!container || !svgEl) return;
+
+    setSettling(true);
 
     const W = container.clientWidth || 900;
     const H = height;
@@ -152,6 +162,20 @@ export default function NetworkGraph({
     let selectedIds = new Set<string>();
     let focusedThisRun = false;
     let pendingFocusIds: string[] | null = null;
+    let settledOnce = false;
+
+    function onSettled() {
+      if (settledOnce) return;
+      settledOnce = true;
+      setSettling(false);
+      if (pendingFocusIds) {
+        focusedThisRun = true;
+        moveCameraTo(pendingFocusIds, 500);
+        pendingFocusIds = null;
+      } else if (!focusedThisRun) {
+        doFit(500);
+      }
+    }
 
     function updateHighlight() {
       if (selectedIds.size === 0) {
@@ -212,7 +236,7 @@ export default function NetworkGraph({
     // initial seed position, not where the node ends up.
     function focusOnIds(ids: string[]) {
       setSelection(new Set(ids));
-      if (sim.alpha() > 0.05) {
+      if (!settledOnce) {
         pendingFocusIds = ids;
       } else {
         focusedThisRun = true;
@@ -323,17 +347,10 @@ export default function NetworkGraph({
         .attr('x2', d => (typeof d.target === 'string' ? 0 : d.target.x ?? 0))
         .attr('y2', d => (typeof d.target === 'string' ? 0 : d.target.y ?? 0));
       nodeSel.attr('cx', d => d.x ?? 0).attr('cy', d => d.y ?? 0);
+      if (!settledOnce && sim.alpha() < SETTLE_ALPHA) onSettled();
     });
 
-    sim.on('end', () => {
-      if (pendingFocusIds) {
-        focusedThisRun = true;
-        moveCameraTo(pendingFocusIds, 700);
-        pendingFocusIds = null;
-      } else if (!focusedThisRun) {
-        doFit(700);
-      }
-    });
+    sim.on('end', onSettled);
 
     return () => {
       sim.stop();
@@ -345,6 +362,12 @@ export default function NetworkGraph({
   return (
     <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>
       <svg ref={svgRef} style={{ width: '100%', display: 'block' }} />
+      {settling && (
+        <div className="ng-settling">
+          <span className="ng-settling-spinner" />
+          Arranging network…
+        </div>
+      )}
     </div>
   );
 }
