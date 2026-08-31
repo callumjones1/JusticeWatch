@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-// How settled the simulation needs to be before the camera is allowed to
-// move to it (a fit-on-load or a cross-page focus jump). Waiting for the
-// simulation's true 'end' (alpha below ~0.001) takes several seconds on a
-// graph this size; the layout already reads as settled well before that,
-// so triggering off a much higher alpha cuts the wait dramatically.
-const SETTLE_ALPHA = 0.15;
+// The layout is computed synchronously (see the fast-forward loop below)
+// rather than animated tick-by-tick, so the camera never has to wait for it.
+// The loop stops at whichever comes first: alpha converges, a wall-clock
+// time budget is spent (so this stays snappy even if the graph grows a lot),
+// or a hard tick cap (so a pathological force config can never hang the tab).
+const SETTLE_ALPHA = 0.02;
+const PRECOMPUTE_TIME_BUDGET_MS = 250;
+const MAX_PRECOMPUTE_TICKS = 400;
 
 export type NetworkNodeType = 'legislation' | 'incident' | 'case' | 'source';
 export type LayoutAlgo = 'clustered' | 'force' | 'circular';
@@ -76,7 +78,6 @@ export default function NetworkGraph({
   const svgRef = useRef<SVGSVGElement>(null);
   const onSelectRef = useRef(onSelectNode);
   const onCtxRef = useRef(onNodeContextMenu);
-  const [settling, setSettling] = useState(true);
   useEffect(() => { onSelectRef.current = onSelectNode; }, [onSelectNode]);
   useEffect(() => { onCtxRef.current = onNodeContextMenu; }, [onNodeContextMenu]);
 
@@ -84,8 +85,6 @@ export default function NetworkGraph({
     const container = containerRef.current;
     const svgEl = svgRef.current;
     if (!container || !svgEl) return;
-
-    setSettling(true);
 
     const W = container.clientWidth || 900;
     const H = height;
@@ -159,23 +158,23 @@ export default function NetworkGraph({
       }
     }
 
-    let selectedIds = new Set<string>();
-    let focusedThisRun = false;
-    let pendingFocusIds: string[] | null = null;
-    let settledOnce = false;
-
-    function onSettled() {
-      if (settledOnce) return;
-      settledOnce = true;
-      setSettling(false);
-      if (pendingFocusIds) {
-        focusedThisRun = true;
-        moveCameraTo(pendingFocusIds, 500);
-        pendingFocusIds = null;
-      } else if (!focusedThisRun) {
-        doFit(500);
-      }
+    // Compute the layout synchronously up front instead of animating it
+    // tick-by-tick — the camera then has real final positions to work with
+    // immediately, with no wait, no matter when focusNode/focusEdge/fitView
+    // get called (including right after a fresh cross-page mount).
+    sim.stop();
+    const precomputeStart = performance.now();
+    let precomputeTicks = 0;
+    while (
+      sim.alpha() > SETTLE_ALPHA &&
+      precomputeTicks < MAX_PRECOMPUTE_TICKS &&
+      performance.now() - precomputeStart < PRECOMPUTE_TIME_BUDGET_MS
+    ) {
+      sim.tick();
+      precomputeTicks++;
     }
+
+    let selectedIds = new Set<string>();
 
     function updateHighlight() {
       if (selectedIds.size === 0) {
@@ -207,7 +206,7 @@ export default function NetworkGraph({
       else onSelectRef.current?.(null);
     }
 
-    function doFit(ms = 600) {
+    function doFit(ms = 300) {
       if (!nodeData.length) return;
       const xs = nodeData.map(n => n.x ?? 0), ys = nodeData.map(n => n.y ?? 0);
       const x0 = Math.min(...xs) - 24, x1 = Math.max(...xs) + 24;
@@ -218,7 +217,9 @@ export default function NetworkGraph({
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
     }
 
-    function moveCameraTo(ids: string[], ms = 650) {
+    // Positions are already final (computed synchronously above), so this
+    // can run the moment it's called — no waiting on the simulation.
+    function moveCameraTo(ids: string[], ms = 300) {
       const found = nodeData.filter(n => ids.includes(n.id));
       if (found.length === 0) return;
       const xs = found.map(n => n.x ?? 0), ys = found.map(n => n.y ?? 0);
@@ -230,18 +231,9 @@ export default function NetworkGraph({
       svg.transition().duration(ms).call(zoomBehaviour.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
     }
 
-    // Highlighting is instant, but the camera move must wait for the
-    // simulation to actually settle near its final layout — jumping while
-    // alpha is still high (e.g. right after a fresh mount) lands on the
-    // initial seed position, not where the node ends up.
     function focusOnIds(ids: string[]) {
       setSelection(new Set(ids));
-      if (!settledOnce) {
-        pendingFocusIds = ids;
-      } else {
-        focusedThisRun = true;
-        moveCameraTo(ids);
-      }
+      moveCameraTo(ids);
     }
 
     cmdRef.current = {
@@ -251,7 +243,7 @@ export default function NetworkGraph({
       focusEdge(a, b) {
         focusOnIds([a, b]);
       },
-      fitView: () => doFit(500),
+      fitView: () => doFit(300),
       clearSelection: () => setSelection(new Set()),
     };
 
@@ -340,17 +332,21 @@ export default function NetworkGraph({
     });
     fitBtn.on('click', () => doFit());
 
-    sim.on('tick', () => {
+    function renderPositions() {
       edgeSel
         .attr('x1', d => (typeof d.source === 'string' ? 0 : d.source.x ?? 0))
         .attr('y1', d => (typeof d.source === 'string' ? 0 : d.source.y ?? 0))
         .attr('x2', d => (typeof d.target === 'string' ? 0 : d.target.x ?? 0))
         .attr('y2', d => (typeof d.target === 'string' ? 0 : d.target.y ?? 0));
       nodeSel.attr('cx', d => d.x ?? 0).attr('cy', d => d.y ?? 0);
-      if (!settledOnce && sim.alpha() < SETTLE_ALPHA) onSettled();
-    });
+    }
 
-    sim.on('end', onSettled);
+    sim.on('tick', renderPositions);
+
+    // Paint the precomputed layout immediately, then frame it — no waiting
+    // on any simulation event.
+    renderPositions();
+    doFit(0);
 
     return () => {
       sim.stop();
@@ -362,12 +358,6 @@ export default function NetworkGraph({
   return (
     <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>
       <svg ref={svgRef} style={{ width: '100%', display: 'block' }} />
-      {settling && (
-        <div className="ng-settling">
-          <span className="ng-settling-spinner" />
-          Arranging network…
-        </div>
-      )}
     </div>
   );
 }
