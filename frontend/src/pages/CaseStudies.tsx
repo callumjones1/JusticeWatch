@@ -19,7 +19,12 @@ type Case = {
   forum_level: string;
   case_type: string | null;
   event_types: string[];
-  ideology_cause: string[];
+  // Protest register only: umbrella movement classification.
+  movement_group?: string | null;
+  movement_detail?: string | null;
+  // Political violence register only: umbrella ideology classification.
+  ideology_group?: string | null;
+  ideology_detail?: string | null;
   provisions_engaged: string[];
   acts_engaged: string[];
   tracker_categories: string[];
@@ -29,7 +34,7 @@ type Case = {
   result: string | null;
   register_category: string | null;
   implied_freedom_raised: boolean | null;
-  sanction_type?: string;
+  sanction_type?: string | null;
   url: string | null;
   tags: string[];
   sourcing_status?: string;
