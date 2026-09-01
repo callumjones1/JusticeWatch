@@ -328,7 +328,7 @@ export default function Analytics() {
   const [edgeRegisterFilter, setEdgeRegisterFilter] = useState<'all' | CaseRegister>('all');
 
   const [legIdxSearch, setLegIdxSearch] = useState('');
-  const [legIdxRegister, setLegIdxRegister] = useState<'all' | CaseRegister>('all');
+  const [legIdxRegister, setLegIdxRegister] = useState<CaseRegister>('protest');
   const [legIdxSort, setLegIdxSort] = useState<'cases' | 'name' | 'latest_year'>('cases');
   const [legIdxView, setLegIdxView] = useState<'visualise' | 'data'>('visualise');
 
@@ -559,7 +559,7 @@ export default function Analytics() {
   const legIdxFiltered = useMemo(() => {
     const s = legIdxSearch.trim().toLowerCase();
     return legIndex.filter(r => {
-      if (legIdxRegister !== 'all' && r.register !== legIdxRegister) return false;
+      if (r.register !== legIdxRegister) return false;
       if (s && !(r.name ?? '').toLowerCase().includes(s)) return false;
       return true;
     });
@@ -1290,13 +1290,13 @@ export default function Analytics() {
               </div>
 
               <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                {(['all', 'protest', 'political_violence'] as const).map(r => (
+                {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
                   <button
                     key={r}
                     className={`leg-pill${legIdxRegister === r ? ' leg-pill-active' : ''}`}
                     onClick={() => setLegIdxRegister(r)}
                   >
-                    {r === 'all' ? 'All' : CASE_REGISTER_META[r].label}
+                    {CASE_REGISTER_META[r].label}
                   </button>
                 ))}
               </div>
