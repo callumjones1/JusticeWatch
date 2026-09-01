@@ -6,7 +6,7 @@ export type TimelineRegister = 'protest' | 'political_violence';
 
 export interface TimelineLegislationItem { id: string; label: string; year: number; }
 export interface TimelineIncidentItem { id: string; label: string; year: number; }
-export interface TimelineCaseItem { id: string; label: string; year: number; register: TimelineRegister; url: string | null; }
+export interface TimelineCaseItem { id: string; label: string; year: number; register: TimelineRegister; category?: string | null; url: string | null; }
 export interface TimelineEdge { caseId: string; legislationId: string; }
 
 export interface TimelineHandle {
@@ -33,6 +33,7 @@ interface TimelineProps {
   height?: number;
   typeColours: Record<TimelineType, string>;
   registerColours: Record<TimelineRegister, string>;
+  categoryColours?: Map<string, string>;
   cmdRef?: React.MutableRefObject<TimelineHandle | null>;
   onSelect: (sel: TimelineSelection | null) => void;
 }
@@ -53,6 +54,7 @@ interface PosItem {
   label: string;
   year: number;
   register?: TimelineRegister;
+  category?: string | null;
   url?: string | null;
   degree: number;
   laneY: number;
@@ -60,7 +62,7 @@ interface PosItem {
 
 export default function Timeline({
   legislation, incidents, cases, edges, minYear, maxYear, height = 640,
-  typeColours, registerColours, cmdRef, onSelect,
+  typeColours, registerColours, categoryColours, cmdRef, onSelect,
 }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -98,7 +100,7 @@ export default function Timeline({
     const items: PosItem[] = [
       ...legislation.map(l => ({ id: l.id, type: 'legislation' as const, label: l.label, year: l.year, degree: degreeByLegislation.get(l.id) ?? 0, laneY: laneCenter.legislation })),
       ...incidents.map(i => ({ id: i.id, type: 'incident' as const, label: i.label, year: i.year, degree: 0, laneY: laneCenter.incident })),
-      ...cases.map(c => ({ id: c.id, type: 'case' as const, label: c.label, year: c.year, register: c.register, url: c.url, degree: 0, laneY: caseBandTop + hashJitter(c.id) * caseBandHeight })),
+      ...cases.map(c => ({ id: c.id, type: 'case' as const, label: c.label, year: c.year, register: c.register, category: c.category, url: c.url, degree: 0, laneY: caseBandTop + hashJitter(c.id) * caseBandHeight })),
     ];
     const itemById = new Map(items.map(it => [it.id, it]));
 
@@ -270,6 +272,7 @@ export default function Timeline({
     }
 
     function nodeColour(d: PosItem): string {
+      if (d.type === 'case' && d.category && categoryColours?.has(d.category)) return categoryColours.get(d.category)!;
       if (d.type === 'case' && d.register) return registerColours[d.register];
       return typeColours[d.type];
     }
@@ -339,7 +342,7 @@ export default function Timeline({
       tip.remove();
       d3.select(container).selectAll('.ng-overlay').remove();
     };
-  }, [legislation, incidents, cases, edges, minYear, maxYear, height, typeColours, registerColours, cmdRef]);
+  }, [legislation, incidents, cases, edges, minYear, maxYear, height, typeColours, registerColours, categoryColours, cmdRef]);
 
   return (
     <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>

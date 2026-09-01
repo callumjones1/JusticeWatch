@@ -8,6 +8,8 @@ import legIndexData from '../data/legislation_index.json';
 import NetworkGraph, { type NetworkGraphHandle, type LayoutAlgo, type SizeMode } from '../components/NetworkGraph';
 import GeoMap, { joinCasesToStates, type GeoCase, type GeoStateSelection } from '../components/GeoMap';
 import Timeline, { type TimelineHandle, type TimelineSelection, type TimelineType } from '../components/Timeline';
+import CategoryMultiSelect, { type CategoryOption } from '../components/CategoryMultiSelect';
+import { buildCategoryColourScale } from '../lib/categoryColors';
 import { normalizeSourceType, type SourceTypeLabel } from '../lib/sourceTypes';
 
 type NodeType = 'legislation' | 'incident' | 'case' | 'source';
@@ -23,6 +25,7 @@ interface GraphNode {
   year: number | null;
   url?: string;
   caseRegister?: CaseRegister;
+  category?: string | null;
   sourceBucket?: SourceTypeLabel;
   summary?: string;
 }
@@ -64,6 +67,7 @@ type IncidentMini = { id: string; short_title: string; location: string; year: n
 type CaseMini = {
   id: string; case_name: string; jurisdiction_display: string | null; year: number;
   url: string | null; register: CaseRegister;
+  movement_group?: string | null; ideology_group?: string | null;
 };
 type CaseLegislationEdge = { case_id: string; legislation_id: string; provision: string | null; register: CaseRegister };
 type LegIndexRow = {
@@ -81,6 +85,26 @@ const legIndex = legIndexData as LegIndexRow[];
 
 const legislationById = new Map(legislationCategories.flatMap(c => c.entries.map(e => [e.id, e])));
 const caseById = new Map(casesList.map(c => [c.id, c]));
+
+// The umbrella category for a case: movement group for protest, ideology
+// group for political violence — the two taxonomies from the reviewed tag
+// normalization. Detail-level tags (37/26 values) are too granular to be
+// useful as a colour/filter dimension, so only the group level is surfaced.
+function caseCategory(c: CaseMini): string | null {
+  return (c.register === 'protest' ? c.movement_group : c.ideology_group) ?? null;
+}
+
+const PROTEST_CATEGORY_OPTIONS: CategoryOption[] = [...new Set(
+  casesList.filter(c => c.register === 'protest').map(c => c.movement_group).filter((v): v is string => !!v)
+)].sort().map(v => ({ value: v, label: v, group: 'Protest movement' }));
+
+const POLITICAL_VIOLENCE_CATEGORY_OPTIONS: CategoryOption[] = [...new Set(
+  casesList.filter(c => c.register === 'political_violence').map(c => c.ideology_group).filter((v): v is string => !!v)
+)].sort().map(v => ({ value: v, label: v, group: 'Political violence ideology' }));
+
+const ALL_CATEGORY_OPTIONS: CategoryOption[] = [...PROTEST_CATEGORY_OPTIONS, ...POLITICAL_VIOLENCE_CATEGORY_OPTIONS];
+
+const CATEGORY_COLOUR = buildCategoryColourScale(ALL_CATEGORY_OPTIONS.map(o => o.value));
 
 const LEGISLATION_REGISTRY_LABELS: Record<string, string> = {
   'www.legislation.gov.au': 'Federal Register of Legislation',
@@ -145,7 +169,7 @@ const rawNodes: GraphNode[] = [
   ...casesList.map(c => ({
     id: c.id, type: 'case' as const, label: c.case_name,
     sub: c.jurisdiction_display ?? 'Jurisdiction not identified', year: c.year,
-    url: c.url ?? undefined, caseRegister: c.register,
+    url: c.url ?? undefined, caseRegister: c.register, category: caseCategory(c),
   })),
   ...sourceNodes,
 ];
@@ -307,7 +331,8 @@ export default function Analytics() {
   const [caseRegisterVisible, setCaseRegisterVisible] = useState<Record<CaseRegister, boolean>>({
     protest: true, political_violence: true,
   });
-  const [colourMode, setColourMode] = useState<'database' | 'caseType'>('database');
+  const [colourMode, setColourMode] = useState<'database' | 'caseType' | 'category'>('database');
+  const [categoryFilter, setCategoryFilter] = useState<Set<string>>(new Set());
   const [sizeMode, setSizeMode] = useState<SizeMode>('degree');
   const [layoutAlgo, setLayoutAlgo] = useState<LayoutAlgo>('force');
   const [repulsion, setRepulsion] = useState(1);
@@ -338,6 +363,7 @@ export default function Analytics() {
   const [geoRegisterVisible, setGeoRegisterVisible] = useState<Record<CaseRegister, boolean>>({
     protest: true, political_violence: true,
   });
+  const [geoCategoryFilter, setGeoCategoryFilter] = useState<Set<string>>(new Set());
   const [geoSelected, setGeoSelected] = useState<GeoStateSelection | null>(null);
 
   // --- Timeline ---
@@ -351,10 +377,14 @@ export default function Analytics() {
   const [tlRegisterVisible, setTlRegisterVisible] = useState<Record<CaseRegister, boolean>>({
     protest: true, political_violence: true,
   });
+  const [tlCategoryFilter, setTlCategoryFilter] = useState<Set<string>>(new Set());
   const [tlSelected, setTlSelected] = useState<TimelineSelection | null>(null);
   const tlCmdRef = useRef<TimelineHandle | null>(null);
 
   function nodeColour(n: GraphNode): string {
+    if (colourMode === 'category' && n.type === 'case' && n.category) {
+      return CATEGORY_COLOUR.get(n.category) ?? TYPE_META[n.type].color;
+    }
     if (colourMode === 'caseType' && n.type === 'case' && n.caseRegister) {
       return CASE_REGISTER_META[n.caseRegister].color;
     }
@@ -371,13 +401,19 @@ export default function Analytics() {
     return rawNodes.filter(n => {
       if (!typeVisible[n.type]) return false;
       if (n.type === 'case' && n.caseRegister && !caseRegisterVisible[n.caseRegister]) return false;
+      if (n.type === 'case' && categoryFilter.size > 0 && !(n.category && categoryFilter.has(n.category))) return false;
       if (n.year !== null && (n.year < yearFrom || n.year > yearTo)) return false;
       if (debouncedSearch && !n.label.toLowerCase().includes(debouncedSearch) && !n.sub.toLowerCase().includes(debouncedSearch)) return false;
       return true;
     });
-  }, [typeVisible, caseRegisterVisible, yearFrom, yearTo, debouncedSearch]);
+  }, [typeVisible, caseRegisterVisible, categoryFilter, yearFrom, yearTo, debouncedSearch]);
 
   const baseNodeIds = useMemo(() => new Set(baseNodes.map(n => n.id)), [baseNodes]);
+
+  const presentCategories = useMemo(
+    () => [...new Set(baseNodes.filter(n => n.type === 'case' && n.category).map(n => n.category as string))].sort(),
+    [baseNodes]
+  );
 
   const baseEdges = useMemo(
     () => combinedEdges.filter(e => baseNodeIds.has(e.from) && baseNodeIds.has(e.to)),
@@ -393,7 +429,8 @@ export default function Analytics() {
   const graphEdges = useMemo(() => (showEdges ? baseEdges : []), [showEdges, baseEdges]);
 
   const hasFilter = search !== '' || yearFrom !== MIN_YEAR || yearTo !== MAX_YEAR ||
-    Object.values(typeVisible).some(v => !v) || Object.values(caseRegisterVisible).some(v => !v);
+    Object.values(typeVisible).some(v => !v) || Object.values(caseRegisterVisible).some(v => !v) ||
+    categoryFilter.size > 0;
 
   function toggleType(t: NodeType) {
     setTypeVisible(prev => ({ ...prev, [t]: !prev[t] }));
@@ -409,6 +446,7 @@ export default function Analytics() {
     setYearTo(MAX_YEAR);
     setTypeVisible({ legislation: true, incident: true, case: true, source: true });
     setCaseRegisterVisible({ protest: true, political_violence: true });
+    setCategoryFilter(new Set());
   }
 
   function revealNode(node: GraphNode) {
@@ -587,12 +625,22 @@ export default function Analytics() {
 
   const geoCases: GeoCase[] = useMemo(
     () => casesList
-      .filter(c => c.year >= geoYearFrom && c.year <= geoYearTo && geoRegisterVisible[c.register])
+      .filter(c => {
+        if (c.year < geoYearFrom || c.year > geoYearTo) return false;
+        // Picking specific categories implies which register they belong to,
+        // so it overrides the coarse register toggle rather than AND-ing
+        // with it (avoids a confusing empty result if they disagree).
+        if (geoCategoryFilter.size > 0) {
+          const cat = caseCategory(c);
+          return !!cat && geoCategoryFilter.has(cat);
+        }
+        return geoRegisterVisible[c.register];
+      })
       .map(c => ({
         id: c.id, caseName: c.case_name, year: c.year, register: c.register,
-        jurisdictionDisplay: c.jurisdiction_display, url: c.url,
+        category: caseCategory(c), jurisdictionDisplay: c.jurisdiction_display, url: c.url,
       })),
-    [geoYearFrom, geoYearTo, geoRegisterVisible]
+    [geoYearFrom, geoYearTo, geoRegisterVisible, geoCategoryFilter]
   );
 
   const geoExcluded = useMemo(() => joinCasesToStates(geoCases).excluded, [geoCases]);
@@ -623,16 +671,26 @@ export default function Analytics() {
 
   const tlCases = useMemo(
     () => (!tlTypeVisible.case ? [] : casesList
-      .filter(c => tlRegisterVisible[c.register] && c.year >= tlYearFrom && c.year <= tlYearTo &&
-        (!debouncedTlSearch || c.case_name.toLowerCase().includes(debouncedTlSearch)))
-      .map(c => ({ id: c.id, label: c.case_name, year: c.year, register: c.register, url: c.url }))),
-    [tlTypeVisible.case, tlRegisterVisible, tlYearFrom, tlYearTo, debouncedTlSearch]
+      .filter(c => {
+        if (c.year < tlYearFrom || c.year > tlYearTo) return false;
+        if (debouncedTlSearch && !c.case_name.toLowerCase().includes(debouncedTlSearch)) return false;
+        // Same override rule as the Geo Map: picking categories implies
+        // which register they belong to, so it replaces the register toggle.
+        if (tlCategoryFilter.size > 0) {
+          const cat = caseCategory(c);
+          return !!cat && tlCategoryFilter.has(cat);
+        }
+        return tlRegisterVisible[c.register];
+      })
+      .map(c => ({ id: c.id, label: c.case_name, year: c.year, register: c.register, category: caseCategory(c), url: c.url }))),
+    [tlTypeVisible.case, tlRegisterVisible, tlCategoryFilter, tlYearFrom, tlYearTo, debouncedTlSearch]
   );
 
   const tlEdges = useMemo(() => edges.map(e => ({ caseId: e.case_id, legislationId: e.legislation_id })), []);
 
   const tlHasFilter = tlSearch !== '' || tlYearFrom !== MIN_YEAR || tlYearTo !== MAX_YEAR ||
-    Object.values(tlTypeVisible).some(v => !v) || Object.values(tlRegisterVisible).some(v => !v);
+    Object.values(tlTypeVisible).some(v => !v) || Object.values(tlRegisterVisible).some(v => !v) ||
+    tlCategoryFilter.size > 0;
 
   function clearTlFilters() {
     setTlSearch('');
@@ -640,6 +698,7 @@ export default function Analytics() {
     setTlYearTo(MAX_YEAR);
     setTlTypeVisible({ legislation: true, incident: true, case: true });
     setTlRegisterVisible({ protest: true, political_violence: true });
+    setTlCategoryFilter(new Set());
   }
 
   return (
@@ -737,12 +796,17 @@ export default function Analytics() {
                       <span className="leg-filter-label">Colour by</span>
                       <button className={`leg-pill${colourMode === 'database' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('database')}>Database</button>
                       <button className={`leg-pill${colourMode === 'caseType' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('caseType')}>Case type</button>
+                      <button className={`leg-pill${colourMode === 'category' ? ' leg-pill-active' : ''}`} onClick={() => setColourMode('category')}>Category</button>
                       <span className="leg-filter-label" style={{ marginLeft: '1.5rem' }}>Size by</span>
                       {(Object.keys(SIZE_MODE_META) as SizeMode[]).map(sm => (
                         <button key={sm} className={`leg-pill${sizeMode === sm ? ' leg-pill-active' : ''}`} onClick={() => setSizeMode(sm)}>
                           {SIZE_MODE_META[sm]}
                         </button>
                       ))}
+                    </div>
+                    <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                      <span className="leg-filter-label">Category</span>
+                      <CategoryMultiSelect options={ALL_CATEGORY_OPTIONS} selected={categoryFilter} onChange={setCategoryFilter} />
                     </div>
                     <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
                       <span className="leg-filter-label">Layout</span>
@@ -859,18 +923,31 @@ export default function Analytics() {
                             {TYPE_META[t].label}
                           </div>
                         ))}
-                        {colourMode === 'database' ? (
+                        {colourMode === 'database' && (
                           <div className="cases-legend-item">
                             <span className="cases-legend-dot" style={{ background: TYPE_META.case.color }} />
                             {TYPE_META.case.label}
                           </div>
-                        ) : (
+                        )}
+                        {colourMode === 'caseType' && (
                           (Object.keys(CASE_REGISTER_META) as CaseRegister[]).map(r => (
                             <div key={r} className="cases-legend-item">
                               <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
                               {CASE_REGISTER_META[r].label}
                             </div>
                           ))
+                        )}
+                        {colourMode === 'category' && (
+                          presentCategories.length === 0 ? (
+                            <span className="cases-legend-item">No categorised cases visible</span>
+                          ) : (
+                            presentCategories.map(cat => (
+                              <div key={cat} className="cases-legend-item">
+                                <span className="cases-legend-dot" style={{ background: CATEGORY_COLOUR.get(cat) }} />
+                                {cat}
+                              </div>
+                            ))
+                          )
                         )}
                         <div className="cases-legend-item">
                           <span className="cases-legend-dot" style={{ background: TYPE_META.source.color }} />
@@ -1042,11 +1119,16 @@ export default function Analytics() {
                     <span>{geoYearTo}</span>
                   </div>
                 </div>
+                <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                  <span className="leg-filter-label">Breakdown by category</span>
+                  <CategoryMultiSelect options={ALL_CATEGORY_OPTIONS} selected={geoCategoryFilter} onChange={setGeoCategoryFilter} />
+                </div>
               </div>
 
               <p className="events-detail-note" style={{ marginBottom: '0.75rem' }}>
                 Scroll to zoom · drag to pan · click a state or one of its markers to see its cases.
                 {geoExcluded > 0 && ` ${geoExcluded.toLocaleString()} case${geoExcluded === 1 ? '' : 's'} excluded — jurisdiction not state-level.`}
+                {geoCategoryFilter.size > 0 && ' Ticking categories replaces the register split above with one marker per selected category, so you can compare where each is concentrated.'}
               </p>
 
               <div className="analytics-layout">
@@ -1055,15 +1137,26 @@ export default function Analytics() {
                     cases={geoCases}
                     height={GRAPH_HEIGHT}
                     registerColours={{ protest: CASE_REGISTER_META.protest.color, political_violence: CASE_REGISTER_META.political_violence.color }}
+                    selectedCategories={geoCategoryFilter}
+                    categoryColours={CATEGORY_COLOUR}
                     onSelectState={setGeoSelected}
                   />
                   <div className="cases-chart-legend" style={{ marginTop: '0.75rem' }}>
-                    {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
-                      <div key={r} className="cases-legend-item">
-                        <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
-                        {CASE_REGISTER_META[r].label}
-                      </div>
-                    ))}
+                    {geoCategoryFilter.size === 0 ? (
+                      (['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                        <div key={r} className="cases-legend-item">
+                          <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
+                          {CASE_REGISTER_META[r].label}
+                        </div>
+                      ))
+                    ) : (
+                      [...geoCategoryFilter].sort().map(cat => (
+                        <div key={cat} className="cases-legend-item">
+                          <span className="cases-legend-dot" style={{ background: CATEGORY_COLOUR.get(cat) }} />
+                          {cat}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -1073,25 +1166,47 @@ export default function Analytics() {
                       <h3 className="analytics-detail-title">{geoSelected.stateName}</h3>
                       <p className="analytics-detail-sub">{CASE_REGISTER_META.protest.label}: {geoSelected.counts.protest}</p>
                       <p className="analytics-detail-sub">{CASE_REGISTER_META.political_violence.label}: {geoSelected.counts.political_violence}</p>
-                      {(['protest', 'political_violence'] as CaseRegister[]).map(register => {
-                        const regionCases = geoSelected.cases.filter(c => c.register === register);
-                        if (regionCases.length === 0) return null;
-                        return (
-                          <div key={register}>
-                            <div className="events-detail-h4" style={{ marginTop: '1.25rem', color: CASE_REGISTER_META[register].color }}>
-                              {CASE_REGISTER_META[register].label} ({regionCases.length})
+                      {geoCategoryFilter.size > 0 ? (
+                        [...geoCategoryFilter].sort().map(cat => {
+                          const catCases = geoSelected.cases.filter(c => c.category === cat);
+                          if (catCases.length === 0) return null;
+                          return (
+                            <div key={cat}>
+                              <div className="events-detail-h4" style={{ marginTop: '1.25rem', color: CATEGORY_COLOUR.get(cat) }}>
+                                {cat} ({catCases.length})
+                              </div>
+                              <ul className="events-plain-list" style={{ maxHeight: '260px', overflowY: 'auto' }}>
+                                {catCases.map(c => (
+                                  <li key={c.id}>
+                                    {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
+                                    <span className="events-detail-note"> — {c.year}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                            <ul className="events-plain-list" style={{ maxHeight: '260px', overflowY: 'auto' }}>
-                              {regionCases.map(c => (
-                                <li key={c.id}>
-                                  {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
-                                  <span className="events-detail-note"> — {c.year}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        );
-                      })}
+                          );
+                        })
+                      ) : (
+                        (['protest', 'political_violence'] as CaseRegister[]).map(register => {
+                          const regionCases = geoSelected.cases.filter(c => c.register === register);
+                          if (regionCases.length === 0) return null;
+                          return (
+                            <div key={register}>
+                              <div className="events-detail-h4" style={{ marginTop: '1.25rem', color: CASE_REGISTER_META[register].color }}>
+                                {CASE_REGISTER_META[register].label} ({regionCases.length})
+                              </div>
+                              <ul className="events-plain-list" style={{ maxHeight: '260px', overflowY: 'auto' }}>
+                                {regionCases.map(c => (
+                                  <li key={c.id}>
+                                    {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer">{c.caseName}</a> : c.caseName}
+                                    <span className="events-detail-note"> — {c.year}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        })
+                      )}
                     </>
                   ) : (
                     <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
@@ -1157,6 +1272,10 @@ export default function Analytics() {
                   <button className="leg-pill" style={{ marginLeft: '0.75rem' }} onClick={() => tlCmdRef.current?.resetZoom()}>Reset zoom</button>
                 </div>
                 <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
+                  <span className="leg-filter-label">Category</span>
+                  <CategoryMultiSelect options={ALL_CATEGORY_OPTIONS} selected={tlCategoryFilter} onChange={setTlCategoryFilter} />
+                </div>
+                <div className="leg-filter-group" style={{ marginTop: '0.5rem' }}>
                   <span className="leg-filter-label">Year range</span>
                   <div className="inc-year-range">
                     <span>{tlYearFrom}</span>
@@ -1189,6 +1308,7 @@ export default function Analytics() {
                     height={GRAPH_HEIGHT}
                     typeColours={{ legislation: TYPE_META.legislation.color, incident: TYPE_META.incident.color, case: TYPE_META.case.color }}
                     registerColours={{ protest: CASE_REGISTER_META.protest.color, political_violence: CASE_REGISTER_META.political_violence.color }}
+                    categoryColours={CATEGORY_COLOUR}
                     cmdRef={tlCmdRef}
                     onSelect={setTlSelected}
                   />
@@ -1199,12 +1319,21 @@ export default function Analytics() {
                         {TYPE_META[t].label}
                       </div>
                     ))}
-                    {(['protest', 'political_violence'] as CaseRegister[]).map(r => (
-                      <div key={r} className="cases-legend-item">
-                        <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
-                        {CASE_REGISTER_META[r].label}
-                      </div>
-                    ))}
+                    {tlCategoryFilter.size === 0 ? (
+                      (['protest', 'political_violence'] as CaseRegister[]).map(r => (
+                        <div key={r} className="cases-legend-item">
+                          <span className="cases-legend-dot" style={{ background: CASE_REGISTER_META[r].color }} />
+                          {CASE_REGISTER_META[r].label}
+                        </div>
+                      ))
+                    ) : (
+                      [...tlCategoryFilter].sort().map(cat => (
+                        <div key={cat} className="cases-legend-item">
+                          <span className="cases-legend-dot" style={{ background: CATEGORY_COLOUR.get(cat) }} />
+                          {cat}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 

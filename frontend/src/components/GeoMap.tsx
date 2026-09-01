@@ -12,6 +12,7 @@ export interface GeoCase {
   caseName: string;
   year: number;
   register: GeoRegister;
+  category: string | null;
   jurisdictionDisplay: string | null;
   url: string | null;
 }
@@ -19,6 +20,7 @@ export interface GeoCase {
 export interface GeoStateSelection {
   stateName: string;
   counts: Record<GeoRegister, number>;
+  categoryCounts: Record<string, number>;
   cases: GeoCase[];
 }
 
@@ -26,6 +28,8 @@ interface GeoMapProps {
   cases: GeoCase[];
   height?: number;
   registerColours: Record<GeoRegister, string>;
+  selectedCategories: Set<string>;
+  categoryColours: Map<string, string>;
   onSelectState: (sel: GeoStateSelection | null) => void;
 }
 
@@ -45,13 +49,16 @@ const REGISTERS: GeoRegister[] = ['protest', 'political_violence'];
 interface StateAgg {
   feature: Feature<Polygon | MultiPolygon, { STATE_NAME: string }>;
   counts: Record<GeoRegister, number>;
+  categoryCounts: Map<string, number>;
   cases: GeoCase[];
 }
 
 export function joinCasesToStates(cases: GeoCase[]): { byState: Map<string, StateAgg>; excluded: number } {
   const byState = new Map<string, StateAgg>();
   auStates.features.forEach(f => {
-    byState.set(f.properties.STATE_NAME, { feature: f, counts: { protest: 0, political_violence: 0 }, cases: [] });
+    byState.set(f.properties.STATE_NAME, {
+      feature: f, counts: { protest: 0, political_violence: 0 }, categoryCounts: new Map(), cases: [],
+    });
   });
 
   let excluded = 0;
@@ -71,12 +78,17 @@ export function joinCasesToStates(cases: GeoCase[]): { byState: Map<string, Stat
       const entry = byState.get(name)!;
       entry.counts[c.register]++;
       entry.cases.push(c);
+      if (c.category) {
+        entry.categoryCounts.set(c.category, (entry.categoryCounts.get(c.category) ?? 0) + 1);
+      }
     });
   }
   return { byState, excluded };
 }
 
-export default function GeoMap({ cases, height = 620, registerColours, onSelectState }: GeoMapProps) {
+export default function GeoMap({
+  cases, height = 620, registerColours, selectedCategories, categoryColours, onSelectState,
+}: GeoMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const onSelectRef = useRef(onSelectState);
@@ -89,10 +101,17 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
 
     const W = container.clientWidth || 900;
     const H = height;
+    const categoryMode = selectedCategories.size > 0;
 
     const { byState } = joinCasesToStates(cases);
-    const maxCount = Math.max(1, ...[...byState.values()].flatMap(s => REGISTERS.map(r => s.counts[r])));
-    const rScale = d3.scaleSqrt().domain([0, maxCount]).range([0, 34]);
+    const maxRegisterCount = Math.max(1, ...[...byState.values()].flatMap(s => REGISTERS.map(r => s.counts[r])));
+    const registerRadius = d3.scaleSqrt().domain([0, maxRegisterCount]).range([0, 34]);
+
+    const maxCategoryCount = Math.max(
+      1,
+      ...[...byState.values()].flatMap(s => [...selectedCategories].map(cat => s.categoryCounts.get(cat) ?? 0))
+    );
+    const categoryRadius = d3.scaleSqrt().domain([0, maxCategoryCount]).range([0, 28]);
 
     d3.select(container).selectAll('.ng-overlay').remove();
 
@@ -134,7 +153,12 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
       if (!name) { onSelectRef.current(null); return; }
       const entry = byState.get(name);
       if (!entry) { onSelectRef.current(null); return; }
-      onSelectRef.current({ stateName: name, counts: entry.counts, cases: entry.cases });
+      onSelectRef.current({
+        stateName: name,
+        counts: entry.counts,
+        categoryCounts: Object.fromEntries(entry.categoryCounts),
+        cases: entry.cases,
+      });
     }
 
     stateSel.on('click', (e, d) => {
@@ -145,7 +169,7 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
     svg.on('click.desel', () => selectState(null));
 
     const tip = d3.select('body').append('div').attr('class', 'ng-overlay ng-tooltip');
-    function showTip(clientX: number, clientY: number, name: string, counts: Record<GeoRegister, number>) {
+    function showStateTip(clientX: number, clientY: number, name: string, counts: Record<GeoRegister, number>) {
       tip.style('display', 'block').html(
         `<div class="ng-tip-title">${escapeHtml(name)}</div>` +
         `<div class="ng-tip-sub">Protest cases: ${counts.protest}</div>` +
@@ -153,9 +177,16 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
       );
       tip.style('left', clientX + 14 + 'px').style('top', clientY - 10 + 'px');
     }
+    function showCategoryTip(clientX: number, clientY: number, stateName: string, category: string, count: number) {
+      tip.style('display', 'block').html(
+        `<div class="ng-tip-title">${escapeHtml(category)}</div>` +
+        `<div class="ng-tip-sub">${escapeHtml(stateName)} · ${count} case${count === 1 ? '' : 's'}</div>`
+      );
+      tip.style('left', clientX + 14 + 'px').style('top', clientY - 10 + 'px');
+    }
     stateSel
-      .on('mouseover', (e, d) => showTip(e.clientX, e.clientY, d.properties.STATE_NAME, byState.get(d.properties.STATE_NAME)!.counts))
-      .on('mousemove', (e, d) => showTip(e.clientX, e.clientY, d.properties.STATE_NAME, byState.get(d.properties.STATE_NAME)!.counts))
+      .on('mouseover', (e, d) => showStateTip(e.clientX, e.clientY, d.properties.STATE_NAME, byState.get(d.properties.STATE_NAME)!.counts))
+      .on('mousemove', (e, d) => showStateTip(e.clientX, e.clientY, d.properties.STATE_NAME, byState.get(d.properties.STATE_NAME)!.counts))
       .on('mouseout', () => tip.style('display', 'none'));
 
     auStates.features.forEach(f => {
@@ -164,23 +195,56 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
       const entry = byState.get(f.properties.STATE_NAME)!;
       const name = f.properties.STATE_NAME;
 
-      REGISTERS.forEach((register, i) => {
-        const r = rScale(entry.counts[register]);
-        if (r <= 0) return;
-        const offset = (i === 0 ? -1 : 1) * (r * 0.55 + 3);
+      if (!categoryMode) {
+        REGISTERS.forEach((register, i) => {
+          const r = registerRadius(entry.counts[register]);
+          if (r <= 0) return;
+          const offset = (i === 0 ? -1 : 1) * (r * 0.55 + 3);
+          bubbleLayer.append('circle')
+            .attr('cx', cx + offset)
+            .attr('cy', cy)
+            .attr('r', r)
+            .attr('fill', registerColours[register])
+            .attr('fill-opacity', 0.72)
+            .attr('stroke', registerColours[register])
+            .attr('stroke-width', 1)
+            .style('cursor', 'pointer')
+            .style('pointer-events', 'all')
+            .on('click', e => { e.stopPropagation(); selectState(selectedState === name ? null : name); })
+            .on('mouseover', e => showStateTip(e.clientX, e.clientY, name, entry.counts))
+            .on('mousemove', e => showStateTip(e.clientX, e.clientY, name, entry.counts))
+            .on('mouseout', () => tip.style('display', 'none'));
+        });
+        return;
+      }
+
+      // Category breakdown: one small bubble per selected category present in
+      // this state, fanned out around the centroid rather than stacked, so
+      // comparing e.g. "far-right" vs "jihadism" across states is legible.
+      const present = [...selectedCategories]
+        .map(cat => ({ cat, count: entry.categoryCounts.get(cat) ?? 0 }))
+        .filter(x => x.count > 0);
+      if (present.length === 0) return;
+
+      const clusterRadius = present.length === 1 ? 0 : 12 + present.length * 3;
+      present.forEach(({ cat, count }, i) => {
+        const angle = (i / present.length) * Math.PI * 2 - Math.PI / 2;
+        const bx = cx + clusterRadius * Math.cos(angle);
+        const by = cy + clusterRadius * Math.sin(angle);
+        const r = Math.max(2, categoryRadius(count));
         bubbleLayer.append('circle')
-          .attr('cx', cx + offset)
-          .attr('cy', cy)
+          .attr('cx', bx)
+          .attr('cy', by)
           .attr('r', r)
-          .attr('fill', registerColours[register])
-          .attr('fill-opacity', 0.72)
-          .attr('stroke', registerColours[register])
+          .attr('fill', categoryColours.get(cat) ?? 'var(--color-text-muted)')
+          .attr('fill-opacity', 0.78)
+          .attr('stroke', categoryColours.get(cat) ?? 'var(--color-text-muted)')
           .attr('stroke-width', 1)
           .style('cursor', 'pointer')
           .style('pointer-events', 'all')
           .on('click', e => { e.stopPropagation(); selectState(selectedState === name ? null : name); })
-          .on('mouseover', e => showTip(e.clientX, e.clientY, name, entry.counts))
-          .on('mousemove', e => showTip(e.clientX, e.clientY, name, entry.counts))
+          .on('mouseover', e => showCategoryTip(e.clientX, e.clientY, name, cat, count))
+          .on('mousemove', e => showCategoryTip(e.clientX, e.clientY, name, cat, count))
           .on('mouseout', () => tip.style('display', 'none'));
       });
     });
@@ -190,7 +254,7 @@ export default function GeoMap({ cases, height = 620, registerColours, onSelectS
       tip.remove();
       d3.select(container).selectAll('.ng-overlay').remove();
     };
-  }, [cases, height, registerColours]);
+  }, [cases, height, registerColours, selectedCategories, categoryColours]);
 
   return (
     <div ref={containerRef} className="ng-container" style={{ position: 'relative', height }}>
