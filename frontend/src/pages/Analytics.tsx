@@ -1308,7 +1308,7 @@ export default function Analytics() {
                     height={GRAPH_HEIGHT}
                     typeColours={{ legislation: TYPE_META.legislation.color, incident: TYPE_META.incident.color, case: TYPE_META.case.color }}
                     registerColours={{ protest: CASE_REGISTER_META.protest.color, political_violence: CASE_REGISTER_META.political_violence.color }}
-                    categoryColours={CATEGORY_COLOUR}
+                    categoryColours={tlCategoryFilter.size > 0 ? CATEGORY_COLOUR : undefined}
                     cmdRef={tlCmdRef}
                     onSelect={setTlSelected}
                   />
