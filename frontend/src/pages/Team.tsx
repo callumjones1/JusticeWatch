@@ -3,7 +3,7 @@ export default function Team() {
     {
       name: 'Dr Imogen Richards',
       role: 'Convenor',
-      bio: "Senior Lecturer in Criminology in the School of Humanities and Social Sciences at Deakin University, and convenor of the Justice Watch Network. Her research spans securitisation, political violence, social movements and media politics, and she is completing a Juris Doctor. She holds editorial responsibility for the platform's records.",
+      bio: "Senior Lecturer in Criminology in the School of Humanities and Social Sciences at Deakin University, and convenor of the Justice Watch Network. She holds editorial responsibility for the platform's records.",
       image: null,
     },
     {
@@ -14,8 +14,8 @@ export default function Team() {
     },
     {
       name: 'Cam Smith',
-      role: 'Media and Public Information Analyst',
-      bio: 'Media monitoring, public information analysis and communications. Developed and operates the news media and case identification pipelines that populate the platform.',
+      role: 'Public Information Analyst',
+      bio: 'Public information analysis and communications. Co-developed and operates the news media and case identification pipelines that populate the platform.',
       image: null,
     },
   ];
